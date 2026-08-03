@@ -362,6 +362,16 @@ input:focus, textarea:focus, select:focus { background: #fff; border-color: var(
 .part-grid button.editing { outline: 2px solid #181816; outline-offset: 1px; }
 .part-grid button.is-hidden { opacity: .45; text-decoration: line-through; }
 
+.typography-editor { margin-top: 13px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: #f7f6f1; }
+.typography-editor[hidden] { display: none; }
+.typography-editor-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.typography-editor-head > div { min-width: 0; display: grid; gap: 3px; }
+.typography-editor-head b { font-size: 10px; }
+.typography-editor-head small { color: #88867f; font-size: 8px; }
+.typography-editor .field-group { margin-bottom: 11px; }
+.typography-size-field { margin: 2px 0 8px; }
+.typography-size-field output { font-variant-numeric: tabular-nums; }
+
 .upload-zone {
   min-height: 92px;
   border: 1px dashed #c9c7be;

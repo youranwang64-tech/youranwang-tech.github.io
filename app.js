@@ -44,6 +44,17 @@
     qr: "二维码", courses: "课程区"
   };
 
+  const TEXT_BLOCK_IDS = ["kicker", "title", "subtitle", "date", "time", "venue", "body", "organizer"];
+  const FONT_FAMILIES = {
+    modern: 'Arial, "Microsoft YaHei", "PingFang SC", sans-serif',
+    hei: '"Microsoft YaHei", "PingFang SC", "Noto Sans CJK SC", sans-serif',
+    condensed: '"Arial Narrow", "Roboto Condensed", "Microsoft YaHei", sans-serif',
+    serif: 'Georgia, "Times New Roman", "Songti SC", serif',
+    song: '"Songti SC", "SimSun", "Noto Serif CJK SC", serif',
+    mono: '"Courier New", "SFMono-Regular", Consolas, monospace',
+    rounded: '"Arial Rounded MT Bold", "Microsoft YaHei", "PingFang SC", sans-serif'
+  };
+
   const DEFAULT_COURSES = [
     { title: "模型制作", meta: "周一 14:00 · A101", desc: "MODEL MAKING / 基础模型制作与手工成型" },
     { title: "3D 打印", meta: "周二 10:00 · B203", desc: "3D PRINTING / FDM 与 SLA 打印入门" },
@@ -53,12 +64,12 @@
 
   const DEMOS = [
     {
-      kicker: "ICI DESIGN SEASON · 2026",
+      kicker: "ICI RP",
       title: "让想象力发生",
       subtitle: "LET IMAGINATION TAKE FORM",
       date: "08.24 — 09.07",
       time: "10:00 — 18:00",
-      venue: "厦门 · 海上世界文化艺术中心",
+      venue: "厦门大学创意与创新学院204",
       body: "一场关于设计、技术与未来生活的开放实验。让新的视角彼此碰撞，让还没有名字的想法被看见。",
       organizer: "INSTITUTE OF CREATIVITY AND INNOVATION"
     },
@@ -104,6 +115,7 @@
     materialTransforms: {},
     emojiStickers: [],
     blockTransforms: {},
+    textStyles: {},
     hiddenBlocks: [],
     materialScale: 100,
     motifPreset: "01",
@@ -127,15 +139,18 @@
   let draggingAssetPointer = null;
 
   function loadState() {
-    const fresh = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], blockTransforms: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
+    const fresh = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
     try {
       const saved = JSON.parse(localStorage.getItem("form01-poster-state") || "null");
       if (!saved) return fresh;
       const merged = { ...fresh, ...saved };
+      if (merged.kicker === "ICI DESIGN SEASON · 2026") merged.kicker = "ICI RP";
+      if (merged.venue === "厦门 · 海上世界文化艺术中心") merged.venue = "厦门大学创意与创新学院204";
       if (!Array.isArray(merged.decorations)) merged.decorations = [];
       if (!merged.materialTransforms || typeof merged.materialTransforms !== "object") merged.materialTransforms = {};
       if (!Array.isArray(merged.emojiStickers)) merged.emojiStickers = [];
       if (!merged.blockTransforms || typeof merged.blockTransforms !== "object") merged.blockTransforms = {};
+      if (!merged.textStyles || typeof merged.textStyles !== "object") merged.textStyles = {};
       if (!Array.isArray(merged.hiddenBlocks)) merged.hiddenBlocks = [];
       return merged;
     } catch {
@@ -647,10 +662,15 @@
     const isTitle = id === "title";
     const sizes = { kicker: 14, title: theme.titleSize, subtitle: 22, date: 44, time: 17, venue: 21, body: 14, organizer: 12 };
     const weights = { kicker: 800, subtitle: 750, date: 900, time: 750, venue: 760, body: 500, organizer: 800 };
-    const family = isTitle ? theme.titleFont : 'Arial, "Microsoft YaHei", sans-serif';
-    const target = (sizes[id] || 18) * s;
-    const min = isTitle ? 34 * s : Math.max(9 * s, target * .55);
-    const fontSize = fitFont(c, id === "subtitle" || id === "kicker" || id === "organizer" ? text.toUpperCase() : text, w, target, min, family, isTitle ? theme.titleWeight : weights[id] || 600);
+    const textStyle = data.textStyles?.[id] || {};
+    const automaticFamily = isTitle ? theme.titleFont : 'Arial, "Microsoft YaHei", sans-serif';
+    const family = FONT_FAMILIES[textStyle.font] || automaticFamily;
+    const baseTarget = (sizes[id] || 18) * s;
+    const baseMin = isTitle ? 34 * s : Math.max(9 * s, baseTarget * .55);
+    const preparedText = id === "subtitle" || id === "kicker" || id === "organizer" ? text.toUpperCase() : text;
+    const automaticSize = fitFont(c, preparedText, w, baseTarget, baseMin, family, isTitle ? theme.titleWeight : weights[id] || 600);
+    const sizeScale = clamp((Number(textStyle.size) || 100) / 100, .5, 2.2);
+    const fontSize = automaticSize * sizeScale;
     c.fillStyle = theme.ink;
     c.font = `${isTitle ? theme.titleWeight : weights[id] || 600} ${fontSize}px ${family}`;
     c.textAlign = align;
@@ -1726,6 +1746,7 @@
     renderBlockControls();
     updateMaterialScaleLabel();
     updateElementEditor();
+    updateTypographyEditor();
   }
 
   function renderBlockControls() {
@@ -1748,6 +1769,45 @@
     renderMaterials();
     scheduleRender();
     showToast(`已选中“${BLOCK_LABELS[id]}”，可在海报上直接拖动`);
+  }
+
+  function updateTypographyEditor() {
+    const editor = $("#typography-editor");
+    if (!editor) return;
+    const editable = activeElement?.kind === "block" && TEXT_BLOCK_IDS.includes(activeElement.id) && !state.hiddenBlocks.includes(activeElement.id);
+    editor.hidden = !editable;
+    if (!editable) return;
+    const id = activeElement.id;
+    const textStyle = state.textStyles?.[id] || {};
+    $("#typography-target").textContent = `正在编辑：${BLOCK_LABELS[id]}`;
+    $("#font-family-select").value = FONT_FAMILIES[textStyle.font] ? textStyle.font : "auto";
+    const size = clamp(Number(textStyle.size) || 100, 50, 220);
+    $("#font-size-range").value = String(size);
+    $("#font-size-value").textContent = `${size}%`;
+  }
+
+  function updateActiveTextStyle(key, value) {
+    if (activeElement?.kind !== "block" || !TEXT_BLOCK_IDS.includes(activeElement.id)) return;
+    const id = activeElement.id;
+    const styles = { ...(state.textStyles || {}) };
+    const current = { ...(styles[id] || {}) };
+    if ((key === "font" && value === "auto") || (key === "size" && Number(value) === 100)) delete current[key];
+    else current[key] = key === "size" ? clamp(Number(value) || 100, 50, 220) : value;
+    if (Object.keys(current).length) styles[id] = current;
+    else delete styles[id];
+    state.textStyles = styles;
+    updateTypographyEditor();
+    scheduleRender();
+  }
+
+  function resetActiveTypography() {
+    if (activeElement?.kind !== "block" || !TEXT_BLOCK_IDS.includes(activeElement.id)) return;
+    const styles = { ...(state.textStyles || {}) };
+    delete styles[activeElement.id];
+    state.textStyles = styles;
+    updateTypographyEditor();
+    scheduleRender();
+    showToast(`“${BLOCK_LABELS[activeElement.id]}”已恢复模板字体与字号`);
   }
 
   function toggleMaterial(material) {
@@ -1997,7 +2057,7 @@
   }
 
   function resetAll() {
-    state = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], blockTransforms: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
+    state = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
     imageAssets = [];
     qrAsset = null;
     activeElement = null;
@@ -2371,6 +2431,9 @@
     $("#element-larger-btn").addEventListener("click", () => updateActiveElementScale(1));
     $("#element-reset-btn").addEventListener("click", resetActiveElementPosition);
     $("#element-remove-btn").addEventListener("click", removeActiveElement);
+    $("#font-family-select").addEventListener("change", (event) => updateActiveTextStyle("font", event.currentTarget.value));
+    $("#font-size-range").addEventListener("input", (event) => updateActiveTextStyle("size", Number(event.currentTarget.value)));
+    $("#typography-reset-btn").addEventListener("click", resetActiveTypography);
     $("#add-course-btn").addEventListener("click", () => {
       if (state.workshopCourses.length >= 8) { showToast("一张海报最多排 8 门课程"); return; }
       state.workshopCourses.push({ title: "新课程", meta: "时间 · 地点", desc: "NEW WORKSHOP / 课程简介" });

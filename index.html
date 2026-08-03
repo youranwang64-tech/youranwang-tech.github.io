@@ -130,8 +130,8 @@
             <div class="field-group">
               <label for="kicker">栏目 / 眉题</label>
               <div class="field-with-count">
-                <input id="kicker" data-field="kicker" maxlength="36" value="ICI DESIGN SEASON · 2026" placeholder="例如：OPEN LECTURE 07" />
-                <span><b data-count-for="kicker">24</b>/36</span>
+                <input id="kicker" data-field="kicker" maxlength="36" value="ICI RP" placeholder="例如：OPEN LECTURE 07" />
+                <span><b data-count-for="kicker">6</b>/36</span>
               </div>
             </div>
 
@@ -165,7 +165,7 @@
 
             <div class="field-group">
               <label for="venue">地点</label>
-              <input id="venue" data-field="venue" maxlength="54" value="厦门 · 海上世界文化艺术中心" placeholder="活动地点" />
+              <input id="venue" data-field="venue" maxlength="54" value="厦门大学创意与创新学院204" placeholder="活动地点" />
             </div>
 
             <div class="field-group">
@@ -190,6 +190,32 @@
                 <button type="button" data-block="venue">地点</button><button type="button" data-block="body">简介</button>
                 <button type="button" data-block="organizer">署名</button><button type="button" data-block="qr">二维码</button>
               </div>
+            </div>
+
+            <div class="typography-editor" id="typography-editor" hidden>
+              <div class="typography-editor-head">
+                <div><b>文字样式</b><small id="typography-target">请先选择一个文字部件</small></div>
+                <button class="text-button muted" id="typography-reset-btn" type="button">恢复模板</button>
+              </div>
+              <div class="field-group">
+                <label for="font-family-select">字体</label>
+                <select id="font-family-select">
+                  <option value="auto">自动 · 跟随模板</option>
+                  <option value="modern">现代黑体</option>
+                  <option value="hei">中文黑体</option>
+                  <option value="condensed">窄体标题</option>
+                  <option value="serif">经典衬线</option>
+                  <option value="song">中文宋体</option>
+                  <option value="mono">等宽字体</option>
+                  <option value="rounded">圆体</option>
+                </select>
+              </div>
+              <div class="range-field typography-size-field">
+                <div><label for="font-size-range">字号大小</label><output id="font-size-value">100%</output></div>
+                <input id="font-size-range" type="range" min="50" max="220" value="100" step="5" />
+                <div class="range-labels"><span>较小</span><span>标准</span><span>超大</span></div>
+              </div>
+              <p class="field-hint">每个文字部件都可单独设置；先点上方部件或直接点海报文字。</p>
             </div>
           </section>
 
