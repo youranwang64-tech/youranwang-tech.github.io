@@ -52,7 +52,7 @@
 
             <div class="style-list" id="style-list" role="radiogroup" aria-label="海报风格">
               <button class="style-card selected" data-style="white-studio" role="radio" aria-checked="true" type="button">
-                <span class="style-preview preview-white-studio"><b>WHITE<br>SPACE</b><i></i><em>01</em></span>
+                <span class="style-preview preview-white-studio"><b>WHITE<br>SPACE</b><em>01</em></span>
                 <span class="style-meta"><b>纯白平面</b><small>自由编辑 / 克制信息 / 纯白底</small></span>
                 <span class="style-check">✓</span>
               </button>
@@ -115,7 +115,7 @@
 
               <button class="style-card" data-style="workshop" role="radio" aria-checked="false" type="button">
                 <span class="style-preview preview-workshop"><b>工坊<br>TOUR</b><i>👀</i><em>🟠</em></span>
-                <span class="style-meta"><b>工坊拼豆</b><small>课程卡片 / emoji / QR</small></span>
+                <span class="style-meta"><b>工坊拼豆</b><small>拼豆主视觉 / emoji / QR</small></span>
                 <span class="style-check">✓</span>
               </button>
             </div>
@@ -189,7 +189,6 @@
                 <button type="button" data-block="date">日期</button><button type="button" data-block="time">时间</button>
                 <button type="button" data-block="venue">地点</button><button type="button" data-block="body">简介</button>
                 <button type="button" data-block="organizer">署名</button><button type="button" data-block="qr">二维码</button>
-                <button type="button" data-block="courses" data-workshop-part hidden>课程区</button>
               </div>
             </div>
           </section>
@@ -208,7 +207,7 @@
               <span><b>拖入图片，或点击上传</b><small>JPG / PNG / WEBP · 最多 4 张</small></span>
             </label>
             <div class="asset-list" id="asset-list" aria-live="polite"></div>
-            <p class="field-hint">上传后可点“抠图”提取主体，结果会直接用于海报，也可单独下载透明 PNG。首次抠图需联网加载模型，图片本身只在浏览器内处理。</p>
+            <p class="field-hint">按住图片缩略图，可直接拖到右侧海报的任意位置；松开后还能继续移动和缩放。也可点“抠图”提取主体并下载透明 PNG。首次抠图需联网加载模型，图片本身只在浏览器内处理。</p>
 
             <div class="material-library">
               <div class="material-library-head">
@@ -284,11 +283,11 @@
 
           <section class="panel-section workshop-section" id="workshop-section" hidden>
             <div class="section-heading">
-              <div><span class="step-no">W</span><h2>工坊课程与图案</h2></div>
-              <button class="text-button" id="add-course-btn" type="button">＋ 添加课程</button>
+              <div><span class="step-no">W</span><h2>工坊拼豆主视觉</h2></div>
+              <button class="text-button" id="add-course-btn" type="button" hidden>＋ 添加课程</button>
             </div>
 
-            <div class="course-list" id="course-list"></div>
+            <div class="course-list" id="course-list" hidden></div>
 
             <div class="field-row workshop-pattern-row">
               <div class="field-group">
@@ -310,7 +309,7 @@
             <label class="qr-upload" for="qr-upload">
               <input id="qr-upload" type="file" accept="image/png,image/jpeg,image/webp" hidden />
               <span id="qr-preview">QR</span>
-              <span><b>上传二维码</b><small>会放在工坊课程区；不上传则显示装饰码。</small></span>
+              <span><b>上传二维码</b><small>会放在拼豆主视觉右下方；不上传则显示装饰码。</small></span>
             </label>
           </section>
 
