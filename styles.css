@@ -262,7 +262,6 @@ svg {
 .style-preview b { position: absolute; font-weight: 900; line-height: .86; }
 .preview-white-studio { background: #fff; border-color: #d9d7cf; }
 .preview-white-studio b { left: 8px; top: 11px; font-size: 18px; letter-spacing: -1px; }
-.preview-white-studio i { position: absolute; width: 30px; height: 30px; right: 9px; bottom: 9px; border: 7px solid #111; border-radius: 50%; }
 .preview-white-studio em { position: absolute; right: 7px; top: 7px; color: #6c5cff; font: 900 9px Arial; }
 
 .style-meta { display: grid; gap: 3px; padding: 0 3px 4px; }
@@ -385,9 +384,11 @@ input:focus, textarea:focus, select:focus { background: #fff; border-color: var(
 .upload-zone small { font-size: 9px; color: var(--muted); }
 
 .asset-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 9px; }
-.asset-item { position: relative; min-width: 0; border-radius: 9px; overflow: hidden; border: 1px solid var(--line); background: #f7f6f1; }
-.asset-thumb { position: relative; aspect-ratio: 1.45; overflow: hidden; background-color: #eee; background-image: linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ddd 75%),linear-gradient(-45deg,transparent 75%,#ddd 75%); background-size: 14px 14px; background-position: 0 0,0 7px,7px -7px,-7px 0; }
-.asset-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.asset-item { position: relative; min-width: 0; border-radius: 9px; overflow: hidden; border: 1px solid var(--line); background: #f7f6f1; transition: opacity .15s, transform .15s, box-shadow .15s; }
+.asset-item.is-dragging-source { opacity: .46; transform: scale(.97); box-shadow: 0 0 0 2px var(--accent); }
+.asset-thumb { position: relative; aspect-ratio: 1.45; overflow: hidden; cursor: grab; touch-action: none; user-select: none; background-color: #eee; background-image: linear-gradient(45deg,#ddd 25%,transparent 25%),linear-gradient(-45deg,#ddd 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ddd 75%),linear-gradient(-45deg,transparent 75%,#ddd 75%); background-size: 14px 14px; background-position: 0 0,0 7px,7px -7px,-7px 0; }
+.asset-thumb:active { cursor: grabbing; }
+.asset-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; user-select: none; }
 .asset-item.is-cutout .asset-thumb img { object-fit: contain; }
 .asset-remove { position: absolute; right: 5px; top: 5px; width: 21px; height: 21px; border: 0; border-radius: 50%; background: rgba(20,20,18,.82); color: white; display: grid; place-items: center; font-size: 13px; line-height: 1; z-index: 3; }
 .asset-badge { position: absolute; left: 5px; top: 5px; background: rgba(255,255,255,.92); color: #191918; border-radius: 4px; padding: 3px 5px; font-size: 7px; line-height: 1; font-weight: 900; z-index: 2; }
@@ -451,6 +452,7 @@ input:focus, textarea:focus, select:focus { background: #fff; border-color: var(
 
 .workshop-section[hidden] { display: none; }
 .course-list { display: grid; gap: 8px; margin-bottom: 16px; }
+.course-list[hidden] { display: none; }
 .course-item { border: 1px solid var(--line); border-radius: 9px; background: #fafaf7; padding: 9px; display: grid; grid-template-columns: 30px minmax(0, 1fr) 24px; gap: 8px; align-items: start; }
 .course-index { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 6px; background: var(--accent-soft); color: #5f50e5; font-size: 9px; font-weight: 900; }
 .course-fields { min-width: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
@@ -535,6 +537,24 @@ input[type="range"] { width: 100%; accent-color: var(--accent); }
   line-height: 0;
   box-shadow: 0 24px 70px rgba(36, 34, 28, .22), 0 2px 4px rgba(36,34,28,.13);
   transition: width .2s ease, height .2s ease;
+}
+
+.canvas-stage.asset-dragover::after {
+  content: "松开，放到海报这里";
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  pointer-events: none;
+  border: 3px dashed var(--accent);
+  background: rgba(95, 85, 231, .13);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow: 0 1px 5px rgba(0,0,0,.55);
 }
 
 #poster-canvas { display: block; width: 100%; height: 100%; background: #f6f4ec; touch-action: none; }
