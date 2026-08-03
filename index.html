@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FORM/01 - 可自动排版的浏览器海报工作室" />
+  <title>FORM / 01 · 海报排版工作室</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="FORM / 01 首页">
+        <span class="brand-mark">F/01</span>
+        <span class="brand-copy">
+          <b>海报排版工作室</b>
+          <small>POSTER COMPOSER</small>
+        </span>
+      </a>
+
+      <div class="topbar-center" aria-hidden="true">
+        <span>自动构图</span>
+        <span class="live-dot"></span>
+        <span id="save-status">所有更改已保存</span>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="button button-ghost" id="reset-btn" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6M5.6 15A7 7 0 0 0 18 17M18.4 9A7 7 0 0 0 6 7"/></svg>
+          重置
+        </button>
+        <button class="button button-dark" id="export-btn" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></svg>
+          导出 PNG
+        </button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <aside class="control-panel" aria-label="海报编辑选项">
+        <div class="panel-scroll">
+          <section class="panel-section style-section">
+            <div class="section-heading">
+              <div>
+                <span class="step-no">01</span>
+                <h2>选择视觉方向</h2>
+              </div>
+              <button class="icon-button" id="shuffle-style-btn" type="button" title="随机选择风格" aria-label="随机选择风格">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+              </button>
+            </div>
+
+            <div class="style-list" id="style-list" role="radiogroup" aria-label="海报风格">
+              <button class="style-card selected" data-style="white-studio" role="radio" aria-checked="true" type="button">
+                <span class="style-preview preview-white-studio"><b>WHITE<br>SPACE</b><i></i><em>01</em></span>
+                <span class="style-meta"><b>纯白平面</b><small>自由编辑 / 克制信息 / 纯白底</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="ici-grid" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-grid">
+                  <i class="mini-grid"></i><i class="mini-loop"></i><b>ICI<br>SHOW</b>
+                </span>
+                <span class="style-meta"><b>ICI · 格栅实验</b><small>学院设计季 / 几何流体</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="ici-electric" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-electric"><i></i><b>ICI<br>GALA</b></span>
+                <span class="style-meta"><b>ICI · 电光流体</b><small>钴蓝 / 超大字 / 高能量</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="swiss" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-swiss"><i></i><b>GRID<br>01</b></span>
+                <span class="style-meta"><b>瑞士秩序</b><small>理性网格 / 经典现代主义</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="editorial" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-editorial"><b>New<br>Ideas</b><i></i></span>
+                <span class="style-meta"><b>编辑部</b><small>图文对话 / 杂志叙事</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="collage" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-collage"><i></i><em></em><b>MAKE<br>NOISE</b></span>
+                <span class="style-meta"><b>新拼贴</b><small>层叠照片 / 粗粝青年感</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="quiet" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-quiet"><i></i><b>留<br>白</b></span>
+                <span class="style-meta"><b>静默留白</b><small>克制东方 / 艺术展览</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="layout-lab" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-layout-lab"><i></i><em></em><b>构<br>图</b></span>
+                <span class="style-meta"><b>经典构图实验</b><small>四角 / 对角 / 包围 / 复合</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="art-blue" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-art-blue"><b>节奏<br>与送奏</b><i>04.09</i></span>
+                <span class="style-meta"><b>蓝字展讯</b><small>艺术机构 / 信息流 / 蓝灰</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="composition-atlas" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-atlas"><i></i><b>九宫格<br>构图</b><em>∞</em></span>
+                <span class="style-meta"><b>构图图谱</b><small>米白 / 黑字 / 有机灰形</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="workshop" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-workshop"><b>工坊<br>TOUR</b><i>👀</i><em>🟠</em></span>
+                <span class="style-meta"><b>工坊拼豆</b><small>课程卡片 / emoji / QR</small></span>
+                <span class="style-check">✓</span>
+              </button>
+            </div>
+          </section>
+
+          <section class="panel-section">
+            <div class="section-heading">
+              <div><span class="step-no">02</span><h2>填写海报内容</h2></div>
+              <button class="text-button" id="load-demo-btn" type="button">填入示例</button>
+            </div>
+
+            <div class="field-group">
+              <label for="kicker">栏目 / 眉题</label>
+              <div class="field-with-count">
+                <input id="kicker" data-field="kicker" maxlength="36" value="ICI DESIGN SEASON · 2026" placeholder="例如：OPEN LECTURE 07" />
+                <span><b data-count-for="kicker">24</b>/36</span>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="title">主标题 <span class="required">必填</span></label>
+              <div class="field-with-count textarea-wrap">
+                <textarea id="title" data-field="title" maxlength="54" rows="3" placeholder="输入活动或作品名称">让想象力发生</textarea>
+                <span><b data-count-for="title">7</b>/54</span>
+              </div>
+              <p class="field-hint">可以换行；程序会根据字数自动调节字号与节奏。</p>
+            </div>
+
+            <div class="field-group">
+              <label for="subtitle">副标题 / 英文标题</label>
+              <div class="field-with-count">
+                <input id="subtitle" data-field="subtitle" maxlength="72" value="LET IMAGINATION TAKE FORM" placeholder="补充说明或英文标题" />
+                <span><b data-count-for="subtitle">25</b>/72</span>
+              </div>
+            </div>
+
+            <div class="field-row">
+              <div class="field-group">
+                <label for="date">日期</label>
+                <input id="date" data-field="date" maxlength="24" value="08.24 — 09.07" placeholder="08.24 — 09.07" />
+              </div>
+              <div class="field-group">
+                <label for="time">时间</label>
+                <input id="time" data-field="time" maxlength="24" value="10:00 — 18:00" placeholder="10:00 — 18:00" />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="venue">地点</label>
+              <input id="venue" data-field="venue" maxlength="54" value="厦门 · 海上世界文化艺术中心" placeholder="活动地点" />
+            </div>
+
+            <div class="field-group">
+              <label for="body">简介</label>
+              <div class="field-with-count textarea-wrap">
+                <textarea id="body" data-field="body" maxlength="180" rows="4" placeholder="活动简介、策展语或补充信息">一场关于设计、技术与未来生活的开放实验。让新的视角彼此碰撞，让还没有名字的想法被看见。</textarea>
+                <span><b data-count-for="body">49</b>/180</span>
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="organizer">主办 / 署名</label>
+              <input id="organizer" data-field="organizer" maxlength="72" value="INSTITUTE OF CREATIVITY AND INNOVATION" placeholder="组织、品牌或作者" />
+            </div>
+
+            <div class="part-picker">
+              <div><b>版面部件</b><small>点击选中；在右侧画布中直接拖动</small></div>
+              <div class="part-grid" role="group" aria-label="可调整的版面部件">
+                <button type="button" data-block="kicker">眉题</button><button type="button" data-block="title">主标题</button>
+                <button type="button" data-block="subtitle">副标题</button><button type="button" data-block="visual">主图 / 主视觉</button>
+                <button type="button" data-block="date">日期</button><button type="button" data-block="time">时间</button>
+                <button type="button" data-block="venue">地点</button><button type="button" data-block="body">简介</button>
+                <button type="button" data-block="organizer">署名</button><button type="button" data-block="qr">二维码</button>
+                <button type="button" data-block="courses" data-workshop-part hidden>课程区</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-section">
+            <div class="section-heading">
+              <div><span class="step-no">03</span><h2>图片与素材</h2></div>
+              <span class="optional-tag">选填</span>
+            </div>
+
+            <label class="upload-zone" for="image-upload" id="upload-zone">
+              <input id="image-upload" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
+              <span class="upload-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM4 15l4-4 4 4 3-3 5 5M15 9h.01"/></svg>
+              </span>
+              <span><b>拖入图片，或点击上传</b><small>JPG / PNG / WEBP · 最多 4 张</small></span>
+            </label>
+            <div class="asset-list" id="asset-list" aria-live="polite"></div>
+            <p class="field-hint">上传后可点“抠图”提取主体，结果会直接用于海报，也可单独下载透明 PNG。首次抠图需联网加载模型，图片本身只在浏览器内处理。</p>
+
+            <div class="material-library">
+              <div class="material-library-head">
+                <div>
+                  <b>内置拼贴素材</b>
+                  <small>点击添加或选中，然后在海报上直接拖动</small>
+                </div>
+                <div class="material-actions">
+                  <button class="text-button" id="random-materials-btn" type="button">随机组合</button>
+                  <button class="text-button muted" id="clear-materials-btn" type="button">清空</button>
+                </div>
+              </div>
+              <div class="material-grid" id="material-grid" role="group" aria-label="内置拼贴素材">
+                <button class="material-card" type="button" data-material="tape" aria-pressed="false"><i class="material-preview preview-tape"></i><span>胶带</span></button>
+                <button class="material-card" type="button" data-material="torn-paper" aria-pressed="false"><i class="material-preview preview-paper"></i><span>撕纸</span></button>
+                <button class="material-card" type="button" data-material="halftone" aria-pressed="false"><i class="material-preview preview-dots"></i><span>网点</span></button>
+                <button class="material-card" type="button" data-material="scribble" aria-pressed="false"><i class="material-preview preview-scribble"></i><span>涂鸦</span></button>
+                <button class="material-card" type="button" data-material="starburst" aria-pressed="false"><i class="material-preview preview-star"></i><span>爆炸贴</span></button>
+                <button class="material-card" type="button" data-material="arrow" aria-pressed="false"><i class="material-preview preview-arrow"></i><span>箭头</span></button>
+                <button class="material-card" type="button" data-material="stamp" aria-pressed="false"><i class="material-preview preview-stamp"></i><span>印章</span></button>
+                <button class="material-card" type="button" data-material="barcode" aria-pressed="false"><i class="material-preview preview-barcode"></i><span>条码</span></button>
+                <button class="material-card" type="button" data-material="grid-patch" aria-pressed="false"><i class="material-preview preview-grid"></i><span>网格片</span></button>
+                <button class="material-card" type="button" data-material="target" aria-pressed="false"><i class="material-preview preview-target"></i><span>靶心</span></button>
+                <button class="material-card" type="button" data-material="confetti" aria-pressed="false"><i class="material-preview preview-confetti"></i><span>碎纸</span></button>
+                <button class="material-card" type="button" data-material="gradient-orb" aria-pressed="false"><i class="material-preview preview-orb"></i><span>渐变球</span></button>
+              </div>
+              <div class="material-scale-row">
+                <label for="material-scale">整体尺寸</label>
+                <input id="material-scale" data-field="materialScale" type="range" min="70" max="145" value="100" step="5" />
+                <output id="material-scale-value">100%</output>
+              </div>
+
+              <div class="emoji-library">
+                <div class="emoji-group">
+                  <b>工具 / 创作</b>
+                  <div class="emoji-grid" role="group" aria-label="工具类型 Emoji">
+                    <button type="button" data-emoji="🛠️" title="工具">🛠️</button><button type="button" data-emoji="🔧" title="扳手">🔧</button>
+                    <button type="button" data-emoji="🔨" title="锤子">🔨</button><button type="button" data-emoji="✂️" title="剪刀">✂️</button>
+                    <button type="button" data-emoji="📐" title="三角尺">📐</button><button type="button" data-emoji="📏" title="直尺">📏</button>
+                    <button type="button" data-emoji="🖌️" title="画笔">🖌️</button><button type="button" data-emoji="🎨" title="调色盘">🎨</button>
+                    <button type="button" data-emoji="🧰" title="工具箱">🧰</button><button type="button" data-emoji="⚙️" title="齿轮">⚙️</button>
+                    <button type="button" data-emoji="💡" title="灵感">💡</button><button type="button" data-emoji="📌" title="图钉">📌</button>
+                    <button type="button" data-emoji="🧲" title="磁铁">🧲</button><button type="button" data-emoji="🧪" title="实验">🧪</button>
+                    <button type="button" data-emoji="🖨️" title="打印机">🖨️</button><button type="button" data-emoji="📷" title="相机">📷</button>
+                  </div>
+                </div>
+                <div class="emoji-group">
+                  <b>表情 / 氛围</b>
+                  <div class="emoji-grid" role="group" aria-label="表情类型 Emoji">
+                    <button type="button" data-emoji="😀" title="开心">😀</button><button type="button" data-emoji="😎" title="酷">😎</button>
+                    <button type="button" data-emoji="🤩" title="惊艳">🤩</button><button type="button" data-emoji="🥳" title="庆祝">🥳</button>
+                    <button type="button" data-emoji="🤔" title="思考">🤔</button><button type="button" data-emoji="👀" title="注视">👀</button>
+                    <button type="button" data-emoji="😵‍💫" title="眩晕">😵‍💫</button><button type="button" data-emoji="😭" title="大哭">😭</button>
+                    <button type="button" data-emoji="😤" title="生气">😤</button><button type="button" data-emoji="😈" title="恶作剧">😈</button>
+                    <button type="button" data-emoji="🤖" title="机器人">🤖</button><button type="button" data-emoji="👽" title="外星人">👽</button>
+                    <button type="button" data-emoji="💥" title="爆炸">💥</button><button type="button" data-emoji="❤️‍🔥" title="燃烧的心">❤️‍🔥</button>
+                    <button type="button" data-emoji="✨" title="闪光">✨</button><button type="button" data-emoji="🌀" title="旋涡">🌀</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="element-editor" id="element-editor" hidden>
+                <div><small>正在调整</small><b id="active-element-name">素材</b><span>在右侧海报上直接拖动</span></div>
+                <div class="element-editor-actions">
+                  <button type="button" id="element-smaller-btn" title="缩小当前元素">−</button>
+                  <button type="button" id="element-larger-btn" title="放大当前元素">＋</button>
+                  <button type="button" id="element-reset-btn" title="恢复自动位置">↺</button>
+                  <button type="button" id="element-remove-btn" title="移除当前元素">×</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel-section workshop-section" id="workshop-section" hidden>
+            <div class="section-heading">
+              <div><span class="step-no">W</span><h2>工坊课程与图案</h2></div>
+              <button class="text-button" id="add-course-btn" type="button">＋ 添加课程</button>
+            </div>
+
+            <div class="course-list" id="course-list"></div>
+
+            <div class="field-row workshop-pattern-row">
+              <div class="field-group">
+                <label for="motif-preset">拼豆图案</label>
+                <select id="motif-preset" data-field="motifPreset">
+                  <option value="01">数字 01</option>
+                  <option value="arrow">向上箭头</option>
+                  <option value="x">交叉 X</option>
+                  <option value="heart">爱心</option>
+                  <option value="scatter">随机散点</option>
+                </select>
+              </div>
+              <div class="field-group">
+                <label for="motif-emoji">图案 emoji</label>
+                <input id="motif-emoji" data-field="motifEmoji" maxlength="8" value="👀" placeholder="👀" />
+              </div>
+            </div>
+
+            <label class="qr-upload" for="qr-upload">
+              <input id="qr-upload" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+              <span id="qr-preview">QR</span>
+              <span><b>上传二维码</b><small>会放在工坊课程区；不上传则显示装饰码。</small></span>
+            </label>
+          </section>
+
+          <section class="panel-section compact-section">
+            <div class="section-heading">
+              <div><span class="step-no">04</span><h2>画布与细节</h2></div>
+            </div>
+
+            <div class="field-group">
+              <label for="format">海报尺寸</label>
+              <select id="format" data-field="format">
+                <option value="social">社交媒体竖版 · 4:5</option>
+                <option value="poster" selected>经典海报 · 3:4</option>
+                <option value="story">手机故事 · 9:16</option>
+                <option value="square">正方形 · 1:1</option>
+                <option value="a4">印刷 A4 · 210 × 297 mm</option>
+              </select>
+            </div>
+
+            <div class="field-row color-row">
+              <div class="field-group">
+                <label for="accent-color">强调色</label>
+                <div class="color-input"><input id="accent-color" data-field="accent" type="color" value="#7667ff" /><span id="accent-value">#7667FF</span></div>
+              </div>
+              <div class="field-group">
+                <label for="background-color">背景色</label>
+                <div class="color-input"><input id="background-color" data-field="background" type="color" value="#f4f1e9" /><span id="background-value">#F4F1E9</span></div>
+              </div>
+            </div>
+
+            <div class="range-field">
+              <div><label for="density">信息密度</label><output id="density-value">平衡</output></div>
+              <input id="density" data-field="density" type="range" min="0" max="2" value="1" step="1" />
+              <div class="range-labels"><span>呼吸</span><span>平衡</span><span>紧凑</span></div>
+            </div>
+
+            <div class="toggle-row">
+              <label class="toggle-label" for="show-grid"><span><b>显示辅助网格</b><small>仅部分风格可见</small></span><span class="switch"><input id="show-grid" data-field="showGrid" type="checkbox" checked /><i></i></span></label>
+              <label class="toggle-label" for="show-grain"><span><b>纸张颗粒</b><small>需要时再增加印刷质感</small></span><span class="switch"><input id="show-grain" data-field="showGrain" type="checkbox" /><i></i></span></label>
+            </div>
+          </section>
+        </div>
+      </aside>
+
+      <section class="preview-panel" aria-label="海报预览">
+        <div class="preview-toolbar">
+          <div class="preview-label">
+            <span class="status-pill"><i></i> 实时预览</span>
+            <span id="canvas-size-label">1080 × 1440 px</span>
+          </div>
+          <div class="preview-actions">
+            <button class="icon-button" id="zoom-out-btn" type="button" aria-label="缩小预览" title="缩小预览">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14"/></svg>
+            </button>
+            <button class="zoom-value" id="zoom-reset-btn" type="button" title="恢复适配">适配</button>
+            <button class="icon-button" id="zoom-in-btn" type="button" aria-label="放大预览" title="放大预览">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5v14"/></svg>
+            </button>
+            <span class="toolbar-rule"></span>
+            <button class="button button-light" id="shuffle-layout-btn" type="button">
+              <svg viewBox="0 0 24 24"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+              换个版式
+            </button>
+          </div>
+        </div>
+
+        <div class="canvas-viewport" id="canvas-viewport">
+          <div class="canvas-stage" id="canvas-stage">
+            <canvas id="poster-canvas" width="1080" height="1440" aria-label="生成的海报预览"></canvas>
+            <div class="rendering-badge" id="rendering-badge">正在重新排版…</div>
+            <div class="drag-hint" id="drag-hint" hidden>拖动素材调整位置</div>
+          </div>
+        </div>
+
+        <div class="preview-footer">
+          <div><kbd>R</kbd><span>随机版式</span></div>
+          <div><kbd>⌘ / Ctrl</kbd><kbd>S</kbd><span>导出海报</span></div>
+          <p>内容只在你的浏览器中处理，不会上传。</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="export-modal" id="export-modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="export-title">
+      <button class="modal-close" data-close-modal type="button" aria-label="关闭">×</button>
+      <span class="modal-icon">✓</span>
+      <h2 id="export-title">海报已生成</h2>
+      <p>PNG 文件已经开始下载。当前导出尺寸为 <b id="export-size-label">1080 × 1440 px</b>。</p>
+      <button class="button button-dark" data-close-modal type="button">继续创作</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
