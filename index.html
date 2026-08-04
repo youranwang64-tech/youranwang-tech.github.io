@@ -280,9 +280,14 @@
                 <button class="material-card" type="button" data-material="contour-line" aria-pressed="false"><i class="material-preview preview-contour-line"></i><span>自由轮廓线</span></button>
               </div>
               <div class="material-scale-row">
-                <label for="material-scale">整体尺寸</label>
-                <input id="material-scale" data-field="materialScale" type="range" min="70" max="145" value="100" step="5" />
-                <output id="material-scale-value">100%</output>
+                <label for="material-scale">当前素材大小</label>
+                <input id="material-scale" type="range" min="40" max="250" value="100" step="5" disabled />
+                <output id="material-scale-value">选择素材</output>
+              </div>
+              <div class="material-scale-row material-rotation-row">
+                <label for="material-rotation">当前元素角度</label>
+                <input id="material-rotation" type="range" min="-180" max="180" value="0" step="1" disabled />
+                <output id="material-rotation-value">选择元素</output>
               </div>
 
               <div class="emoji-library">

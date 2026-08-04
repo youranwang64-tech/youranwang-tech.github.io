@@ -159,6 +159,8 @@
     teacherWorkshopReturn: null,
     neonDoodleDraft: null,
     neonDoodleReturn: null,
+    neonDoodleVersion: 4,
+    materialSchemaVersion: 2,
     seed: 48271
   };
 
@@ -176,6 +178,52 @@
   let activeSmartGuides = { vertical: [], horizontal: [] };
   let draggingAssetIndex = null;
   let draggingAssetPointer = null;
+  let materialSerial = 0;
+
+  function materialType(entry) {
+    return typeof entry === "string" ? entry : String(entry?.type || "");
+  }
+
+  function materialId(entry, index = 0) {
+    if (entry && typeof entry === "object" && entry.id) return String(entry.id);
+    const type = materialType(entry) || "material";
+    return `material-${type}-${index + 1}`;
+  }
+
+  function createMaterialInstance(type, preferredId = "") {
+    materialSerial += 1;
+    return {
+      id: preferredId || `material-${type}-${Date.now().toString(36)}-${materialSerial.toString(36)}`,
+      type
+    };
+  }
+
+  function normalizeMaterialWorkspace(workspace) {
+    if (!workspace || typeof workspace !== "object") return workspace;
+    const source = Array.isArray(workspace.decorations) ? workspace.decorations : [];
+    const oldTransforms = workspace.materialTransforms && typeof workspace.materialTransforms === "object" ? workspace.materialTransforms : {};
+    const used = new Set();
+    const decorations = [];
+    const materialTransforms = {};
+    source.forEach((entry, index) => {
+      const type = materialType(entry);
+      if (!type || !MATERIAL_LABELS[type]) return;
+      let id = materialId(entry, index);
+      while (used.has(id)) id = `${id}-${index + 1}`;
+      used.add(id);
+      decorations.push({ id, type });
+      const transform = oldTransforms[id] || oldTransforms[type];
+      if (transform && typeof transform === "object") materialTransforms[id] = { ...transform };
+    });
+    workspace.decorations = decorations;
+    workspace.materialTransforms = materialTransforms;
+    workspace.materialSchemaVersion = 2;
+    return workspace;
+  }
+
+  function findMaterialInstance(id, source = state.decorations) {
+    return (Array.isArray(source) ? source : []).find((entry, index) => materialId(entry, index) === id) || null;
+  }
 
   function loadState() {
     const fresh = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
@@ -191,6 +239,17 @@
       if (!merged.blockTransforms || typeof merged.blockTransforms !== "object") merged.blockTransforms = {};
       if (!merged.textStyles || typeof merged.textStyles !== "object") merged.textStyles = {};
       if (!Array.isArray(merged.hiddenBlocks)) merged.hiddenBlocks = [];
+      if (saved.neonDoodleVersion !== 4) {
+        const returnWorkspace = saved.neonDoodleReturn || null;
+        merged.neonDoodleDraft = null;
+        merged.neonDoodleReturn = returnWorkspace;
+        if (merged.style === "neon-doodle") Object.assign(merged, createNeonDoodleWorkspace());
+        merged.neonDoodleVersion = 4;
+      }
+      normalizeMaterialWorkspace(merged);
+      ["teacherWorkshopDraft", "teacherWorkshopReturn", "neonDoodleDraft", "neonDoodleReturn"].forEach((key) => {
+        if (merged[key]) normalizeMaterialWorkspace(merged[key]);
+      });
       return merged;
     } catch {
       return fresh;
@@ -246,7 +305,53 @@
   }
 
   function updateMaterialScaleLabel() {
-    $("#material-scale-value").textContent = `${Number(state.materialScale) || 100}%`;
+    const slider = $("#material-scale");
+    const output = $("#material-scale-value");
+    const label = $('label[for="material-scale"]');
+    if (!slider || !output) return;
+    let scale = null;
+    let maxScale = 2.5;
+    let caption = "当前素材大小";
+    if (activeElement?.kind === "material" && findMaterialInstance(activeElement.id)) {
+      scale = Number(state.materialTransforms?.[activeElement.id]?.scale) || 1;
+      const instance = findMaterialInstance(activeElement.id);
+      caption = `${MATERIAL_LABELS[materialType(instance)] || "素材"}大小`;
+    } else if (activeElement?.kind === "emoji") {
+      const sticker = state.emojiStickers.find((item) => item.id === activeElement.id);
+      if (sticker) { scale = Number(sticker.scale) || 1; maxScale = 2.8; caption = `${sticker.emoji} 大小`; }
+    }
+    slider.disabled = scale == null;
+    slider.max = String(Math.round(maxScale * 100));
+    slider.value = String(Math.round(clamp(scale || 1, .4, maxScale) * 100));
+    output.textContent = scale == null ? "选择素材" : `${Math.round(scale * 100)}%`;
+    if (label) label.textContent = caption;
+  }
+
+  function updateMaterialRotationLabel() {
+    const slider = $("#material-rotation");
+    const output = $("#material-rotation-value");
+    const label = $('label[for="material-rotation"]');
+    if (!slider || !output) return;
+    let angle = null;
+    let caption = "当前元素角度";
+    if (activeElement?.kind === "material" && findMaterialInstance(activeElement.id)) {
+      const instance = findMaterialInstance(activeElement.id);
+      angle = Number(state.materialTransforms?.[activeElement.id]?.rotation) || 0;
+      caption = `${MATERIAL_LABELS[materialType(instance)] || "素材"}角度`;
+    } else if (activeElement?.kind === "emoji") {
+      const sticker = state.emojiStickers.find((item) => item.id === activeElement.id);
+      if (sticker) {
+        angle = Number.isFinite(sticker.rotation) ? sticker.rotation * 180 / Math.PI : 0;
+        caption = `${sticker.emoji} 角度`;
+      }
+    } else if (activeElement?.kind === "block" && !state.hiddenBlocks.includes(activeElement.id)) {
+      angle = Number(state.blockTransforms?.[activeElement.id]?.rotation) || 0;
+      caption = `${BLOCK_LABELS[activeElement.id] || "版面元素"}角度`;
+    }
+    slider.disabled = angle == null;
+    slider.value = String(Math.round(clamp(angle || 0, -180, 180)));
+    output.textContent = angle == null ? "选择元素" : `${Math.round(angle)}°`;
+    if (label) label.textContent = caption;
   }
 
   function scheduleRender(showBadge = true) {
@@ -712,7 +817,8 @@
     const y = (Number.isFinite(transform.y) ? transform.y : spec.y) * H;
     const scale = clamp(Number(transform.scale) || 1, .38, 2.6);
     const w = spec.w * W, h = spec.h * H;
-    c.save(); c.translate(x, y); c.scale(scale, scale);
+    const rotation = (Number(transform.rotation) || 0) * Math.PI / 180;
+    c.save(); c.translate(x, y); c.rotate(rotation); c.scale(scale, scale);
 
     if (id === "visual") drawFlatVisual(c, data, w, h, theme, seed);
     else if (id === "qr") {
@@ -916,25 +1022,27 @@
   }
 
   function drawCollageMaterials(c, data, W, H, seed) {
-    const types = data.decorations.slice(0, 8);
+    const instances = data.decorations.slice(0, 32);
     const base = W / 1080;
-    const sizeScale = clamp((Number(data.materialScale) || 100) / 100, .7, 1.45);
     const anchors = [
       [.08, .14], [.77, .12], [.12, .72], [.78, .70],
       [.43, .08], [.44, .84], [.03, .43], [.83, .40]
     ];
 
-    types.forEach((type, index) => {
-      const random = mulberry32(seed ^ hashString(`${type}-${index}`));
+    instances.forEach((instance, index) => {
+      const type = materialType(instance);
+      const instanceId = materialId(instance, index);
+      if (!type) return;
+      const random = mulberry32(seed ^ hashString(`${type}-${instanceId}-${index}`));
       const anchor = anchors[(index + Math.floor(random() * anchors.length)) % anchors.length];
       const autoX = (anchor[0] + (random() - .5) * .12) * W;
       const autoY = (anchor[1] + (random() - .5) * .10) * H;
-      const transform = data.materialTransforms?.[type] || {};
+      const transform = data.materialTransforms?.[instanceId] || {};
       const x = Number.isFinite(transform.x) ? transform.x * W : autoX;
       const y = Number.isFinite(transform.y) ? transform.y * H : autoY;
       const elementScale = clamp(Number(transform.scale) || 1, .4, 2.5);
-      const unit = base * sizeScale * (.82 + random() * .38) * elementScale;
-      const rotation = (random() - .5) * .48;
+      const unit = base * (.82 + random() * .38) * elementScale;
+      const rotation = (Number(transform.rotation) || 0) * Math.PI / 180;
       c.save();
       c.translate(x, y);
       c.rotate(rotation);
@@ -991,9 +1099,13 @@
         c.closePath(); c.fillStyle = data.accent; c.fill();
         c.fillStyle = "#fff"; c.font = `900 ${24 * unit}px Arial, sans-serif`; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText("NEW", 0, 1 * unit);
       } else if (type === "arrow") {
-        c.strokeStyle = data.accent; c.fillStyle = data.accent; c.lineWidth = 12 * unit;
-        c.beginPath(); c.moveTo(-108 * unit, 30 * unit); c.quadraticCurveTo(-8 * unit, -44 * unit, 94 * unit, 4 * unit); c.stroke();
-        c.beginPath(); c.moveTo(92 * unit, 4 * unit); c.lineTo(57 * unit, -18 * unit); c.lineTo(66 * unit, 29 * unit); c.closePath(); c.fill();
+        c.globalAlpha = .98;
+        c.strokeStyle = "#3c55d8";
+        c.lineWidth = 38 * unit;
+        c.lineCap = "round";
+        c.lineJoin = "round";
+        c.beginPath(); c.moveTo(-105 * unit, 0); c.lineTo(72 * unit, 0); c.stroke();
+        c.beginPath(); c.moveTo(32 * unit, -58 * unit); c.lineTo(94 * unit, 0); c.lineTo(32 * unit, 58 * unit); c.stroke();
       } else if (type === "stamp") {
         const ink = data.style === "art-blue" ? "#165fc5" : "#d64d3e";
         c.strokeStyle = ink; c.fillStyle = ink; c.lineWidth = 4 * unit;
@@ -1113,14 +1225,13 @@
       c.restore();
       if (c === ctx) {
         const baseRadius = { tape: 120, "torn-paper": 135, halftone: 95, scribble: 125, starburst: 84, arrow: 125, stamp: 72, barcode: 95, "grid-patch": 105, target: 92, confetti: 122, "gradient-orb": 104, "neon-brush": 135, "neon-blob": 128, "charcoal-brush": 135, "charcoal-flower": 122, "neon-loop": 138, "contour-line": 138 }[type] || 100;
-        interactiveHitAreas.push({ kind: "material", id: type, x, y, radius: baseRadius * unit });
+        interactiveHitAreas.push({ kind: "material", id: instanceId, type, x, y, radius: baseRadius * unit });
       }
     });
   }
 
   function drawEmojiStickers(c, data, W, H) {
     const base = W / 1080;
-    const globalScale = clamp((Number(data.materialScale) || 100) / 100, .7, 1.45);
     data.emojiStickers.slice(0, 32).forEach((sticker, index) => {
       const random = mulberry32(hashString(`${sticker.id}-${sticker.emoji}`));
       const autoX = (.12 + random() * .76) * W;
@@ -1128,8 +1239,8 @@
       const x = Number.isFinite(sticker.x) ? sticker.x * W : autoX;
       const y = Number.isFinite(sticker.y) ? sticker.y * H : autoY;
       const scale = clamp(Number(sticker.scale) || 1, .4, 2.8);
-      const size = 92 * base * globalScale * scale;
-      const rotation = Number.isFinite(sticker.rotation) ? sticker.rotation : (random() - .5) * .34;
+      const size = 92 * base * scale;
+      const rotation = Number.isFinite(sticker.rotation) ? sticker.rotation : 0;
       c.save();
       c.translate(x, y);
       c.rotate(rotation);
@@ -2031,13 +2142,17 @@
   function renderMaterials() {
     if (!Array.isArray(state.decorations)) state.decorations = [];
     $$(".material-card").forEach((card) => {
-      const active = state.decorations.includes(card.dataset.material);
-      card.classList.toggle("active", active);
-      card.classList.toggle("editing", activeElement?.kind === "material" && activeElement.id === card.dataset.material);
-      card.setAttribute("aria-pressed", String(active));
+      const count = state.decorations.filter((entry) => materialType(entry) === card.dataset.material).length;
+      const editingInstance = activeElement?.kind === "material" ? findMaterialInstance(activeElement.id) : null;
+      card.classList.toggle("active", count > 0);
+      card.classList.toggle("editing", materialType(editingInstance) === card.dataset.material);
+      card.setAttribute("aria-pressed", String(count > 0));
+      card.dataset.count = String(count);
+      card.title = count ? `已添加 ${count} 个；点击再添加一个` : "点击添加一个";
     });
     renderBlockControls();
     updateMaterialScaleLabel();
+    updateMaterialRotationLabel();
     updateElementEditor();
     updateTypographyEditor();
   }
@@ -2104,16 +2219,15 @@
   }
 
   function toggleMaterial(material) {
-    const selected = new Set(Array.isArray(state.decorations) ? state.decorations : []);
-    if (!selected.has(material)) {
-      if (selected.size >= 8) { showToast("一张海报最多叠加 8 种拼贴素材"); return; }
-      selected.add(material);
-    }
-    state.decorations = [...selected];
-    activeElement = { kind: "material", id: material };
+    if (!Array.isArray(state.decorations)) state.decorations = [];
+    if (state.decorations.length >= 32) { showToast("一张海报最多添加 32 个拼贴素材"); return; }
+    const instance = createMaterialInstance(material);
+    state.decorations = [...state.decorations, instance];
+    activeElement = { kind: "material", id: instance.id };
+    const count = state.decorations.filter((entry) => materialType(entry) === material).length;
     renderMaterials();
     scheduleRender();
-    showToast(`已选中“${MATERIAL_LABELS[material]}”，可在海报上直接拖动`);
+    showToast(`已添加“${MATERIAL_LABELS[material]}”${count > 1 ? `（第 ${count} 个）` : ""}，可直接拖动`);
   }
 
   function randomizeMaterials() {
@@ -2121,9 +2235,11 @@
     const random = mulberry32(Date.now() ^ state.seed);
     const shuffled = [...choices].sort(() => random() - .5);
     const count = 3 + Math.floor(random() * 3);
-    state.decorations = shuffled.slice(0, count);
-    state.materialTransforms = {};
-    activeElement = { kind: "material", id: state.decorations[0] };
+    state.decorations = shuffled.slice(0, count).map((type) => createMaterialInstance(type));
+    state.materialTransforms = Object.fromEntries(state.decorations.map((entry) => [entry.id, {
+      rotation: Math.round((random() - .5) * 32)
+    }]));
+    activeElement = { kind: "material", id: state.decorations[0].id };
     state.seed = Math.floor(Math.random() * 99999);
     renderMaterials();
     scheduleRender();
@@ -2134,7 +2250,7 @@
     if (!Array.isArray(state.emojiStickers)) state.emojiStickers = [];
     if (state.emojiStickers.length >= 24) { showToast("一张海报最多添加 24 个 Emoji"); return; }
     const id = `emoji-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`;
-    const sticker = { id, emoji, scale: 1 };
+    const sticker = { id, emoji, scale: 1, rotation: 0 };
     state.emojiStickers = [...state.emojiStickers, sticker];
     activeElement = { kind: "emoji", id };
     renderMaterials();
@@ -2147,7 +2263,7 @@
     const hint = $("#drag-hint");
     if (!editor || !hint) return;
     const exists = activeElement?.kind === "material"
-      ? state.decorations.includes(activeElement.id)
+      ? Boolean(findMaterialInstance(activeElement.id))
       : activeElement?.kind === "emoji"
         ? state.emojiStickers.some((item) => item.id === activeElement.id)
         : activeElement?.kind === "block" && !state.hiddenBlocks.includes(activeElement.id);
@@ -2156,8 +2272,9 @@
     hint.hidden = !activeElement;
     canvas.classList.toggle("can-drag", Boolean(activeElement));
     if (!activeElement) return;
+    const materialInstance = activeElement.kind === "material" ? findMaterialInstance(activeElement.id) : null;
     const sticker = activeElement.kind === "emoji" ? state.emojiStickers.find((item) => item.id === activeElement.id) : null;
-    const name = activeElement.kind === "material" ? MATERIAL_LABELS[activeElement.id]
+    const name = activeElement.kind === "material" ? MATERIAL_LABELS[materialType(materialInstance)]
       : activeElement.kind === "block" ? BLOCK_LABELS[activeElement.id]
         : `${sticker?.emoji || "Emoji"} Emoji`;
     $("#active-element-name").textContent = name;
@@ -2183,6 +2300,44 @@
         [activeElement.id]: { ...current, scale: clamp((Number(current.scale) || 1) + direction * .12, .38, 2.6) }
       };
     }
+    updateMaterialScaleLabel();
+    scheduleRender();
+  }
+
+  function setActiveMaterialScale(percent) {
+    if (!activeElement || (activeElement.kind !== "material" && activeElement.kind !== "emoji")) return;
+    const scale = clamp((Number(percent) || 100) / 100, .4, activeElement.kind === "emoji" ? 2.8 : 2.5);
+    if (activeElement.kind === "material") {
+      const current = state.materialTransforms?.[activeElement.id] || {};
+      state.materialTransforms = { ...(state.materialTransforms || {}), [activeElement.id]: { ...current, scale } };
+    } else {
+      state.emojiStickers = state.emojiStickers.map((sticker) => sticker.id === activeElement.id ? { ...sticker, scale } : sticker);
+    }
+    updateMaterialScaleLabel();
+    scheduleRender();
+  }
+
+  function setActiveElementRotation(degrees) {
+    if (!activeElement) return;
+    const angle = clamp(Number(degrees) || 0, -180, 180);
+    if (activeElement.kind === "material" && findMaterialInstance(activeElement.id)) {
+      const current = state.materialTransforms?.[activeElement.id] || {};
+      state.materialTransforms = {
+        ...(state.materialTransforms || {}),
+        [activeElement.id]: { ...current, rotation: angle }
+      };
+    } else if (activeElement.kind === "emoji") {
+      state.emojiStickers = state.emojiStickers.map((sticker) => sticker.id === activeElement.id
+        ? { ...sticker, rotation: angle * Math.PI / 180 }
+        : sticker);
+    } else if (activeElement.kind === "block" && !state.hiddenBlocks.includes(activeElement.id)) {
+      const current = state.blockTransforms?.[activeElement.id] || {};
+      state.blockTransforms = {
+        ...(state.blockTransforms || {}),
+        [activeElement.id]: { ...current, rotation: angle }
+      };
+    } else return;
+    updateMaterialRotationLabel();
     scheduleRender();
   }
 
@@ -2215,7 +2370,7 @@
   function removeActiveElement() {
     if (!activeElement) return;
     if (activeElement.kind === "material") {
-      state.decorations = state.decorations.filter((material) => material !== activeElement.id);
+      state.decorations = state.decorations.filter((entry, index) => materialId(entry, index) !== activeElement.id);
       const transforms = { ...(state.materialTransforms || {}) }; delete transforms[activeElement.id]; state.materialTransforms = transforms;
     } else if (activeElement.kind === "emoji") {
       state.emojiStickers = state.emojiStickers.filter((sticker) => sticker.id !== activeElement.id);
@@ -2376,7 +2531,6 @@
     state[key] = el.type === "checkbox" ? el.checked : el.type === "range" ? Number(el.value) : el.value;
     if (key === "accent" || key === "background") updateColorLabels();
     if (key === "density") updateDensityLabel();
-    if (key === "materialScale") updateMaterialScaleLabel();
     if (el.maxLength > 0) {
       const count = $(`[data-count-for="${el.id}"]`);
       if (count) count.textContent = Array.from(el.value).length;
@@ -2392,7 +2546,7 @@
       hiddenBlocks: [...(state.hiddenBlocks || [])],
       blockTransforms: JSON.parse(JSON.stringify(state.blockTransforms || {})),
       textStyles: JSON.parse(JSON.stringify(state.textStyles || {})),
-      decorations: [...(state.decorations || [])],
+      decorations: JSON.parse(JSON.stringify(state.decorations || [])),
       materialTransforms: JSON.parse(JSON.stringify(state.materialTransforms || {})),
       emojiStickers: JSON.parse(JSON.stringify(state.emojiStickers || [])),
       materialScale: Number(state.materialScale) || 100,
@@ -2426,13 +2580,9 @@
       hiddenBlocks: ["visual", "date", "time", "venue", "qr"],
       blockTransforms: {},
       textStyles: {},
-      decorations: ["neon-blob", "charcoal-flower", "charcoal-brush", "neon-loop", "contour-line"],
+      decorations: [{ id: "neon-blob-main", type: "neon-blob" }],
       materialTransforms: {
-        "neon-blob": { x: .64, y: .43, scale: 1.45 },
-        "charcoal-flower": { x: .77, y: .35, scale: 1.04 },
-        "charcoal-brush": { x: .82, y: .72, scale: 1.42 },
-        "neon-loop": { x: .57, y: .79, scale: 1.12 },
-        "contour-line": { x: .72, y: .52, scale: .86 }
+        "neon-blob-main": { x: .84, y: .80, scale: 1.68 }
       },
       emojiStickers: [],
       materialScale: 100,
@@ -2450,8 +2600,12 @@
     state.hiddenBlocks = [...(snapshot.hiddenBlocks || [])];
     state.blockTransforms = JSON.parse(JSON.stringify(snapshot.blockTransforms || {}));
     state.textStyles = JSON.parse(JSON.stringify(snapshot.textStyles || {}));
-    state.decorations = [...(snapshot.decorations || [])];
-    state.materialTransforms = JSON.parse(JSON.stringify(snapshot.materialTransforms || {}));
+    const materialWorkspace = normalizeMaterialWorkspace({
+      decorations: JSON.parse(JSON.stringify(snapshot.decorations || [])),
+      materialTransforms: JSON.parse(JSON.stringify(snapshot.materialTransforms || {}))
+    });
+    state.decorations = materialWorkspace.decorations;
+    state.materialTransforms = materialWorkspace.materialTransforms;
     state.emojiStickers = JSON.parse(JSON.stringify(snapshot.emojiStickers || []));
     state.materialScale = Number(snapshot.materialScale) || 100;
     state.workshopCourses = (snapshot.workshopCourses || DEFAULT_COURSES).map((course) => ({ ...course }));
@@ -2915,6 +3069,8 @@
     $("#element-larger-btn").addEventListener("click", () => updateActiveElementScale(1));
     $("#element-reset-btn").addEventListener("click", resetActiveElementPosition);
     $("#element-remove-btn").addEventListener("click", removeActiveElement);
+    $("#material-scale").addEventListener("input", (event) => setActiveMaterialScale(Number(event.currentTarget.value)));
+    $("#material-rotation").addEventListener("input", (event) => setActiveElementRotation(Number(event.currentTarget.value)));
     $("#font-family-select").addEventListener("change", (event) => updateActiveTextStyle("font", event.currentTarget.value));
     $("#font-size-range").addEventListener("input", (event) => updateActiveTextStyle("size", Number(event.currentTarget.value)));
     $("#typography-reset-btn").addEventListener("click", resetActiveTypography);
