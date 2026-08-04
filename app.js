@@ -29,13 +29,17 @@
     "layout-lab": { accent: "#f35aa6", background: "#ffffff" },
     "art-blue": { accent: "#1568d4", background: "#e8e9ea" },
     "composition-atlas": { accent: "#9da397", background: "#fbfaf6" },
-    workshop: { accent: "#ff6a00", background: "#fff8eb" }
+    workshop: { accent: "#ff6a00", background: "#fff8eb" },
+    "teacher-workshop": { accent: "#ed315f", background: "#ffffff" },
+    "neon-doodle": { accent: "#2dff00", background: "#ffffff" }
   };
 
   const MATERIAL_LABELS = {
     tape: "胶带", "torn-paper": "撕纸", halftone: "网点", scribble: "涂鸦",
     starburst: "爆炸贴", arrow: "箭头", stamp: "印章", barcode: "条码",
-    "grid-patch": "网格片", target: "靶心", confetti: "碎纸", "gradient-orb": "渐变球"
+    "grid-patch": "网格片", target: "靶心", confetti: "碎纸", "gradient-orb": "渐变球",
+    "neon-brush": "荧光平刷", "neon-blob": "荧光云团", "charcoal-brush": "黑色炭笔",
+    "charcoal-flower": "炭笔花瓣", "neon-loop": "荧光弹簧线", "contour-line": "自由轮廓线"
   };
 
   const BLOCK_LABELS = {
@@ -61,6 +65,35 @@
     { title: "数字制造", meta: "周三 09:30 · C305", desc: "DIGITAL FAB / CNC 与激光制造流程" },
     { title: "复写印刷", meta: "周四 13:30 · D102", desc: "REPROGRAPHIC / 丝网与 RISO 工艺" }
   ];
+
+  const TEACHER_WORKSHOP_COURSES = [
+    { title: "模型制作", meta: "周一 14:00-15:30 · A101", desc: "Model Making / 基础模型制作与手工成型" },
+    { title: "3D 打印", meta: "周二 10:00-11:30 · B203", desc: "3D Printing / FDM/SLA 打印入门" },
+    { title: "数字制造", meta: "周三 09:30-12:00 · C305", desc: "Digital Fab / CNC / Laser 制造流程" },
+    { title: "复写印刷", meta: "周四 13:30-16:00 · D102", desc: "Reprographic / 丝网与 Riso 工艺" }
+  ];
+
+  const TEACHER_WORKSHOP_DEFAULTS = {
+    kicker: "",
+    title: "工坊 👀 Tour",
+    subtitle: "",
+    date: "2026春季 3月9日至4月3日",
+    time: "",
+    venue: "",
+    body: "",
+    organizer: "厦门大学创意与创新学院 · Institute of Creativity and Innovation, XMU"
+  };
+
+  const NEON_DOODLE_DEFAULTS = {
+    kicker: "MARKETING / CREATIVE SUPPORT",
+    title: "DON'T KNOW\nWHERE TO START?",
+    subtitle: "WE CAN\nHELP.",
+    date: "2026.08.04",
+    time: "OPEN 10:00 — 18:00",
+    venue: "厦门大学创意与创新学院204",
+    body: "不知道从哪里开始？带着一个真实想法来，我们一起把它变成能够被看见、体验和讨论的新提案。",
+    organizer: "INSTITUTE OF CREATIVITY AND INNOVATION, XMU"
+  };
 
   const DEMOS = [
     {
@@ -109,6 +142,7 @@
     accent: STYLE_DEFAULTS["white-studio"].accent,
     background: STYLE_DEFAULTS["white-studio"].background,
     density: 1,
+    smartGuides: true,
     showGrid: true,
     showGrain: false,
     decorations: [],
@@ -121,6 +155,10 @@
     motifPreset: "01",
     motifEmoji: "👀",
     workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })),
+    teacherWorkshopDraft: null,
+    teacherWorkshopReturn: null,
+    neonDoodleDraft: null,
+    neonDoodleReturn: null,
     seed: 48271
   };
 
@@ -135,6 +173,7 @@
   let activeElement = null;
   let interactiveHitAreas = [];
   let draggingElement = null;
+  let activeSmartGuides = { vertical: [], horizontal: [] };
   let draggingAssetIndex = null;
   let draggingAssetPointer = null;
 
@@ -533,6 +572,7 @@
     if (Array.isArray(data.emojiStickers) && data.emojiStickers.length) drawEmojiStickers(c, data, W, H);
     if (data.showGrain) drawGrain(c, W, H, seed, data.style === "collage" ? .075 : .045);
     if (c === ctx && activeElement) drawActiveElementOutline(c);
+    if (c === ctx && draggingElement && data.smartGuides) drawSmartGuides(c, W, H);
     c.restore();
   }
 
@@ -548,7 +588,9 @@
       "layout-lab": { bg: "#ffffff", ink: "#121211", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 92, visual: "layout" },
       "art-blue": { bg: "#f4f4f2", ink: "#125fc6", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 90, visual: "blue" },
       "composition-atlas": { bg: "#fbfaf6", ink: "#171714", titleFont: 'Georgia, "Songti SC", serif', titleWeight: 500, titleSize: 79, visual: "atlas" },
-      workshop: { bg: data.background, ink: "#151513", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 82, visual: "workshop" }
+      workshop: { bg: data.background, ink: "#151513", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 82, visual: "workshop" },
+      "teacher-workshop": { bg: "#ffffff", ink: "#050505", titleFont: 'Arial, "Microsoft YaHei", "PingFang SC", sans-serif', titleWeight: 900, titleSize: 102, visual: "plain" },
+      "neon-doodle": { bg: "#ffffff", ink: "#171717", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 76, visual: "plain" }
     };
     return { accent: data.accent, ...(themes[data.style] || themes["white-studio"]) };
   }
@@ -577,7 +619,25 @@
       "layout-lab": { title: { x: .18, y: .18, w: .30, h: .22 }, subtitle: { x: .18, y: .32, w: .30, h: .05 }, visual: { x: .67, y: .42, w: .48, h: .54 }, date: { x: .19, y: .57, w: .31, h: .07 }, venue: { x: .26, y: .71, w: .43, h: .09 }, body: { x: .69, y: .77, w: .46, h: .15, align: "right" } },
       "art-blue": { title: { x: .27, y: .16, w: .50, h: .17 }, subtitle: { x: .25, y: .28, w: .46, h: .05 }, visual: { x: .60, y: .49, w: .65, h: .42 }, date: { x: .18, y: .77, w: .30, h: .07 }, time: { x: .17, y: .83, w: .27, h: .035 }, venue: { x: .74, y: .77, w: .39, h: .08, align: "right" }, body: { x: .70, y: .86, w: .43, h: .10, align: "right" } },
       "composition-atlas": { title: { x: .25, y: .14, w: .46, h: .15 }, visual: { x: .52, y: .48, w: .63, h: .51 }, date: { x: .21, y: .75, w: .33, h: .065 }, venue: { x: .76, y: .74, w: .35, h: .08, align: "right" }, body: { x: .72, y: .83, w: .40, h: .11, align: "right" } },
-      workshop: { kicker: { x: .18, y: .045, w: .29, h: .03 }, title: { x: .27, y: .13, w: .49, h: .14 }, subtitle: { x: .25, y: .235, w: .44, h: .04 }, visual: { x: .52, y: .60, w: .91, h: .55 }, date: { x: .80, y: .055, w: .28, h: .045, align: "right" }, time: { x: .78, y: .21, w: .32, h: .03, align: "right" }, venue: { x: .77, y: .255, w: .37, h: .05, align: "right" }, body: { x: .27, y: .30, w: .48, h: .055 }, organizer: { x: .25, y: .965, w: .44, h: .025 }, qr: { x: .91, y: .935, w: .075, h: .06 } }
+      workshop: { kicker: { x: .18, y: .045, w: .29, h: .03 }, title: { x: .27, y: .13, w: .49, h: .14 }, subtitle: { x: .25, y: .235, w: .44, h: .04 }, visual: { x: .52, y: .60, w: .91, h: .55 }, date: { x: .80, y: .055, w: .28, h: .045, align: "right" }, time: { x: .78, y: .21, w: .32, h: .03, align: "right" }, venue: { x: .77, y: .255, w: .37, h: .05, align: "right" }, body: { x: .27, y: .30, w: .48, h: .055 }, organizer: { x: .25, y: .965, w: .44, h: .025 }, qr: { x: .91, y: .935, w: .075, h: .06 } },
+      "teacher-workshop": {
+        title: { x: .50, y: .032, w: .72, h: .055, align: "center" },
+        date: { x: .50, y: .087, w: .64, h: .028, align: "center" },
+        courses: { x: .50, y: .255, w: .84, h: .285 },
+        organizer: { x: .50, y: .982, w: .84, h: .018, align: "center" }
+      },
+      "neon-doodle": {
+        kicker: { x: .20, y: .055, w: .31, h: .028 },
+        title: { x: .28, y: .19, w: .45, h: .25 },
+        subtitle: { x: .23, y: .375, w: .37, h: .15 },
+        visual: { x: .70, y: .49, w: .45, h: .38 },
+        date: { x: .20, y: .67, w: .27, h: .035 },
+        time: { x: .20, y: .705, w: .31, h: .025 },
+        venue: { x: .77, y: .79, w: .34, h: .055, align: "right" },
+        body: { x: .28, y: .76, w: .45, h: .13 },
+        organizer: { x: .29, y: .94, w: .47, h: .025 },
+        qr: { x: .91, y: .92, w: .07, h: .055 }
+      }
     };
     return { ...base, ...(layouts[style] || {}) };
   }
@@ -586,7 +646,9 @@
     const theme = getFlatTheme(data);
     const layout = getFlatLayout(data.style);
     drawFlatBackground(c, data, W, H, theme, seed);
-    const order = ["visual", "kicker", "title", "subtitle", "date", "time", "venue", "body", "organizer", "qr"];
+    const order = data.style === "teacher-workshop"
+      ? ["title", "date", "courses", "organizer"]
+      : ["visual", "kicker", "title", "subtitle", "date", "time", "venue", "body", "organizer", "qr"];
     order.forEach((id) => {
       const spec = layout[id];
       if (!spec || state.hiddenBlocks?.includes(id)) return;
@@ -633,6 +695,14 @@
     } else if (data.style === "workshop") {
       c.fillStyle = accent; c.fillRect(0, 0, W, Math.max(7, W * .009));
       c.fillStyle = alpha(accent, .12); c.fillRect(W * .035, H * .285, W * .18, Math.max(3, W * .005));
+    } else if (data.style === "neon-doodle") {
+      c.fillStyle = "#171717";
+      c.fillRect(W * .065, H * .052, W * .045, Math.max(3, W * .004));
+      c.fillRect(W * .065, H * .925, W * .15, Math.max(2, W * .002));
+      c.fillStyle = accent;
+      c.beginPath(); c.arc(W * .077, H * .875, W * .012, 0, Math.PI * 2); c.fill();
+      c.beginPath(); c.arc(W * .11, H * .875, W * .008, 0, Math.PI * 2); c.fill();
+      c.beginPath(); c.arc(W * .137, H * .875, W * .006, 0, Math.PI * 2); c.fill();
     }
   }
 
@@ -661,28 +731,40 @@
     if (!text) return;
     const isTitle = id === "title";
     const sizes = { kicker: 14, title: theme.titleSize, subtitle: 22, date: 44, time: 17, venue: 21, body: 14, organizer: 12 };
+    if (data.style === "teacher-workshop") Object.assign(sizes, { title: 102, date: 38, organizer: 21 });
+    if (data.style === "neon-doodle") Object.assign(sizes, { kicker: 13, title: 76, subtitle: 76, date: 20, time: 14, venue: 15, body: 17, organizer: 11 });
     const weights = { kicker: 800, subtitle: 750, date: 900, time: 750, venue: 760, body: 500, organizer: 800 };
+    if (data.style === "neon-doodle") Object.assign(weights, { kicker: 850, subtitle: 900, date: 800, body: 600, organizer: 800 });
     const textStyle = data.textStyles?.[id] || {};
     const automaticFamily = isTitle ? theme.titleFont : 'Arial, "Microsoft YaHei", sans-serif';
     const family = FONT_FAMILIES[textStyle.font] || automaticFamily;
     const baseTarget = (sizes[id] || 18) * s;
     const baseMin = isTitle ? 34 * s : Math.max(9 * s, baseTarget * .55);
-    const preparedText = id === "subtitle" || id === "kicker" || id === "organizer" ? text.toUpperCase() : text;
+    const shouldUppercase = data.style !== "teacher-workshop" && (id === "subtitle" || id === "kicker" || id === "organizer");
+    const preparedText = shouldUppercase ? text.toUpperCase() : text;
     const automaticSize = fitFont(c, preparedText, w, baseTarget, baseMin, family, isTitle ? theme.titleWeight : weights[id] || 600);
     const sizeScale = clamp((Number(textStyle.size) || 100) / 100, .5, 2.2);
     const fontSize = automaticSize * sizeScale;
-    c.fillStyle = theme.ink;
+    const outlineTitle = data.style === "neon-doodle" && isTitle;
+    c.fillStyle = outlineTitle ? "#ffffff" : theme.ink;
+    if (outlineTitle) { c.strokeStyle = theme.ink; c.lineWidth = Math.max(2, 2.2 * s); c.lineJoin = "round"; }
     c.font = `${isTitle ? theme.titleWeight : weights[id] || 600} ${fontSize}px ${family}`;
     c.textAlign = align;
     c.textBaseline = "alphabetic";
-    const maxLines = isTitle ? 3 : id === "body" ? 6 : id === "venue" ? 3 : 2;
-    const content = id === "subtitle" || id === "kicker" || id === "organizer" ? text.toUpperCase() : text;
+    const maxLines = isTitle ? (data.style === "neon-doodle" ? 4 : 3) : id === "body" ? 6 : id === "venue" ? 3 : data.style === "neon-doodle" && id === "subtitle" ? 3 : 2;
+    const content = shouldUppercase ? text.toUpperCase() : text;
     const lines = wrapLines(c, content, w, maxLines);
     const lineHeight = fontSize * (isTitle ? .96 : id === "body" ? 1.55 : 1.22);
     const startY = -Math.min(h * .44, (lines.length - .25) * lineHeight / 2);
     const startX = align === "left" ? -w / 2 : align === "right" ? w / 2 : 0;
-    drawLines(c, lines, startX, startY + fontSize, lineHeight, { align, spacing: isTitle ? -1.1 * s : .15 * s });
-    if (id === "date") c.fillRect(startX - (align === "right" ? w * .22 : 0), startY + fontSize + 10 * s, w * .22, Math.max(2, 3 * s));
+    if (outlineTitle) {
+      lines.forEach((line, index) => {
+        const lineY = startY + fontSize + index * lineHeight;
+        c.strokeText(line, startX, lineY, w);
+        c.fillText(line, startX, lineY, w);
+      });
+    } else drawLines(c, lines, startX, startY + fontSize, lineHeight, { align, spacing: isTitle ? -1.1 * s : .15 * s });
+    if (id === "date" && data.style !== "teacher-workshop") c.fillRect(startX - (align === "right" ? w * .22 : 0), startY + fontSize + 10 * s, w * .22, Math.max(2, 3 * s));
   }
 
   function drawFlatVisual(c, data, w, h, theme, seed) {
@@ -727,6 +809,10 @@
   }
 
   function drawFlatCourses(c, data, w, h, theme) {
+    if (data.style === "teacher-workshop") {
+      drawTeacherWorkshopCourses(c, data, w, h, theme);
+      return;
+    }
     const courses = (data.workshopCourses || []).slice(0, 8);
     const cols = 2, gap = w * .025;
     const cardW = (w - gap) / cols;
@@ -742,6 +828,91 @@
       c.font = `700 ${Math.max(9, cardH * .085)}px Arial, "Microsoft YaHei", sans-serif`; c.fillText(course.meta, x + cardW * .055, y + cardH * .48, cardW * .88);
       c.font = `500 ${Math.max(8, cardH * .07)}px Arial, "Microsoft YaHei", sans-serif`; c.fillText(course.desc, x + cardW * .055, y + cardH * .68, cardW * .88);
     });
+  }
+
+  function drawTeacherWorkshopCourses(c, data, w, h, theme) {
+    const courses = (Array.isArray(data.workshopCourses) && data.workshopCourses.length
+      ? data.workshopCourses
+      : TEACHER_WORKSHOP_COURSES).slice(0, 4);
+    const unit = w / 900;
+    const left = -w / 2;
+    const top = -h / 2;
+    const columnCenters = [left + w * .25, left + w * .75];
+    const rowOffsets = [h * .09, h * .52];
+
+    c.fillStyle = theme.ink;
+    c.textAlign = "center";
+    c.textBaseline = "alphabetic";
+
+    courses.forEach((course, index) => {
+      const column = index % 2;
+      const row = Math.floor(index / 2);
+      const x = columnCenters[column];
+      const y = top + rowOffsets[row];
+      const rawDescription = String(course.desc || "");
+      const divider = rawDescription.indexOf(" / ");
+      const english = divider >= 0 ? rawDescription.slice(0, divider) : rawDescription;
+      const detail = divider >= 0 ? rawDescription.slice(divider + 3) : "";
+
+      c.fillStyle = theme.ink;
+      c.font = `900 ${31 * unit}px Arial, "Microsoft YaHei", "PingFang SC", sans-serif`;
+      c.fillText(course.title || "工坊课程", x, y, w * .40);
+
+      c.fillStyle = "#777777";
+      c.font = `italic 500 ${25 * unit}px Arial, sans-serif`;
+      c.fillText(english, x, y + h * .085, w * .40);
+
+      c.fillStyle = theme.ink;
+      c.font = `900 ${25 * unit}px Arial, "Microsoft YaHei", "PingFang SC", sans-serif`;
+      c.fillText(course.meta || "时间 · 教室", x, y + h * .18, w * .42);
+
+      c.fillStyle = "#555555";
+      c.font = `500 ${22 * unit}px Arial, "Microsoft YaHei", "PingFang SC", sans-serif`;
+      c.fillText(detail, x, y + h * .255, w * .42);
+    });
+
+    const centerX = 0;
+    const signalY = top + h * .18;
+    const signalW = 13 * unit;
+    const signalH = 34 * unit;
+    roundedRectPath(c, centerX - signalW / 2, signalY - signalH / 2, signalW, signalH, signalW / 2);
+    c.fillStyle = "#343434";
+    c.fill();
+    ["#ef365f", "#f3d532", "#54b96a"].forEach((color, index) => {
+      c.fillStyle = color;
+      c.beginPath();
+      c.arc(centerX, signalY - signalH * .27 + index * signalH * .27, 3.1 * unit, 0, Math.PI * 2);
+      c.fill();
+    });
+
+    const barrierY = top + h * .40;
+    const barrierW = 34 * unit;
+    const barrierH = 15 * unit;
+    c.save();
+    c.beginPath();
+    c.rect(centerX - barrierW / 2, barrierY - barrierH / 2, barrierW, barrierH);
+    c.clip();
+    c.fillStyle = "#f5cc20";
+    c.fillRect(centerX - barrierW / 2, barrierY - barrierH / 2, barrierW, barrierH);
+    c.strokeStyle = "#181818";
+    c.lineWidth = 6 * unit;
+    for (let x = centerX - barrierW; x < centerX + barrierW; x += 13 * unit) {
+      c.beginPath();
+      c.moveTo(x, barrierY + barrierH);
+      c.lineTo(x + 17 * unit, barrierY - barrierH);
+      c.stroke();
+    }
+    c.restore();
+
+    c.fillStyle = theme.ink;
+    c.font = `400 ${20 * unit}px Georgia, "Times New Roman", serif`;
+    c.fillText("QR", centerX, top + h * .615);
+
+    c.fillStyle = theme.accent;
+    c.font = `900 ${58 * unit}px Arial, sans-serif`;
+    const marks = ["!", "!", "!", "!", "?"];
+    const markX = [-.21, -.105, 0, .105, .225];
+    marks.forEach((mark, index) => c.fillText(mark, w * markX[index], top + h * .985));
   }
 
   function drawCollageMaterials(c, data, W, H, seed) {
@@ -866,10 +1037,82 @@
         gradient.addColorStop(.66, data.accent);
         gradient.addColorStop(1, "rgba(24,24,24,.18)");
         c.fillStyle = gradient; c.beginPath(); c.arc(0, 0, radius, 0, Math.PI * 2); c.fill();
+      } else if (type === "neon-brush") {
+        const brushRandom = mulberry32(seed ^ (index + 17) * 2389);
+        c.globalAlpha = .96;
+        c.strokeStyle = "#2dff00";
+        for (let i = 0; i < 15; i++) {
+          const sy = (-54 + i * 7 + (brushRandom() - .5) * 10) * unit;
+          c.lineWidth = (8 + brushRandom() * 17) * unit;
+          c.beginPath();
+          c.moveTo((-118 + brushRandom() * 18) * unit, sy);
+          c.bezierCurveTo(-56 * unit, (sy / unit - 23 + brushRandom() * 38) * unit, 42 * unit, (sy / unit + 20 - brushRandom() * 36) * unit, (118 - brushRandom() * 16) * unit, sy + (brushRandom() - .5) * 18 * unit);
+          c.stroke();
+        }
+      } else if (type === "neon-blob") {
+        c.globalAlpha = .95;
+        c.fillStyle = "#2dff00";
+        const lobes = [
+          [-68, -5, 82, 116, -.38], [-15, -22, 92, 132, .18], [48, -2, 88, 118, -.12],
+          [-42, 37, 102, 88, .22], [32, 34, 112, 90, -.18]
+        ];
+        lobes.forEach(([lx, ly, lw, lh, lr]) => {
+          c.save(); c.translate(lx * unit, ly * unit); c.rotate(lr); c.beginPath(); c.ellipse(0, 0, lw * unit / 2, lh * unit / 2, 0, 0, Math.PI * 2); c.fill(); c.restore();
+        });
+      } else if (type === "charcoal-brush") {
+        const charcoalRandom = mulberry32(seed ^ (index + 31) * 3571);
+        c.lineCap = "butt";
+        for (let i = 0; i < 52; i++) {
+          const sy = (-67 + charcoalRandom() * 134) * unit;
+          const start = (-120 + charcoalRandom() * 34) * unit;
+          const end = (40 + charcoalRandom() * 92) * unit;
+          c.strokeStyle = `rgba(18,18,18,${(.13 + charcoalRandom() * .68).toFixed(2)})`;
+          c.lineWidth = (1.5 + charcoalRandom() * 8.5) * unit;
+          c.beginPath();
+          c.moveTo(start, sy);
+          c.quadraticCurveTo((charcoalRandom() - .5) * 28 * unit, sy + (charcoalRandom() - .5) * 24 * unit, end, sy + (charcoalRandom() - .5) * 15 * unit);
+          c.stroke();
+        }
+      } else if (type === "charcoal-flower") {
+        const petalRandom = mulberry32(seed ^ (index + 43) * 4211);
+        for (let i = 0; i < 7; i++) {
+          const angle = i * Math.PI * 2 / 7 + .12;
+          const length = (82 + petalRandom() * 34) * unit;
+          const width = (28 + petalRandom() * 18) * unit;
+          c.save(); c.rotate(angle);
+          c.beginPath(); c.moveTo(0, 0);
+          c.bezierCurveTo(width, -length * .2, width * .9, -length * .78, 0, -length);
+          c.bezierCurveTo(-width * .9, -length * .78, -width, -length * .2, 0, 0);
+          c.fillStyle = `rgba(20,20,20,${(.56 + petalRandom() * .28).toFixed(2)})`; c.fill();
+          c.strokeStyle = "rgba(245,245,240,.28)"; c.lineWidth = 1.7 * unit;
+          for (let hatch = -2; hatch <= 2; hatch++) {
+            c.beginPath(); c.moveTo(hatch * width * .12, -10 * unit); c.lineTo(hatch * width * .22, -length * .78); c.stroke();
+          }
+          c.restore();
+        }
+        c.fillStyle = "#181818"; c.beginPath(); c.arc(0, 0, 18 * unit, 0, Math.PI * 2); c.fill();
+      } else if (type === "neon-loop") {
+        c.globalAlpha = .96;
+        c.strokeStyle = "#2dff00"; c.lineWidth = 5.5 * unit;
+        c.beginPath(); c.moveTo(-126 * unit, 18 * unit);
+        c.bezierCurveTo(-102 * unit, -88 * unit, -62 * unit, -88 * unit, -48 * unit, 8 * unit);
+        c.bezierCurveTo(-34 * unit, 92 * unit, 4 * unit, 90 * unit, 16 * unit, 0);
+        c.bezierCurveTo(28 * unit, -78 * unit, 66 * unit, -78 * unit, 78 * unit, 3 * unit);
+        c.bezierCurveTo(89 * unit, 75 * unit, 112 * unit, 60 * unit, 127 * unit, -18 * unit);
+        c.stroke();
+      } else if (type === "contour-line") {
+        c.globalAlpha = .9;
+        c.strokeStyle = "#202020"; c.lineWidth = 3.2 * unit;
+        c.beginPath(); c.moveTo(-126 * unit, 58 * unit);
+        c.bezierCurveTo(-73 * unit, 40 * unit, -119 * unit, -42 * unit, -49 * unit, -57 * unit);
+        c.bezierCurveTo(8 * unit, -69 * unit, -29 * unit, 38 * unit, 31 * unit, 54 * unit);
+        c.bezierCurveTo(88 * unit, 70 * unit, 68 * unit, -47 * unit, 128 * unit, -60 * unit);
+        c.stroke();
+        c.beginPath(); c.moveTo(-91 * unit, 79 * unit); c.bezierCurveTo(-45 * unit, 11 * unit, 38 * unit, 112 * unit, 103 * unit, 35 * unit); c.stroke();
       }
       c.restore();
       if (c === ctx) {
-        const baseRadius = { tape: 120, "torn-paper": 135, halftone: 95, scribble: 125, starburst: 84, arrow: 125, stamp: 72, barcode: 95, "grid-patch": 105, target: 92, confetti: 122, "gradient-orb": 104 }[type] || 100;
+        const baseRadius = { tape: 120, "torn-paper": 135, halftone: 95, scribble: 125, starburst: 84, arrow: 125, stamp: 72, barcode: 95, "grid-patch": 105, target: 92, confetti: 122, "gradient-orb": 104, "neon-brush": 135, "neon-blob": 128, "charcoal-brush": 135, "charcoal-flower": 122, "neon-loop": 138, "contour-line": 138 }[type] || 100;
         interactiveHitAreas.push({ kind: "material", id: type, x, y, radius: baseRadius * unit });
       }
     });
@@ -925,6 +1168,49 @@
     const handleX = hit.w ? hit.x + hit.w / 2 : hit.x + hit.radius * .7;
     const handleY = hit.h ? hit.y - hit.h / 2 : hit.y - hit.radius * .7;
     c.beginPath(); c.arc(handleX, handleY, 10 * canvas.width / 1080, 0, Math.PI * 2); c.fill(); c.stroke();
+    c.restore();
+  }
+
+  function drawSmartGuides(c, W, H) {
+    const unit = W / 1080;
+    c.save();
+    c.lineWidth = Math.max(1.25, 1.6 * unit);
+    c.setLineDash([7 * unit, 8 * unit]);
+    c.strokeStyle = "rgba(36, 170, 205, .46)";
+    c.strokeRect(W * .05, H * .05, W * .90, H * .90);
+    c.beginPath();
+    c.moveTo(W * .50, 0); c.lineTo(W * .50, H);
+    c.moveTo(0, H * .50); c.lineTo(W, H * .50);
+    c.stroke();
+
+    c.setLineDash([]);
+    c.strokeStyle = "rgba(240, 41, 105, .96)";
+    c.fillStyle = "rgba(240, 41, 105, .96)";
+    c.lineWidth = Math.max(2, 2.4 * unit);
+    c.font = `800 ${12 * unit}px Arial, "Microsoft YaHei", sans-serif`;
+    c.textBaseline = "top";
+
+    const vertical = [...new Map((activeSmartGuides.vertical || []).map((guide) => [Math.round(guide.value), guide])).values()];
+    const horizontal = [...new Map((activeSmartGuides.horizontal || []).map((guide) => [Math.round(guide.value), guide])).values()];
+    vertical.forEach((guide) => {
+      c.beginPath(); c.moveTo(guide.value, 0); c.lineTo(guide.value, H); c.stroke();
+      const label = guide.label || "对齐";
+      const labelWidth = c.measureText(label).width + 12 * unit;
+      c.fillRect(clamp(guide.value + 6 * unit, 2 * unit, W - labelWidth - 2 * unit), 6 * unit, labelWidth, 20 * unit);
+      c.fillStyle = "#ffffff";
+      c.fillText(label, clamp(guide.value + 12 * unit, 8 * unit, W - labelWidth + 4 * unit), 9 * unit);
+      c.fillStyle = "rgba(240, 41, 105, .96)";
+    });
+    horizontal.forEach((guide) => {
+      c.beginPath(); c.moveTo(0, guide.value); c.lineTo(W, guide.value); c.stroke();
+      const label = guide.label || "对齐";
+      const labelWidth = c.measureText(label).width + 12 * unit;
+      const labelY = clamp(guide.value - 26 * unit, 4 * unit, H - 24 * unit);
+      c.fillRect(6 * unit, labelY, labelWidth, 20 * unit);
+      c.fillStyle = "#ffffff";
+      c.fillText(label, 12 * unit, labelY + 3 * unit);
+      c.fillStyle = "rgba(240, 41, 105, .96)";
+    });
     c.restore();
   }
 
@@ -1693,7 +1979,14 @@
   }
 
   function toggleWorkshopSection() {
-    $("#workshop-section").hidden = state.style !== "workshop";
+    const isTeacherTemplate = state.style === "teacher-workshop";
+    const isWorkshopTemplate = state.style === "workshop";
+    $("#workshop-section").hidden = !isTeacherTemplate && !isWorkshopTemplate;
+    $("#workshop-heading").textContent = isTeacherTemplate ? "老师工坊课程表" : "工坊拼豆主视觉";
+    $("#add-course-btn").hidden = !isTeacherTemplate;
+    $("#course-list").hidden = !isTeacherTemplate;
+    $("#workshop-pattern-row").hidden = !isWorkshopTemplate;
+    $("#workshop-qr-upload").hidden = !isWorkshopTemplate;
   }
 
   function renderWorkshopCourses() {
@@ -1753,7 +2046,7 @@
     if (!Array.isArray(state.hiddenBlocks)) state.hiddenBlocks = [];
     $$('[data-block]').forEach((button) => {
       const id = button.dataset.block;
-      const visibleForStyle = id !== "courses" || state.style === "workshop";
+      const visibleForStyle = id !== "courses" || state.style === "teacher-workshop";
       if (button.hasAttribute("data-workshop-part")) button.hidden = !visibleForStyle;
       const hidden = state.hiddenBlocks.includes(id);
       button.classList.toggle("active", !hidden && visibleForStyle);
@@ -1957,6 +2250,63 @@
     }
   }
 
+  function snapDraggedPosition(element, x, y, draggedHit) {
+    const rect = canvas.getBoundingClientRect();
+    const threshold = clamp(7 * canvas.width / Math.max(1, rect.width), 8, 40);
+    const halfW = draggedHit?.w ? draggedHit.w / 2 : draggedHit?.radius || 0;
+    const halfH = draggedHit?.h ? draggedHit.h / 2 : draggedHit?.radius || 0;
+    const verticalTargets = [
+      { value: canvas.width * .05, label: "安全边距" },
+      { value: canvas.width * .25, label: "四分线" },
+      { value: canvas.width * .50, label: "画布中心" },
+      { value: canvas.width * .75, label: "四分线" },
+      { value: canvas.width * .95, label: "安全边距" }
+    ];
+    const horizontalTargets = [
+      { value: canvas.height * .05, label: "安全边距" },
+      { value: canvas.height * .25, label: "四分线" },
+      { value: canvas.height * .50, label: "画布中心" },
+      { value: canvas.height * .75, label: "四分线" },
+      { value: canvas.height * .95, label: "安全边距" }
+    ];
+
+    interactiveHitAreas.forEach((area) => {
+      if (elementKey(area) === elementKey(element)) return;
+      const otherHalfW = area.w ? area.w / 2 : area.radius || 0;
+      const otherHalfH = area.h ? area.h / 2 : area.radius || 0;
+      verticalTargets.push({ value: area.x, label: "元素中心" });
+      horizontalTargets.push({ value: area.y, label: "元素中心" });
+      if (otherHalfW) {
+        verticalTargets.push({ value: area.x - otherHalfW, label: "边缘对齐" });
+        verticalTargets.push({ value: area.x + otherHalfW, label: "边缘对齐" });
+      }
+      if (otherHalfH) {
+        horizontalTargets.push({ value: area.y - otherHalfH, label: "边缘对齐" });
+        horizontalTargets.push({ value: area.y + otherHalfH, label: "边缘对齐" });
+      }
+    });
+
+    const findSnap = (position, halfSize, targets) => {
+      const probes = [{ value: position, offset: 0 }];
+      if (halfSize) probes.push({ value: position - halfSize, offset: -halfSize }, { value: position + halfSize, offset: halfSize });
+      let best = null;
+      probes.forEach((probe) => targets.forEach((target) => {
+        const distance = Math.abs(probe.value - target.value);
+        if (distance <= threshold && (!best || distance < best.distance)) best = { ...target, distance, position: target.value - probe.offset };
+      }));
+      return best;
+    };
+
+    const vertical = findSnap(x, halfW, verticalTargets);
+    const horizontal = findSnap(y, halfH, horizontalTargets);
+    return {
+      x: vertical ? vertical.position : x,
+      y: horizontal ? horizontal.position : y,
+      vertical: vertical ? [vertical] : [],
+      horizontal: horizontal ? [horizontal] : []
+    };
+  }
+
   function beginElementDrag(event) {
     const point = canvasPoint(event);
     const hit = [...interactiveHitAreas].reverse().find((area) => area.w && area.h
@@ -1965,7 +2315,14 @@
     if (!hit) return;
     event.preventDefault();
     activeElement = { kind: hit.kind, id: hit.id };
-    draggingElement = { pointerId: event.pointerId, element: { ...activeElement } };
+    draggingElement = {
+      pointerId: event.pointerId,
+      element: { ...activeElement },
+      hit: { ...hit },
+      offsetX: point.x - hit.x,
+      offsetY: point.y - hit.y
+    };
+    activeSmartGuides = { vertical: [], horizontal: [] };
     canvas.setPointerCapture?.(event.pointerId);
     canvas.classList.add("is-dragging");
     renderMaterials();
@@ -1976,16 +2333,32 @@
     if (!draggingElement || draggingElement.pointerId !== event.pointerId) return;
     event.preventDefault();
     const point = canvasPoint(event);
-    setElementPosition(draggingElement.element, point.x, point.y);
+    let x = point.x - draggingElement.offsetX;
+    let y = point.y - draggingElement.offsetY;
+    if (state.smartGuides) {
+      const snapped = snapDraggedPosition(draggingElement.element, x, y, draggingElement.hit);
+      x = snapped.x;
+      y = snapped.y;
+      activeSmartGuides = { vertical: snapped.vertical, horizontal: snapped.horizontal };
+      draggingElement.snapLabel = [...snapped.vertical, ...snapped.horizontal].map((guide) => guide.label).filter((label, index, labels) => labels.indexOf(label) === index).join(" + ");
+    } else {
+      activeSmartGuides = { vertical: [], horizontal: [] };
+      draggingElement.snapLabel = "";
+    }
+    setElementPosition(draggingElement.element, x, y);
     renderPreview();
   }
 
   function endElementDrag(event) {
     if (!draggingElement || draggingElement.pointerId !== event.pointerId) return;
+    const snapLabel = draggingElement.snapLabel;
     canvas.releasePointerCapture?.(event.pointerId);
     draggingElement = null;
+    activeSmartGuides = { vertical: [], horizontal: [] };
     canvas.classList.remove("is-dragging");
+    renderPreview();
     saveState();
+    if (snapLabel) showToast(`已吸附：${snapLabel}`);
   }
 
   function nudgeActiveElement(dx, dy) {
@@ -2012,8 +2385,118 @@
     scheduleRender();
   }
 
+  function captureWorkspace() {
+    const snapshot = {
+      format: state.format,
+      showGrain: Boolean(state.showGrain),
+      hiddenBlocks: [...(state.hiddenBlocks || [])],
+      blockTransforms: JSON.parse(JSON.stringify(state.blockTransforms || {})),
+      textStyles: JSON.parse(JSON.stringify(state.textStyles || {})),
+      decorations: [...(state.decorations || [])],
+      materialTransforms: JSON.parse(JSON.stringify(state.materialTransforms || {})),
+      emojiStickers: JSON.parse(JSON.stringify(state.emojiStickers || [])),
+      materialScale: Number(state.materialScale) || 100,
+      workshopCourses: (state.workshopCourses || []).map((course) => ({ ...course }))
+    };
+    TEXT_BLOCK_IDS.forEach((key) => { snapshot[key] = state[key]; });
+    return snapshot;
+  }
+
+  function createTeacherWorkspace() {
+    return {
+      ...TEACHER_WORKSHOP_DEFAULTS,
+      format: "story",
+      showGrain: false,
+      hiddenBlocks: [],
+      blockTransforms: {},
+      textStyles: {},
+      decorations: [],
+      materialTransforms: {},
+      emojiStickers: [],
+      materialScale: 100,
+      workshopCourses: TEACHER_WORKSHOP_COURSES.map((course) => ({ ...course }))
+    };
+  }
+
+  function createNeonDoodleWorkspace() {
+    return {
+      ...NEON_DOODLE_DEFAULTS,
+      format: "poster",
+      showGrain: false,
+      hiddenBlocks: ["visual", "date", "time", "venue", "qr"],
+      blockTransforms: {},
+      textStyles: {},
+      decorations: ["neon-blob", "charcoal-flower", "charcoal-brush", "neon-loop", "contour-line"],
+      materialTransforms: {
+        "neon-blob": { x: .64, y: .43, scale: 1.45 },
+        "charcoal-flower": { x: .77, y: .35, scale: 1.04 },
+        "charcoal-brush": { x: .82, y: .72, scale: 1.42 },
+        "neon-loop": { x: .57, y: .79, scale: 1.12 },
+        "contour-line": { x: .72, y: .52, scale: .86 }
+      },
+      emojiStickers: [],
+      materialScale: 100,
+      workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course }))
+    };
+  }
+
+  function applyWorkspace(snapshot) {
+    if (!snapshot) return;
+    TEXT_BLOCK_IDS.forEach((key) => {
+      if (key in snapshot) state[key] = snapshot[key];
+    });
+    state.format = snapshot.format || state.format;
+    state.showGrain = Boolean(snapshot.showGrain);
+    state.hiddenBlocks = [...(snapshot.hiddenBlocks || [])];
+    state.blockTransforms = JSON.parse(JSON.stringify(snapshot.blockTransforms || {}));
+    state.textStyles = JSON.parse(JSON.stringify(snapshot.textStyles || {}));
+    state.decorations = [...(snapshot.decorations || [])];
+    state.materialTransforms = JSON.parse(JSON.stringify(snapshot.materialTransforms || {}));
+    state.emojiStickers = JSON.parse(JSON.stringify(snapshot.emojiStickers || []));
+    state.materialScale = Number(snapshot.materialScale) || 100;
+    state.workshopCourses = (snapshot.workshopCourses || DEFAULT_COURSES).map((course) => ({ ...course }));
+  }
+
+  function syncWorkspaceFields() {
+    $$('[data-field]').forEach((field) => {
+      const key = field.dataset.field;
+      if (!(key in state)) return;
+      if (field.type === "checkbox") field.checked = Boolean(state[key]);
+      else field.value = state[key];
+    });
+    updateAllCounts();
+    renderWorkshopCourses();
+    updateTypographyEditor();
+  }
+
   function selectStyle(style, applyPalette = true) {
+    const previousStyle = state.style;
+    if (previousStyle === "teacher-workshop" && style !== "teacher-workshop") {
+      state.teacherWorkshopDraft = captureWorkspace();
+      const returnWorkspace = state.teacherWorkshopReturn;
+      if (returnWorkspace) applyWorkspace(returnWorkspace);
+      state.teacherWorkshopReturn = null;
+    }
+    if (previousStyle === "neon-doodle" && style !== "neon-doodle") {
+      state.neonDoodleDraft = captureWorkspace();
+      const returnWorkspace = state.neonDoodleReturn;
+      if (returnWorkspace) applyWorkspace(returnWorkspace);
+      state.neonDoodleReturn = null;
+    }
+    if (previousStyle !== "teacher-workshop" && style === "teacher-workshop") {
+      state.teacherWorkshopReturn = captureWorkspace();
+      applyWorkspace(state.teacherWorkshopDraft || createTeacherWorkspace());
+      state.format = "story";
+      zoomMultiplier = 1;
+    }
+    if (previousStyle !== "neon-doodle" && style === "neon-doodle") {
+      state.neonDoodleReturn = captureWorkspace();
+      applyWorkspace(state.neonDoodleDraft || createNeonDoodleWorkspace());
+      state.format = "poster";
+      zoomMultiplier = 1;
+    }
     state.style = style;
+    if (previousStyle !== style) syncWorkspaceFields();
     if (applyPalette) {
       state.accent = STYLE_DEFAULTS[style].accent;
       state.background = STYLE_DEFAULTS[style].background;
@@ -2027,7 +2510,7 @@
       card.setAttribute("aria-checked", String(selected));
     });
     toggleWorkshopSection();
-    if (activeElement?.kind === "block" && activeElement.id === "courses" && style !== "workshop") activeElement = null;
+    if (activeElement?.kind === "block" && activeElement.id === "courses" && style !== "teacher-workshop") activeElement = null;
     renderMaterials();
     state.seed = Math.floor(Math.random() * 99999);
     scheduleRender();
@@ -2063,6 +2546,7 @@
     activeElement = null;
     interactiveHitAreas = [];
     draggingElement = null;
+    activeSmartGuides = { vertical: [], horizontal: [] };
     draggingAssetIndex = null;
     draggingAssetPointer = null;
     zoomMultiplier = 1;

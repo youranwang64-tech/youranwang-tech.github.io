@@ -118,6 +118,18 @@
                 <span class="style-meta"><b>工坊拼豆</b><small>拼豆主视觉 / emoji / QR</small></span>
                 <span class="style-check">✓</span>
               </button>
+
+              <button class="style-card" data-style="teacher-workshop" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-teacher-workshop"><b>工坊&nbsp; 👀 &nbsp;Tour</b><i>2026春季</i><em>! &nbsp;! &nbsp;! &nbsp;! &nbsp;?</em></span>
+                <span class="style-meta"><b>老师工坊课程表</b><small>第 12 款 / 1:1 复刻 / 9:16</small></span>
+                <span class="style-check">✓</span>
+              </button>
+
+              <button class="style-card" data-style="neon-doodle" role="radio" aria-checked="false" type="button">
+                <span class="style-preview preview-neon-doodle"><b>DON'T KNOW<br>WHERE TO START?</b><strong>WE CAN<br>HELP.</strong><i></i><em></em></span>
+                <span class="style-meta"><b>荧光炭笔海报</b><small>第 13 款 / 手绘营销 / 经典 3:4</small></span>
+                <span class="style-check">✓</span>
+              </button>
             </div>
           </section>
 
@@ -189,6 +201,7 @@
                 <button type="button" data-block="date">日期</button><button type="button" data-block="time">时间</button>
                 <button type="button" data-block="venue">地点</button><button type="button" data-block="body">简介</button>
                 <button type="button" data-block="organizer">署名</button><button type="button" data-block="qr">二维码</button>
+                <button type="button" data-block="courses" data-workshop-part hidden>课程区</button>
               </div>
             </div>
 
@@ -259,6 +272,12 @@
                 <button class="material-card" type="button" data-material="target" aria-pressed="false"><i class="material-preview preview-target"></i><span>靶心</span></button>
                 <button class="material-card" type="button" data-material="confetti" aria-pressed="false"><i class="material-preview preview-confetti"></i><span>碎纸</span></button>
                 <button class="material-card" type="button" data-material="gradient-orb" aria-pressed="false"><i class="material-preview preview-orb"></i><span>渐变球</span></button>
+                <button class="material-card" type="button" data-material="neon-brush" aria-pressed="false"><i class="material-preview preview-neon-brush"></i><span>荧光平刷</span></button>
+                <button class="material-card" type="button" data-material="neon-blob" aria-pressed="false"><i class="material-preview preview-neon-blob"></i><span>荧光云团</span></button>
+                <button class="material-card" type="button" data-material="charcoal-brush" aria-pressed="false"><i class="material-preview preview-charcoal-brush"></i><span>黑色炭笔</span></button>
+                <button class="material-card" type="button" data-material="charcoal-flower" aria-pressed="false"><i class="material-preview preview-charcoal-flower"></i><span>炭笔花瓣</span></button>
+                <button class="material-card" type="button" data-material="neon-loop" aria-pressed="false"><i class="material-preview preview-neon-loop"></i><span>荧光弹簧线</span></button>
+                <button class="material-card" type="button" data-material="contour-line" aria-pressed="false"><i class="material-preview preview-contour-line"></i><span>自由轮廓线</span></button>
               </div>
               <div class="material-scale-row">
                 <label for="material-scale">整体尺寸</label>
@@ -309,13 +328,13 @@
 
           <section class="panel-section workshop-section" id="workshop-section" hidden>
             <div class="section-heading">
-              <div><span class="step-no">W</span><h2>工坊拼豆主视觉</h2></div>
+              <div><span class="step-no">W</span><h2 id="workshop-heading">工坊拼豆主视觉</h2></div>
               <button class="text-button" id="add-course-btn" type="button" hidden>＋ 添加课程</button>
             </div>
 
             <div class="course-list" id="course-list" hidden></div>
 
-            <div class="field-row workshop-pattern-row">
+            <div class="field-row workshop-pattern-row" id="workshop-pattern-row">
               <div class="field-group">
                 <label for="motif-preset">拼豆图案</label>
                 <select id="motif-preset" data-field="motifPreset">
@@ -332,7 +351,7 @@
               </div>
             </div>
 
-            <label class="qr-upload" for="qr-upload">
+            <label class="qr-upload" id="workshop-qr-upload" for="qr-upload">
               <input id="qr-upload" type="file" accept="image/png,image/jpeg,image/webp" hidden />
               <span id="qr-preview">QR</span>
               <span><b>上传二维码</b><small>会放在拼豆主视觉右下方；不上传则显示装饰码。</small></span>
@@ -373,6 +392,7 @@
             </div>
 
             <div class="toggle-row">
+              <label class="toggle-label" for="smart-guides"><span><b>智能参考线与吸附</b><small>拖动时显示中心、边距及元素对齐线</small></span><span class="switch"><input id="smart-guides" data-field="smartGuides" type="checkbox" checked /><i></i></span></label>
               <label class="toggle-label" for="show-grid"><span><b>显示辅助网格</b><small>仅部分风格可见</small></span><span class="switch"><input id="show-grid" data-field="showGrid" type="checkbox" checked /><i></i></span></label>
               <label class="toggle-label" for="show-grain"><span><b>纸张颗粒</b><small>需要时再增加印刷质感</small></span><span class="switch"><input id="show-grain" data-field="showGrain" type="checkbox" /><i></i></span></label>
             </div>

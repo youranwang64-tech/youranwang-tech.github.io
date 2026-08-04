@@ -316,6 +316,22 @@ svg {
 .preview-workshop em { position: absolute; right: 8px; bottom: 7px; font-style: normal; font-size: 13px; letter-spacing: -2px; }
 .preview-workshop:after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 8px; height: 18px; background: repeating-linear-gradient(90deg, #ff6a00 0 8px, transparent 8px 11px); opacity: .75; }
 
+.preview-teacher-workshop { background: #fff; color: #050505; border: 1px solid #ecebe6; }
+.preview-teacher-workshop b { top: 9px; left: 50%; width: 100%; transform: translateX(-50%); text-align: center; font-size: 15px; white-space: nowrap; letter-spacing: -.6px; }
+.preview-teacher-workshop i { position: absolute; top: 29px; left: 50%; transform: translateX(-50%); font: 800 7px Arial, "Microsoft YaHei", sans-serif; white-space: nowrap; }
+.preview-teacher-workshop:before,
+.preview-teacher-workshop:after { content: ""; position: absolute; top: 41px; width: 39px; height: 21px; background: repeating-linear-gradient(#0c0c0c 0 2px, transparent 2px 6px); opacity: .82; }
+.preview-teacher-workshop:before { left: 8px; }
+.preview-teacher-workshop:after { right: 8px; }
+.preview-teacher-workshop em { position: absolute; left: 0; right: 0; bottom: 5px; color: #eb3561; text-align: center; font: 900 12px Arial, sans-serif; font-style: normal; }
+
+.preview-neon-doodle { background: #fff; color: #171717; border: 1px solid #ecebe6; }
+.preview-neon-doodle b { left: 8px; top: 7px; z-index: 2; font: 900 10px/.94 Arial,sans-serif; color: #fff; -webkit-text-stroke: .7px #191919; letter-spacing: -.45px; }
+.preview-neon-doodle strong { position: absolute; left: 8px; top: 29px; z-index: 3; font: 900 15px/.84 Arial,sans-serif; letter-spacing: -.8px; }
+.preview-neon-doodle i { position: absolute; right: 7px; top: 20px; width: 63px; height: 40px; background: #2dff00; border-radius: 48% 52% 56% 44%; transform: rotate(-11deg); }
+.preview-neon-doodle i:after { content: ""; position: absolute; width: 46px; height: 38px; right: -8px; bottom: -22px; background: repeating-linear-gradient(165deg,rgba(20,20,20,.88) 0 3px,rgba(20,20,20,.24) 3px 6px,transparent 6px 8px); transform: rotate(13deg); }
+.preview-neon-doodle em { position: absolute; z-index: 4; left: 43px; bottom: 5px; width: 56px; height: 30px; border: 2px solid #2dff00; border-color: #2dff00 transparent #2dff00 #2dff00; border-radius: 50%; transform: rotate(-19deg); }
+
 .field-group { display: grid; gap: 7px; margin-bottom: 16px; min-width: 0; }
 .field-group:last-child { margin-bottom: 0; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
@@ -439,6 +455,15 @@ input:focus, textarea:focus, select:focus { background: #fff; border-color: var(
 .preview-target:after { width: 9px; height: 9px; left: 10.5px; top: 7.5px; }
 .preview-confetti { background: linear-gradient(25deg,transparent 17%,#ff6457 18% 24%,transparent 25% 45%,#4365f2 46% 53%,transparent 54%),linear-gradient(145deg,transparent 15%,#f3c72f 16% 22%,transparent 23% 64%,#e94f8a 65% 72%,transparent 73%); }
 .preview-orb:before { content: ""; position: absolute; width: 23px; height: 23px; left: 4px; top: 1px; border-radius: 50%; background: radial-gradient(circle at 30% 25%,#fff 0 4%,#ffcaef 18%,#8d70ff 55%,#2677eb 100%); }
+.preview-neon-brush:before { content: ""; position: absolute; width: 30px; height: 15px; left: 0; top: 5px; background: #2dff00; transform: rotate(-8deg); clip-path: polygon(0 24%,8% 6%,17% 21%,27% 0,38% 14%,52% 2%,65% 18%,78% 4%,100% 22%,94% 84%,80% 71%,68% 95%,54% 78%,41% 100%,29% 80%,15% 96%,3% 72%); }
+.preview-neon-blob:before,.preview-neon-blob:after { content: ""; position: absolute; background: #2dff00; border-radius: 55% 45% 49% 51%; transform: rotate(18deg); }
+.preview-neon-blob:before { width: 27px; height: 18px; left: 1px; top: 3px; }
+.preview-neon-blob:after { width: 18px; height: 15px; left: 10px; top: 8px; transform: rotate(-22deg); }
+.preview-charcoal-brush { background: repeating-linear-gradient(170deg,transparent 0 3px,rgba(22,22,22,.88) 3px 5px,transparent 5px 7px); transform: rotate(-4deg); }
+.preview-charcoal-brush:after { content: ""; position: absolute; inset: 6px 1px 5px; background: rgba(18,18,18,.7); filter: blur(.35px); }
+.preview-charcoal-flower:before { content: "✤"; position: absolute; inset: -5px 0 0; color: #202020; font-size: 31px; line-height: 30px; text-align: center; transform: rotate(-14deg); }
+.preview-neon-loop:before { content: "〰〰"; position: absolute; left: -2px; top: -4px; color: #23f500; font: 900 28px/28px Arial,sans-serif; letter-spacing: -9px; transform: rotate(-9deg); }
+.preview-contour-line:before { content: "∿∿"; position: absolute; left: -2px; top: -5px; color: #242424; font: 400 31px/31px Georgia,serif; letter-spacing: -8px; transform: rotate(18deg); }
 .material-scale-row { display: grid; grid-template-columns: auto 1fr 34px; gap: 8px; align-items: center; margin-top: 10px; }
 .material-scale-row label,.material-scale-row output { font-size: 8px; color: #85837d; }
 .material-scale-row output { text-align: right; font-variant-numeric: tabular-nums; }
@@ -463,6 +488,7 @@ input:focus, textarea:focus, select:focus { background: #fff; border-color: var(
 .workshop-section[hidden] { display: none; }
 .course-list { display: grid; gap: 8px; margin-bottom: 16px; }
 .course-list[hidden] { display: none; }
+.workshop-pattern-row[hidden], .qr-upload[hidden] { display: none; }
 .course-item { border: 1px solid var(--line); border-radius: 9px; background: #fafaf7; padding: 9px; display: grid; grid-template-columns: 30px minmax(0, 1fr) 24px; gap: 8px; align-items: start; }
 .course-index { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 6px; background: var(--accent-soft); color: #5f50e5; font-size: 9px; font-weight: 900; }
 .course-fields { min-width: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
