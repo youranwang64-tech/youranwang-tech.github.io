@@ -347,6 +347,58 @@ svg {
 .preview-teacher-workshop:after { right: 8px; }
 .preview-teacher-workshop em { position: absolute; left: 0; right: 0; bottom: 5px; color: #eb3561; text-align: center; font: 900 12px Arial, sans-serif; font-style: normal; }
 
+/* 10 款展览海报参考缩略图。限定在风格卡片内，避免与“网格片”素材同名样式冲突。 */
+.style-preview.preview-white-studio,
+.style-preview.preview-grid,
+.style-preview.preview-electric,
+.style-preview.preview-swiss,
+.style-preview.preview-editorial,
+.style-preview.preview-collage,
+.style-preview.preview-quiet,
+.style-preview.preview-layout-lab,
+.style-preview.preview-art-blue,
+.style-preview.preview-atlas {
+  width: auto;
+  height: 82px;
+  margin-top: 0;
+  margin-bottom: 9px;
+  background-color: #f4f3ef;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-color: #d8d6d0;
+}
+.style-preview.preview-white-studio::before,
+.style-preview.preview-white-studio::after,
+.style-preview.preview-grid::before,
+.style-preview.preview-grid::after,
+.style-preview.preview-electric::before,
+.style-preview.preview-electric::after,
+.style-preview.preview-swiss::before,
+.style-preview.preview-swiss::after,
+.style-preview.preview-editorial::before,
+.style-preview.preview-editorial::after,
+.style-preview.preview-collage::before,
+.style-preview.preview-collage::after,
+.style-preview.preview-quiet::before,
+.style-preview.preview-quiet::after,
+.style-preview.preview-layout-lab::before,
+.style-preview.preview-layout-lab::after,
+.style-preview.preview-art-blue::before,
+.style-preview.preview-art-blue::after,
+.style-preview.preview-atlas::before,
+.style-preview.preview-atlas::after { display: none !important; content: none !important; }
+.style-preview.preview-white-studio { background-image: url("assets/psd-reference/01-作为意志与表象的世界.jpg"); }
+.style-preview.preview-grid { background-image: url("assets/psd-reference/02-宇宙与荒原.jpg"); }
+.style-preview.preview-electric { background-image: url("assets/psd-reference/03-城市旷野2.jpg"); }
+.style-preview.preview-swiss { background-image: url("assets/psd-reference/04-过家家.jpg"); }
+.style-preview.preview-editorial { background-image: url("assets/psd-reference/05-苏联电影展.jpg"); }
+.style-preview.preview-collage { background-image: url("assets/psd-reference/06-感觉的潮汐.jpg"); }
+.style-preview.preview-quiet { background-image: url("assets/psd-reference/07-咖啡咖.jpg"); }
+.style-preview.preview-layout-lab { background-image: url("assets/psd-reference/08-诗转场.jpg"); }
+.style-preview.preview-art-blue { background-image: url("assets/psd-reference/09-落日贩卖机.jpg"); }
+.style-preview.preview-atlas { background-image: url("assets/psd-reference/10-枷鎖女性.jpg"); }
+
 .preview-neon-doodle { background: #fff; color: #171717; border: 1px solid #ecebe6; }
 .preview-neon-doodle b { left: 8px; top: 7px; z-index: 2; font: 900 10px/.94 Arial,sans-serif; color: #fff; -webkit-text-stroke: .7px #191919; letter-spacing: -.45px; }
 .preview-neon-doodle strong { position: absolute; left: 8px; top: 29px; z-index: 3; font: 900 15px/.84 Arial,sans-serif; letter-spacing: -.8px; }

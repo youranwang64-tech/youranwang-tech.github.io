@@ -19,39 +19,36 @@
   };
 
   const STYLE_DEFAULTS = {
-    "white-studio": { accent: "#5f55e7", background: "#ffffff" },
-    "ici-grid": { accent: "#7d6bff", background: "#f1f0ea" },
-    "ici-electric": { accent: "#9d39ff", background: "#425df5" },
-    swiss: { accent: "#0f62fe", background: "#f4f4f4" },
-    editorial: { accent: "#ff3b30", background: "#f5f5f0" },
-    collage: { accent: "#cdff64", background: "#121212" },
-    quiet: { accent: "#0071e3", background: "#f5f5f7" },
-    "layout-lab": { accent: "#0f62fe", background: "#ffffff" },
-    "art-blue": { accent: "#1568d4", background: "#e8e9ea" },
-    "composition-atlas": { accent: "#9da397", background: "#fbfaf6" },
-    workshop: { accent: "#ff6a00", background: "#fff8eb" },
+    "white-studio": { accent: "#f0527e", background: "#fbfbfb" },
+    "ici-grid": { accent: "#f2f2f2", background: "#090909" },
+    "ici-electric": { accent: "#155dff", background: "#f5f5f3" },
+    swiss: { accent: "#38a99f", background: "#3fb6c6" },
+    editorial: { accent: "#161616", background: "#eee6d5" },
+    collage: { accent: "#151515", background: "#b8b6b7" },
+    quiet: { accent: "#171717", background: "#b6b4b5" },
+    "layout-lab": { accent: "#087ee8", background: "#d7dceb" },
+    "art-blue": { accent: "#f05b31", background: "#eeeae7" },
+    "composition-atlas": { accent: "#087ed5", background: "#e8e8e6" },
     "teacher-workshop": { accent: "#ed315f", background: "#ffffff" },
-    "neon-doodle": { accent: "#2dff00", background: "#ffffff" }
   };
 
   const TEMPLATE_POLICIES = {
-    "white-studio": { purpose: "通用活动 / 课程发布", scope: "固定 3:4 构图；开放文字内容、主图与补充文本框。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer", "qr"] },
-    "ici-grid": { purpose: "ICI 学院展览 / 设计季", scope: "保留 ICI 工程网格系统；开放全部活动信息与主图。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer", "qr"] },
-    "ici-electric": { purpose: "ICI 高能活动 / 开幕现场", scope: "保留电光流体主视觉；开放活动信息与补充文本框。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer"] },
-    swiss: { purpose: "科技论坛 / 系统发布 / 研究报告", scope: "IBM 系统设计启发；锁定 2× 网格、蓝黑配色与信息层级。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
-    editorial: { purpose: "人物故事 / 嘉宾宣言 / 品牌观点", scope: "Apple 人物传播启发；锁定人物主图、左侧宣言与克制红色签名线。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
-    collage: { purpose: "年度回顾 / 音乐活动 / 数据总结", scope: "Spotify Wrapped 启发；锁定深色底、高能色带与年度主视觉。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "body", "organizer"] },
-    quiet: { purpose: "产品发布 / 单品介绍 / 新品预告", scope: "Apple 产品传播启发；锁定居中单品、大留白与极简信息。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "organizer"] },
-    "layout-lab": { purpose: "学术讲座 / Town Hall / 论坛议程", scope: "IBM Town Hall 海报启发；锁定双栏双行网格与蓝色信息区。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
-    "art-blue": { purpose: "艺术展讯 / 开幕信息", scope: "固定蓝灰信息流与荧光绿时间栏；开放展讯文字和主图。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer"] },
-    "composition-atlas": { purpose: "研究展览 / 构图课程 / 作品集", scope: "固定米白纸张与有机灰形；开放展览信息和主图。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
-    workshop: { purpose: "工坊开放日 / 拼豆活动", scope: "保留拼豆主视觉和二维码区域；开放图案、课程信息与主图。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer", "qr"] },
+    "white-studio": { purpose: "01 · 当代艺术群展 / 参展名单", scope: "参考《作为意志与表象的世界》；固定散点文字、彩色坐标和右侧大标题。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
+    "ici-grid": { purpose: "02 · 摄影展 / 科技艺术展", scope: "参考《宇宙与荒原》；固定黑底网格、超大标题和球形主视觉。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer"] },
+    "ici-electric": { purpose: "03 · 音乐节 / 青年文化活动", scope: "参考《城市旷野》；固定蓝色雾化场、细衬线标题和四周竖排文字。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "organizer"] },
+    swiss: { purpose: "04 · 生活方式展 / 亲子活动", scope: "参考《过家家》；固定室内拼贴、棋盘地面和红粉色块。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "organizer"] },
+    editorial: { purpose: "05 · 电影展 / 影像放映", scope: "参考《苏联电影展》；固定新闻纸底、像素文字、椭圆圈注和片单信息。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer"] },
+    collage: { purpose: "06 · 装置展 / 材料实验", scope: "参考《感觉的潮汐》；固定银灰底、黑色巨圆和液态主视觉。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "organizer"] },
+    quiet: { purpose: "07 · 市集 / 咖啡文化活动", scope: "参考《咖啡咖》；固定灰棕圆环、黑色杯形圆和纵横文字。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
+    "layout-lab": { purpose: "08 · 诗歌展 / 文学活动", scope: "参考《诗转场》；固定蓝色渐变球、超细标题与紧凑参展信息。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "body", "organizer"] },
+    "art-blue": { purpose: "09 · 夜间活动 / 快闪展", scope: "参考《落日贩卖机》；固定红蓝光带、中央标题与极简底部信息。", format: "poster", blocks: ["kicker", "title", "subtitle", "date", "venue", "organizer"] },
+    "composition-atlas": { purpose: "10 · 女性主题展 / 雕塑展", scope: "参考《枷锁女性》；固定冷灰柱廊、中央雕塑和蓝色粗粝标题。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "body", "organizer"] },
     "teacher-workshop": { purpose: "老师工坊课程表", scope: "保留老师原稿 9:16 比例、四组课程与底部署名。", format: "story", blocks: ["title", "date", "courses", "organizer"] },
-    "neon-doodle": { purpose: "创意招募 / 营销支持 / 服务介绍", scope: "固定纯白、空心标题与荧光绿主视觉；开放文案和补充文本框。", format: "poster", blocks: ["kicker", "title", "subtitle", "body", "organizer"] }
   };
 
-  const REDESIGNED_PRODUCTION_STYLES = new Set(["swiss", "editorial", "collage", "quiet", "layout-lab"]);
-  const GENERATED_VISUAL_STYLES = new Set(["ici-electric", "workshop", ...REDESIGNED_PRODUCTION_STYLES]);
+  const ACTIVE_STYLE_IDS = ["white-studio", "ici-grid", "ici-electric", "swiss", "editorial", "collage", "quiet", "layout-lab", "art-blue", "composition-atlas", "teacher-workshop"];
+  const REDESIGNED_PRODUCTION_STYLES = new Set(ACTIVE_STYLE_IDS.filter((style) => style !== "teacher-workshop"));
+  const GENERATED_VISUAL_STYLES = new Set(REDESIGNED_PRODUCTION_STYLES);
   const CONTENT_FIELD_IDS = ["kicker", "title", "subtitle", "date", "time", "venue", "body", "organizer"];
 
   const MATERIAL_LABELS = {
@@ -173,6 +170,7 @@
     blockTransforms: {},
     textStyles: {},
     hiddenBlocks: [],
+    styleDrafts: {},
     materialScale: 100,
     motifPreset: "01",
     motifEmoji: "👀",
@@ -183,7 +181,7 @@
     neonDoodleReturn: null,
     neonDoodleVersion: 4,
     materialSchemaVersion: 2,
-    productionSystemVersion: 1,
+    productionSystemVersion: 2,
     seed: 48271
   };
 
@@ -265,16 +263,65 @@
     return (state.extraTextBoxes || []).find((box) => box.id === id) || null;
   }
 
+  function createStyleDraft(source, style) {
+    const policy = TEMPLATE_POLICIES[style] || TEMPLATE_POLICIES["white-studio"];
+    const defaults = STYLE_DEFAULTS[style] || STYLE_DEFAULTS["white-studio"];
+    const materialWorkspace = normalizeMaterialWorkspace({
+      decorations: JSON.parse(JSON.stringify(source?.decorations || [])),
+      materialTransforms: JSON.parse(JSON.stringify(source?.materialTransforms || {}))
+    });
+    return {
+      format: source?.format || policy.format,
+      accent: typeof source?.accent === "string" ? source.accent : defaults.accent,
+      background: typeof source?.background === "string" ? source.background : defaults.background,
+      showGrain: Boolean(source?.showGrain),
+      hiddenBlocks: [...(Array.isArray(source?.hiddenBlocks) ? source.hiddenBlocks : [])],
+      blockTransforms: JSON.parse(JSON.stringify(source?.blockTransforms || {})),
+      textStyles: JSON.parse(JSON.stringify(source?.textStyles || {})),
+      decorations: materialWorkspace.decorations,
+      materialTransforms: materialWorkspace.materialTransforms,
+      emojiStickers: JSON.parse(JSON.stringify(Array.isArray(source?.emojiStickers) ? source.emojiStickers : [])),
+      extraTextBoxes: normalizeExtraTextBoxes(source?.extraTextBoxes),
+      materialScale: clamp(Number(source?.materialScale) || 100, 40, 280),
+      motifPreset: String(source?.motifPreset || "01"),
+      motifEmoji: String(source?.motifEmoji || "👀")
+    };
+  }
+
+  function saveStyleDraft(style) {
+    if (!ACTIVE_STYLE_IDS.includes(style) || style === "teacher-workshop") return;
+    state.styleDrafts = { ...(state.styleDrafts || {}), [style]: createStyleDraft(state, style) };
+  }
+
+  function applyStyleDraft(style, draft) {
+    const normalized = createStyleDraft(draft || {}, style);
+    state.format = normalized.format;
+    state.accent = normalized.accent;
+    state.background = normalized.background;
+    state.showGrain = normalized.showGrain;
+    state.hiddenBlocks = normalized.hiddenBlocks;
+    state.blockTransforms = normalized.blockTransforms;
+    state.textStyles = normalized.textStyles;
+    state.decorations = normalized.decorations;
+    state.materialTransforms = normalized.materialTransforms;
+    state.emojiStickers = normalized.emojiStickers;
+    state.extraTextBoxes = normalized.extraTextBoxes;
+    state.materialScale = normalized.materialScale;
+    state.motifPreset = normalized.motifPreset;
+    state.motifEmoji = normalized.motifEmoji;
+  }
+
   function elementCanBeEdited(element) {
     return Boolean(element) && (state.editorMode === "free" || element.kind === "extra-text");
   }
 
   function loadState() {
-    const fresh = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
+    const fresh = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], styleDrafts: {}, workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
     try {
       const saved = JSON.parse(localStorage.getItem("form01-poster-state") || "null");
       if (!saved) return fresh;
       const merged = { ...fresh, ...saved };
+      if (!ACTIVE_STYLE_IDS.includes(merged.style)) merged.style = "white-studio";
       if (merged.kicker === "ICI DESIGN SEASON · 2026") merged.kicker = "ICI RP";
       if (merged.venue === "厦门 · 海上世界文化艺术中心") merged.venue = "厦门大学创意与创新学院204";
       if (!Array.isArray(merged.decorations)) merged.decorations = [];
@@ -285,13 +332,6 @@
       if (!merged.blockTransforms || typeof merged.blockTransforms !== "object") merged.blockTransforms = {};
       if (!merged.textStyles || typeof merged.textStyles !== "object") merged.textStyles = {};
       if (!Array.isArray(merged.hiddenBlocks)) merged.hiddenBlocks = [];
-      if (saved.neonDoodleVersion !== 4) {
-        const returnWorkspace = saved.neonDoodleReturn || null;
-        merged.neonDoodleDraft = null;
-        merged.neonDoodleReturn = returnWorkspace;
-        if (merged.style === "neon-doodle") Object.assign(merged, createNeonDoodleWorkspace());
-        merged.neonDoodleVersion = 4;
-      }
       normalizeMaterialWorkspace(merged);
       ["teacherWorkshopDraft", "teacherWorkshopReturn", "neonDoodleDraft", "neonDoodleReturn"].forEach((key) => {
         if (merged[key]) {
@@ -299,7 +339,15 @@
           merged[key].extraTextBoxes = normalizeExtraTextBoxes(merged[key].extraTextBoxes);
         }
       });
-      merged.productionSystemVersion = 1;
+      const savedDrafts = merged.styleDrafts && typeof merged.styleDrafts === "object" ? merged.styleDrafts : {};
+      merged.styleDrafts = {};
+      Object.entries(savedDrafts).forEach(([style, draft]) => {
+        if (ACTIVE_STYLE_IDS.includes(style) && style !== "teacher-workshop") merged.styleDrafts[style] = createStyleDraft(draft, style);
+      });
+      if (saved.productionSystemVersion !== 2 && merged.style !== "teacher-workshop") {
+        merged.styleDrafts[merged.style] = createStyleDraft(merged, merged.style);
+      }
+      merged.productionSystemVersion = 2;
       return merged;
     } catch {
       return fresh;
@@ -799,7 +847,8 @@
   function drawExtraTextBoxes(c, data, W, H) {
     const unit = W / 1080;
     const theme = getFlatTheme(data);
-    data.extraTextBoxes.slice(0, 8).forEach((box) => {
+    const visibleLimit = data.editorMode === "free" ? 8 : 3;
+    data.extraTextBoxes.slice(0, visibleLimit).forEach((box) => {
       const preset = box.preset || "caption";
       const scale = clamp(Number(box.scale) || 1, .4, 2.8);
       const rotation = clamp(Number(box.rotation) || 0, -180, 180) * Math.PI / 180;
@@ -848,17 +897,16 @@
 
   function getFlatTheme(data) {
     const themes = {
-      "white-studio": { bg: "#ffffff", ink: "#11110f", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 88, visual: "plain" },
-      "ici-grid": { bg: data.background, ink: "#151515", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 94, visual: "ICI" },
-      "ici-electric": { bg: data.background, ink: "#ffffff", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 132, visual: "electric" },
-      swiss: { bg: "#f4f4f4", ink: "#161616", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 98, visual: "systems" },
-      editorial: { bg: "#f5f5f0", ink: "#151515", titleFont: 'Georgia, "Songti SC", serif', titleWeight: 500, titleSize: 78, visual: "portrait" },
-      collage: { bg: "#121212", ink: "#ffffff", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 102, visual: "wrapped" },
-      quiet: { bg: "#f5f5f7", ink: "#1d1d1f", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 800, titleSize: 72, visual: "product" },
-      "layout-lab": { bg: "#ffffff", ink: "#161616", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 88, visual: "townhall" },
-      "art-blue": { bg: "#f4f4f2", ink: "#125fc6", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 90, visual: "blue" },
-      "composition-atlas": { bg: "#fbfaf6", ink: "#171714", titleFont: 'Georgia, "Songti SC", serif', titleWeight: 500, titleSize: 79, visual: "atlas" },
-      workshop: { bg: data.background, ink: "#151513", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 82, visual: "workshop" },
+      "white-studio": { bg: data.background, ink: "#11110f", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 500, titleSize: 82, visual: "will" },
+      "ici-grid": { bg: data.background, ink: "#f1f1f1", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 86, visual: "cosmos" },
+      "ici-electric": { bg: data.background, ink: "#11110f", titleFont: 'Georgia, "Songti SC", serif', titleWeight: 400, titleSize: 108, visual: "blue-mist" },
+      swiss: { bg: data.background, ink: "#11110f", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 100, visual: "playhouse" },
+      editorial: { bg: data.background, ink: "#11110f", titleFont: '"Courier New", "Microsoft YaHei", monospace', titleWeight: 700, titleSize: 84, visual: "soviet" },
+      collage: { bg: data.background, ink: "#11110f", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 76, visual: "tide" },
+      quiet: { bg: data.background, ink: "#11110f", titleFont: '"Arial Narrow", "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 112, visual: "coffee" },
+      "layout-lab": { bg: data.background, ink: "#11110f", titleFont: '"Arial Narrow", Georgia, "Songti SC", serif', titleWeight: 300, titleSize: 90, visual: "poem" },
+      "art-blue": { bg: data.background, ink: "#ffffff", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 600, titleSize: 78, visual: "sunset" },
+      "composition-atlas": { bg: data.background, ink: "#087ed5", titleFont: 'Georgia, "Songti SC", serif', titleWeight: 700, titleSize: 94, visual: "chains" },
       "teacher-workshop": { bg: "#ffffff", ink: "#050505", titleFont: 'Arial, "Microsoft YaHei", "PingFang SC", sans-serif', titleWeight: 900, titleSize: 102, visual: "plain" },
       "neon-doodle": { bg: "#ffffff", ink: "#171717", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 76, visual: "plain" }
     };
@@ -879,17 +927,16 @@
       qr: { x: .91, y: .075, w: .075, h: .065 }
     };
     const layouts = {
-      "white-studio": { visual: { x: .62, y: .46, w: .58, h: .42 }, title: { x: .24, y: .16, w: .42, h: .15 }, body: { x: .72, y: .78, w: .41, h: .12, align: "right" } },
-      "ici-grid": {},
-      "ici-electric": { kicker: { x: .22, y: .07, w: .38, h: .04 }, title: { x: .34, y: .22, w: .62, h: .24 }, subtitle: { x: .76, y: .34, w: .38, h: .05, align: "right" }, visual: { x: .61, y: .49, w: .72, h: .50 }, date: { x: .22, y: .80, w: .36, h: .075 }, time: { x: .18, y: .86, w: .28, h: .035 }, venue: { x: .76, y: .80, w: .38, h: .08, align: "right" }, body: { x: .72, y: .88, w: .43, h: .09, align: "right" } },
-      swiss: { kicker: { x: .18, y: .065, w: .28, h: .03 }, title: { x: .31, y: .18, w: .56, h: .19 }, subtitle: { x: .30, y: .315, w: .54, h: .05 }, visual: { x: .70, y: .51, w: .50, h: .42 }, date: { x: .20, y: .62, w: .31, h: .07 }, venue: { x: .24, y: .72, w: .38, h: .08 }, body: { x: .26, y: .82, w: .42, h: .13 }, organizer: { x: .70, y: .94, w: .48, h: .03, align: "right" } },
-      editorial: { kicker: { x: .19, y: .07, w: .31, h: .03 }, title: { x: .25, y: .22, w: .39, h: .24 }, subtitle: { x: .24, y: .38, w: .38, h: .05 }, visual: { x: .73, y: .48, w: .46, h: .72 }, date: { x: .21, y: .51, w: .30, h: .06 }, venue: { x: .24, y: .60, w: .36, h: .075 }, body: { x: .25, y: .73, w: .40, h: .16 }, organizer: { x: .25, y: .94, w: .40, h: .03 } },
-      collage: { kicker: { x: .20, y: .055, w: .32, h: .03 }, title: { x: .34, y: .17, w: .62, h: .18 }, subtitle: { x: .70, y: .28, w: .42, h: .05, align: "right" }, visual: { x: .52, y: .52, w: .86, h: .50 }, date: { x: .20, y: .82, w: .33, h: .07 }, body: { x: .73, y: .83, w: .42, h: .11, align: "right" }, organizer: { x: .24, y: .95, w: .42, h: .03 } },
-      quiet: { kicker: { x: .50, y: .055, w: .40, h: .03, align: "center" }, title: { x: .50, y: .15, w: .70, h: .13, align: "center" }, subtitle: { x: .50, y: .245, w: .62, h: .05, align: "center" }, visual: { x: .50, y: .52, w: .58, h: .52 }, date: { x: .50, y: .82, w: .34, h: .06, align: "center" }, organizer: { x: .50, y: .95, w: .60, h: .03, align: "center" } },
-      "layout-lab": { kicker: { x: .20, y: .065, w: .31, h: .03 }, title: { x: .27, y: .20, w: .44, h: .21 }, subtitle: { x: .26, y: .34, w: .42, h: .05 }, visual: { x: .74, y: .25, w: .42, h: .28 }, date: { x: .22, y: .57, w: .34, h: .07 }, venue: { x: .26, y: .68, w: .42, h: .08 }, body: { x: .73, y: .72, w: .42, h: .17, align: "right" }, organizer: { x: .72, y: .94, w: .46, h: .03, align: "right" } },
-      "art-blue": { title: { x: .27, y: .16, w: .50, h: .17 }, subtitle: { x: .25, y: .28, w: .46, h: .05 }, visual: { x: .60, y: .49, w: .65, h: .42 }, date: { x: .18, y: .77, w: .30, h: .07 }, time: { x: .17, y: .83, w: .27, h: .035 }, venue: { x: .74, y: .77, w: .39, h: .08, align: "right" }, body: { x: .70, y: .86, w: .43, h: .10, align: "right" } },
-      "composition-atlas": { title: { x: .25, y: .14, w: .46, h: .15 }, visual: { x: .52, y: .48, w: .63, h: .51 }, date: { x: .21, y: .75, w: .33, h: .065 }, venue: { x: .76, y: .74, w: .35, h: .08, align: "right" }, body: { x: .72, y: .83, w: .40, h: .11, align: "right" } },
-      workshop: { kicker: { x: .18, y: .045, w: .29, h: .03 }, title: { x: .27, y: .13, w: .49, h: .14 }, subtitle: { x: .25, y: .235, w: .44, h: .04 }, visual: { x: .52, y: .60, w: .91, h: .55 }, date: { x: .80, y: .055, w: .28, h: .045, align: "right" }, time: { x: .78, y: .21, w: .32, h: .03, align: "right" }, venue: { x: .77, y: .255, w: .37, h: .05, align: "right" }, body: { x: .27, y: .30, w: .48, h: .055 }, organizer: { x: .25, y: .965, w: .44, h: .025 }, qr: { x: .91, y: .935, w: .075, h: .06 } },
+      "white-studio": { kicker: { x: .13, y: .06, w: .22, h: .028 }, title: { x: .73, y: .35, w: .48, h: .25 }, subtitle: { x: .23, y: .74, w: .34, h: .08 }, visual: { x: .39, y: .57, w: .34, h: .25 }, date: { x: .76, y: .72, w: .32, h: .075 }, venue: { x: .76, y: .82, w: .34, h: .09 }, body: { x: .22, y: .25, w: .32, h: .18 }, organizer: { x: .23, y: .91, w: .36, h: .05 } },
+      "ici-grid": { kicker: { x: .22, y: .075, w: .38, h: .045 }, title: { x: .73, y: .26, w: .49, h: .24 }, subtitle: { x: .22, y: .18, w: .37, h: .07 }, visual: { x: .66, y: .68, w: .53, h: .36 }, date: { x: .76, y: .38, w: .40, h: .075 }, time: { x: .76, y: .44, w: .39, h: .04 }, venue: { x: .68, y: .89, w: .46, h: .07 }, body: { x: .22, y: .62, w: .37, h: .18 }, organizer: { x: .20, y: .92, w: .36, h: .05 } },
+      "ici-electric": { kicker: { x: .50, y: .06, w: .50, h: .035, align: "center" }, title: { x: .50, y: .16, w: .82, h: .15, align: "center" }, subtitle: { x: .50, y: .28, w: .64, h: .07, align: "center" }, visual: { x: .50, y: .53, w: .82, h: .72 }, date: { x: .50, y: .48, w: .39, h: .13, align: "center" }, venue: { x: .50, y: .72, w: .42, h: .08, align: "center" }, organizer: { x: .50, y: .92, w: .52, h: .05, align: "center" } },
+      swiss: { kicker: { x: .17, y: .055, w: .28, h: .035 }, title: { x: .77, y: .12, w: .37, h: .16, align: "right" }, subtitle: { x: .18, y: .88, w: .34, h: .10 }, visual: { x: .51, y: .54, w: .92, h: .75 }, date: { x: .80, y: .31, w: .28, h: .08, align: "right" }, venue: { x: .78, y: .88, w: .32, h: .08, align: "right" }, organizer: { x: .17, y: .95, w: .31, h: .035 } },
+      editorial: { kicker: { x: .20, y: .055, w: .33, h: .055 }, title: { x: .50, y: .20, w: .91, h: .18, align: "center" }, subtitle: { x: .50, y: .32, w: .86, h: .06, align: "center" }, visual: { x: .78, y: .47, w: .32, h: .21 }, date: { x: .83, y: .83, w: .25, h: .06 }, time: { x: .83, y: .88, w: .25, h: .045 }, venue: { x: .36, y: .91, w: .47, h: .07 }, body: { x: .30, y: .61, w: .55, h: .38 }, organizer: { x: .17, y: .96, w: .28, h: .035 } },
+      collage: { kicker: { x: .16, y: .05, w: .27, h: .035 }, title: { x: .22, y: .14, w: .34, h: .12 }, subtitle: { x: .20, y: .23, w: .34, h: .07 }, visual: { x: .50, y: .42, w: .36, h: .27 }, date: { x: .84, y: .15, w: .27, h: .10, align: "right" }, venue: { x: .19, y: .89, w: .33, h: .08 }, organizer: { x: .80, y: .94, w: .34, h: .045, align: "right" } },
+      quiet: { kicker: { x: .87, y: .09, w: .23, h: .055, align: "right" }, title: { x: .52, y: .34, w: .68, h: .18, align: "center" }, subtitle: { x: .10, y: .50, w: .27, h: .11 }, visual: { x: .52, y: .53, w: .91, h: .80 }, date: { x: .78, y: .94, w: .38, h: .07, align: "right" }, venue: { x: .13, y: .79, w: .26, h: .12 }, body: { x: .68, y: .84, w: .50, h: .12 }, organizer: { x: .14, y: .95, w: .26, h: .04 } },
+      "layout-lab": { kicker: { x: .50, y: .05, w: .58, h: .035, align: "center" }, title: { x: .39, y: .13, w: .72, h: .13 }, subtitle: { x: .43, y: .25, w: .72, h: .07 }, visual: { x: .50, y: .51, w: .88, h: .74 }, date: { x: .45, y: .38, w: .52, h: .09, align: "center" }, body: { x: .43, y: .73, w: .72, h: .17 }, organizer: { x: .50, y: .92, w: .58, h: .04, align: "center" } },
+      "art-blue": { kicker: { x: .50, y: .05, w: .44, h: .04, align: "center" }, title: { x: .50, y: .46, w: .72, h: .14, align: "center" }, subtitle: { x: .50, y: .58, w: .62, h: .06, align: "center" }, date: { x: .50, y: .81, w: .34, h: .06, align: "center" }, venue: { x: .50, y: .88, w: .50, h: .06, align: "center" }, organizer: { x: .50, y: .95, w: .48, h: .035, align: "center" } },
+      "composition-atlas": { kicker: { x: .50, y: .035, w: .40, h: .035, align: "center" }, title: { x: .50, y: .10, w: .94, h: .14, align: "center" }, subtitle: { x: .50, y: .74, w: .78, h: .13, align: "center" }, visual: { x: .50, y: .48, w: .50, h: .70 }, date: { x: .16, y: .16, w: .25, h: .06 }, body: { x: .18, y: .86, w: .29, h: .11 }, organizer: { x: .50, y: .95, w: .44, h: .035, align: "center" } },
       "teacher-workshop": {
         title: { x: .50, y: .032, w: .72, h: .055, align: "center" },
         date: { x: .50, y: .087, w: .64, h: .028, align: "center" },
@@ -936,62 +983,63 @@
     c.fillStyle = theme.bg; c.fillRect(0, 0, W, H);
     const accent = theme.accent;
     if (data.style === "white-studio") {
-      c.fillStyle = "#11110f"; c.fillRect(W * .035, H * .032, W * .09, Math.max(3, W * .004)); c.fillRect(W * .87, H * .956, W * .095, Math.max(3, W * .004));
-      c.fillStyle = accent; c.fillRect(W * .925, H * .032, W * .04, W * .04);
+      c.fillStyle = "#1594a8"; c.fillRect(0, H * .10, W * .09, H * .025); c.fillRect(W * .05, H * .72, W * .20, H * .04);
+      c.fillStyle = "#43ad8d"; c.fillRect(W * .13, H * .72, W * .13, H * .04);
+      c.fillStyle = accent; c.fillRect(W * .50, H * .095, W * .12, H * .21);
+      c.fillStyle = "#ffef00"; c.fillRect(W * .535, H * .14, W * .06, H * .17);
+      c.strokeStyle = "#171715"; c.lineWidth = Math.max(1.5, W * .0016);
+      [[.34,.31,.34,.37],[.20,.59,.30,.59],[.34,.63,.34,.77],[.63,.83,.63,.95]].forEach(([x1,y1,x2,y2])=>{c.beginPath();c.moveTo(W*x1,H*y1);c.lineTo(W*x2,H*y2);c.stroke();});
+      c.fillStyle = alpha("#171715", .45); c.font = `500 ${14 * W / 1080}px Arial, sans-serif`; c.fillText("AOI / EXHIBITION INDEX", W * .05, H * .96);
     } else if (data.style === "ici-grid") {
-      c.strokeStyle = alpha(accent, .16); c.lineWidth = 1;
-      for (let x = 0; x < W; x += W / 24) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, H); c.stroke(); }
-      for (let y = 0; y < H; y += W / 24) { c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke(); }
+      c.strokeStyle = alpha(accent, .18); c.lineWidth = Math.max(1, W * .0011);
+      for (let x = 0; x < W; x += W / 8) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, H); c.stroke(); }
+      for (let y = 0; y < H; y += H / 12) { c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke(); }
+      c.strokeStyle = accent; c.lineWidth = Math.max(2, W * .002);
+      c.beginPath(); c.moveTo(W * .50, H * .13); c.lineTo(W * .98, H * .13); c.moveTo(W * .50, H * .25); c.lineTo(W * .98, H * .25); c.stroke();
+      c.fillStyle = accent; c.font = `900 ${18 * W / 1080}px Arial, sans-serif`; c.fillText("PHOTOGRAPHIC WORKS", W * .02, H * .59);
     } else if (data.style === "ici-electric") {
-      const marquee = `${data.organizer.toUpperCase()}   /   `.repeat(5);
-      c.fillStyle = theme.ink; c.font = `800 ${16 * W / 1080}px Arial, sans-serif`;
-      drawSpacedText(c, marquee, -W * .18, 29 * W / 1080, 2.8 * W / 1080);
-      drawSpacedText(c, marquee, -W * .10, H - 18 * W / 1080, 2.8 * W / 1080);
-      c.strokeStyle = theme.ink; c.lineWidth = 2 * W / 1080; c.beginPath(); c.moveTo(W * .03, H * .075); c.lineTo(W * .97, H * .075); c.stroke();
+      const mist = c.createRadialGradient(W * .50, H * .50, W * .04, W * .50, H * .50, W * .55);
+      mist.addColorStop(0, "#156eff"); mist.addColorStop(.42, "#245eff"); mist.addColorStop(.76, alpha("#6a7cf5", .64)); mist.addColorStop(1, alpha("#ffffff", 0));
+      c.fillStyle = mist; c.fillRect(0, 0, W, H);
+      c.fillStyle = "#11110f"; c.font = `400 ${46 * W / 1080}px Georgia, serif`;
+      c.save(); c.translate(W * .035, H * .70); c.rotate(-Math.PI / 2); c.fillText("NOMADISM", 0, 0); c.restore();
+      c.save(); c.translate(W * .965, H * .20); c.rotate(Math.PI / 2); c.fillText("SPIRITUAL", 0, 0); c.restore();
     } else if (data.style === "swiss") {
-      const left = W * .045, right = W * .955, top = H * .042, bottom = H * .958;
-      c.strokeStyle = alpha("#161616", .16); c.lineWidth = Math.max(1, W * .0011);
-      for (let i = 0; i <= 8; i++) { const x = left + (right - left) * i / 8; c.beginPath(); c.moveTo(x, top); c.lineTo(x, bottom); c.stroke(); }
-      for (let i = 0; i <= 12; i++) { const y = top + (bottom - top) * i / 12; c.beginPath(); c.moveTo(left, y); c.lineTo(right, y); c.stroke(); }
-      c.fillStyle = accent; c.fillRect(left, top, W * .055, H * .19); c.fillRect(W * .82, H * .79, W * .135, H * .168);
-      c.fillStyle = "#161616"; c.font = `900 ${17 * W / 1080}px Arial, sans-serif`; c.fillText("SYSTEM / 01", left + W * .072, top + 17 * W / 1080);
+      c.fillStyle = "#76321f"; c.fillRect(W * .40, 0, W * .32, H * .58);
+      c.fillStyle = "#e97dac"; c.beginPath(); c.moveTo(W * .66, H * .35); c.quadraticCurveTo(W * .78, H * .29, W * .84, H * .43); c.lineTo(W * .84, H * .78); c.lineTo(W * .62, H * .78); c.closePath(); c.fill();
+      const cell = W / 16; c.fillStyle = "#f6f0dd";
+      for (let row = 0; row < 7; row++) for (let col = 0; col < 16; col++) if ((row + col) % 2 === 0) c.fillRect(col * cell, H * .56 + row * cell, cell, cell);
+      c.fillStyle = "#198946"; for (let row = 0; row < 7; row++) for (let col = 0; col < 16; col++) if ((row + col) % 2 === 1) c.fillRect(col * cell, H * .56 + row * cell, cell, cell);
     } else if (data.style === "editorial") {
-      c.fillStyle = "#161613"; c.fillRect(W * .485, H * .05, Math.max(2, W * .0025), H * .90);
-      c.fillStyle = accent; c.fillRect(W * .055, H * .872, W * .34, Math.max(4, W * .005));
-      c.fillStyle = alpha(accent, .10); c.fillRect(W * .055, H * .895, W * .34, H * .045);
+      c.strokeStyle = "#11110f"; c.lineWidth = Math.max(2, W * .002);
+      [[.03,.18,.97,.18],[.03,.58,.97,.58],[.03,.86,.97,.86]].forEach(([x1,y1,x2,y2])=>{c.beginPath();c.ellipse(W*(x1+x2)/2,H*(y1+y2)/2,W*(x2-x1)/2,H*.045,0,0,Math.PI*2);c.stroke();});
+      c.fillStyle = alpha("#9b8d74", .11); for (let y = 0; y < H; y += 7) c.fillRect(0, y, W, 1);
+      c.fillStyle = "#11110f"; c.font = `700 ${34 * W / 1080}px Georgia, serif`; c.fillText("MOSCOW DOES NOT", W * .02, H * .05); c.textAlign = "right"; c.fillText("BELIEVE IN TEARS", W * .98, H * .05); c.textAlign = "left";
     } else if (data.style === "collage") {
-      const glow = c.createRadialGradient(W * .82, H * .24, 0, W * .82, H * .24, W * .55);
-      glow.addColorStop(0, alpha(accent, .38)); glow.addColorStop(1, alpha(accent, 0));
-      c.fillStyle = glow; c.fillRect(0, 0, W, H);
-      c.fillStyle = "#ffffff"; c.fillRect(W * .045, H * .047, W * .47, H * .205);
-      c.fillStyle = accent; c.fillRect(W * .64, H * .047, W * .315, H * .105);
-      c.strokeStyle = accent; c.lineWidth = Math.max(4, W * .012); c.beginPath(); c.arc(W * .88, H * .77, W * .19, 0, Math.PI * 1.55); c.stroke();
+      c.fillStyle = "#050505"; c.beginPath(); c.arc(W * .50, H * .48, W * .38, 0, Math.PI * 2); c.fill();
+      c.strokeStyle = "#998a84"; c.lineWidth = Math.max(4, W * .005);
+      c.beginPath(); c.arc(-W * .08, H * .44, W * .30, 0, Math.PI * 2); c.stroke(); c.beginPath(); c.arc(W * 1.07, H * .44, W * .30, 0, Math.PI * 2); c.stroke();
+      c.fillStyle = "#ffffff"; c.fillRect(W * .88, H * .06, W * .12, H * .12);
     } else if (data.style === "quiet") {
-      const glow = c.createRadialGradient(W * .50, H * .52, W * .02, W * .50, H * .52, W * .45);
-      glow.addColorStop(0, alpha(accent, .11)); glow.addColorStop(.5, alpha(accent, .035)); glow.addColorStop(1, alpha(accent, 0));
-      c.fillStyle = glow; c.fillRect(0, H * .18, W, H * .62);
-      c.fillStyle = "#181714"; c.fillRect(W * .43, H * .047, W * .14, Math.max(2, W * .002));
+      c.strokeStyle = "#8e7f78"; c.lineWidth = Math.max(5, W * .006);
+      [[-.05,.24,.30],[1.05,.26,.28],[-.02,.62,.34],[1.04,.65,.31]].forEach(([x,y,r])=>{c.beginPath();c.arc(W*x,H*y,W*r,0,Math.PI*2);c.stroke();});
+      c.fillStyle = "#050505"; [[.40,.23,.33,.19],[.67,.52,.31,.17],[.52,.79,.34,.19]].forEach(([x,y,rx,ry])=>{c.beginPath();c.ellipse(W*x,H*y,W*rx,H*ry,0,0,Math.PI*2);c.fill();});
     } else if (data.style === "layout-lab") {
-      const left = W * .045, top = H * .045, gridW = W * .91, gridH = H * .91;
-      c.fillStyle = accent; c.fillRect(left + gridW * .5, top, gridW * .5, gridH * .5);
-      c.strokeStyle = "#161616"; c.lineWidth = Math.max(2, W * .0022); c.strokeRect(left, top, gridW, gridH);
-      c.beginPath(); c.moveTo(left + gridW * .5, top); c.lineTo(left + gridW * .5, top + gridH); c.moveTo(left, top + gridH * .5); c.lineTo(left + gridW, top + gridH * .5); c.stroke();
-      c.fillStyle = "#161616"; c.fillRect(left, top + gridH * .5, gridW * .055, gridH * .5);
+      c.fillStyle = "#11110f"; c.font = `300 ${40 * W / 1080}px Georgia, serif`;
+      c.save(); c.translate(W * .03, H * .57); c.rotate(-Math.PI / 2); c.fillText("POEMS TRANSITION", 0, 0); c.restore();
+      c.save(); c.translate(W * .97, H * .23); c.rotate(Math.PI / 2); c.fillText("POETRY / 2023", 0, 0); c.restore();
     } else if (data.style === "art-blue") {
-      c.fillStyle = theme.ink; c.fillRect(0, H * .88, W, H * .12); c.fillStyle = "#8bdd12"; c.fillRect(W * .04, H * .68, W * .22, H * .045);
+      const sunset = c.createLinearGradient(0, 0, 0, H);
+      sunset.addColorStop(0, "#f0ece8"); sunset.addColorStop(.16, "#ef4f27"); sunset.addColorStop(.28, "#476be7"); sunset.addColorStop(.40, "#f4f1ed"); sunset.addColorStop(.53, "#ed542c"); sunset.addColorStop(.69, "#4475e8"); sunset.addColorStop(.84, "#f4f0eb"); sunset.addColorStop(1, "#de3c22");
+      c.fillStyle = sunset; c.fillRect(0, 0, W, H);
+      c.strokeStyle = alpha("#ffffff", .78); c.lineWidth = Math.max(1, W * .001); for (let y = H * .12; y < H * .90; y += H * .14) { c.beginPath(); c.moveTo(0, y); c.lineTo(W, y); c.stroke(); }
     } else if (data.style === "composition-atlas") {
-      c.fillStyle = "rgba(135,140,130,.13)"; c.beginPath(); c.arc(W * .50, H * .48, W * .30, 0, Math.PI * 2); c.fill(); c.beginPath(); c.arc(W * .88, H * .16, W * .11, 0, Math.PI * 2); c.fill();
-    } else if (data.style === "workshop") {
-      c.fillStyle = accent; c.fillRect(0, 0, W, Math.max(7, W * .009));
-      c.fillStyle = alpha(accent, .12); c.fillRect(W * .035, H * .285, W * .18, Math.max(3, W * .005));
-    } else if (data.style === "neon-doodle") {
-      c.fillStyle = "#171717";
-      c.fillRect(W * .065, H * .052, W * .045, Math.max(3, W * .004));
-      c.fillRect(W * .065, H * .925, W * .15, Math.max(2, W * .002));
-      c.fillStyle = accent;
-      c.beginPath(); c.arc(W * .077, H * .875, W * .012, 0, Math.PI * 2); c.fill();
-      c.beginPath(); c.arc(W * .11, H * .875, W * .008, 0, Math.PI * 2); c.fill();
-      c.beginPath(); c.arc(W * .137, H * .875, W * .006, 0, Math.PI * 2); c.fill();
+      for (let i = 0; i < 7; i++) {
+        const x = W * (i / 6); const col = c.createLinearGradient(x - W * .08, 0, x + W * .08, 0);
+        col.addColorStop(0, alpha("#a5a7a8", .08)); col.addColorStop(.5, alpha("#ffffff", .72)); col.addColorStop(1, alpha("#929597", .12));
+        c.fillStyle = col; c.fillRect(x - W * .12, 0, W * .24, H);
+      }
+      c.strokeStyle = alpha(accent, .28); c.lineWidth = Math.max(2, W * .002); for (let x = W * .10; x < W; x += W * .16) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x, H); c.stroke(); }
     }
   }
 
@@ -1023,6 +1071,16 @@
     const sizes = { kicker: 14, title: theme.titleSize, subtitle: 22, date: 44, time: 17, venue: 21, body: 14, organizer: 12 };
     if (data.style === "teacher-workshop") Object.assign(sizes, { title: 102, date: 38, organizer: 21 });
     if (data.style === "neon-doodle") Object.assign(sizes, { kicker: 13, title: 76, subtitle: 76, date: 20, time: 14, venue: 15, body: 17, organizer: 11 });
+    if (data.style === "white-studio") Object.assign(sizes, { kicker: 12, subtitle: 21, date: 38, venue: 20, body: 14, organizer: 18 });
+    if (data.style === "ici-grid") Object.assign(sizes, { kicker: 18, subtitle: 28, date: 46, time: 17, venue: 15, body: 15, organizer: 17 });
+    if (data.style === "ici-electric") Object.assign(sizes, { kicker: 12, subtitle: 34, date: 74, venue: 18, organizer: 13 });
+    if (data.style === "swiss") Object.assign(sizes, { kicker: 13, date: 34, venue: 18, body: 13, organizer: 11 });
+    if (data.style === "editorial") Object.assign(sizes, { kicker: 12, subtitle: 18, date: 27, venue: 15, body: 13, organizer: 10 });
+    if (data.style === "collage") Object.assign(sizes, { kicker: 12, subtitle: 19, date: 32, venue: 16, body: 13, organizer: 10 });
+    if (data.style === "quiet") Object.assign(sizes, { kicker: 12, subtitle: 16, date: 27, venue: 15, body: 12, organizer: 10 });
+    if (data.style === "layout-lab") Object.assign(sizes, { kicker: 12, subtitle: 20, date: 36, venue: 18, body: 13, organizer: 10 });
+    if (data.style === "art-blue") Object.assign(sizes, { kicker: 10, subtitle: 18, date: 24, venue: 12, organizer: 9 });
+    if (data.style === "composition-atlas") Object.assign(sizes, { kicker: 12, subtitle: 42, date: 20, body: 12, organizer: 10 });
     const weights = { kicker: 800, subtitle: 750, date: 900, time: 750, venue: 760, body: 500, organizer: 800 };
     if (data.style === "neon-doodle") Object.assign(weights, { kicker: 850, subtitle: 900, date: 800, body: 600, organizer: 800 });
     const textStyle = data.editorMode === "free" ? (data.textStyles?.[id] || {}) : {};
@@ -1054,7 +1112,8 @@
         c.fillText(line, startX, lineY, w);
       });
     } else drawLines(c, lines, startX, startY + fontSize, lineHeight, { align, spacing: isTitle ? -1.1 * s : .15 * s });
-    if (id === "date" && data.style !== "teacher-workshop") c.fillRect(startX - (align === "right" ? w * .22 : 0), startY + fontSize + 10 * s, w * .22, Math.max(2, 3 * s));
+    const dateUnderlineStyles = new Set(["workshop", "neon-doodle"]);
+    if (id === "date" && dateUnderlineStyles.has(data.style)) c.fillRect(startX - (align === "right" ? w * .22 : 0), startY + fontSize + 10 * s, w * .22, Math.max(2, 3 * s));
   }
 
   function drawFlatVisual(c, data, w, h, theme, seed) {
@@ -1081,10 +1140,11 @@
       c.restore();
       return;
     }
-    if (variant === "quiet" || variant === "ring" || variant === "atlas") {
+    if (variant === "ring" || variant === "atlas") {
       c.beginPath(); c.arc(0, 0, Math.min(w, h) * .46, 0, Math.PI * 2); c.clip();
     } else {
-      roundedRectPath(c, -w / 2, -h / 2, w, h, variant === "editorial" ? 0 : Math.min(w, h) * .025); c.clip();
+      const squareVisuals = new Set(["will", "cosmos", "blue-mist", "playhouse", "soviet", "tide", "coffee", "poem", "sunset", "chains", "index", "caption", "type-study", "mono-photo", "ici-public"]);
+      roundedRectPath(c, -w / 2, -h / 2, w, h, squareVisuals.has(variant) ? 0 : Math.min(w, h) * .025); c.clip();
     }
     if (image) {
       if (image.cutout) {
@@ -1092,42 +1152,88 @@
         const iw = image.img.naturalWidth * ratio, ih = image.img.naturalHeight * ratio;
         c.drawImage(image.img, -iw / 2, -ih / 2, iw, ih);
       } else coverImage(c, image.img, -w / 2, -h / 2, w, h);
+    } else if (variant === "will") {
+      c.fillStyle = "#6faed2"; c.fillRect(-w * .45, -h * .42, w * .84, h * .80);
+      c.fillStyle = "#ef6e86"; c.fillRect(-w * .28, -h * .33, w * .57, h * .64);
+      c.fillStyle = "#ff641b"; c.fillRect(-w * .12, -h * .22, w * .55, h * .50);
+      c.fillStyle = "#76b9d2"; c.fillRect(-w * .28, -h * .08, w * .12, h * .35); c.fillRect(w * .13, -h * .08, w * .12, h * .35);
+      c.fillStyle = "#f0527e"; c.fillRect(-w * .01, -h * .31, w * .12, h * .38);
+    } else if (variant === "cosmos") {
+      c.fillStyle = "#090909"; c.fillRect(-w / 2, -h / 2, w, h);
+      const radius = Math.min(w, h) * .43; c.fillStyle = "#f2f2f2";
+      for (let row = -15; row <= 15; row++) for (let col = -18; col <= 18; col++) {
+        const nx = col / 18, ny = row / 15; const d = nx * nx + ny * ny;
+        if (d > 1) continue;
+        const wave = Math.sin((nx * 4 + ny * 2.4 + Math.sqrt(1 - d) * 7) * Math.PI);
+        if (wave > .15) { c.globalAlpha = .25 + .75 * (1 - d); c.beginPath(); c.arc(nx * radius, ny * radius * .72, Math.max(1.2, w * .0038), 0, Math.PI * 2); c.fill(); }
+      }
+      c.globalAlpha = 1; c.strokeStyle = alpha("#f2f2f2", .45); c.lineWidth = Math.max(2, w * .003); c.beginPath(); c.ellipse(0, 0, radius * 1.15, radius * .47, -.12, 0, Math.PI * 2); c.stroke();
+    } else if (variant === "blue-mist") {
+      const orb = c.createRadialGradient(0, 0, 0, 0, 0, Math.min(w, h) * .52);
+      orb.addColorStop(0, "#0f83f2"); orb.addColorStop(.38, "#1564ee"); orb.addColorStop(.72, alpha("#2264ef", .72)); orb.addColorStop(1, alpha("#ffffff", 0));
+      c.fillStyle = orb; c.fillRect(-w / 2, -h / 2, w, h);
+    } else if (variant === "playhouse") {
+      c.fillStyle = "#f7f1df"; c.beginPath(); c.moveTo(-w * .44, -h * .28); c.lineTo(-w * .27, -h * .42); c.lineTo(-w * .12, -h * .27); c.lineTo(-w * .18, -h * .05); c.lineTo(-w * .39, -h * .08); c.closePath(); c.fill();
+      c.fillStyle = "#11110f"; c.beginPath(); c.arc(-w * .28, -h * .22, Math.min(w, h) * .05, 0, Math.PI * 2); c.fill();
+      c.fillStyle = "#171715"; c.fillRect(-w * .14, h * .05, w * .22, h * .24); c.beginPath(); c.ellipse(-w * .03, h * .05, w * .12, h * .07, 0, 0, Math.PI * 2); c.fill();
+      c.fillStyle = "#8b1f13"; c.beginPath(); c.ellipse(0, h * .29, w * .25, h * .08, 0, 0, Math.PI * 2); c.fill();
+      c.strokeStyle = "#171715"; c.lineWidth = Math.max(5, w * .01); c.strokeRect(w * .08, -h * .27, w * .24, h * .24);
+    } else if (variant === "soviet") {
+      c.fillStyle = "#11110f";
+      const radius = Math.min(w, h) * .42;
+      for (let y = -radius; y <= radius; y += Math.max(7, w * .018)) for (let x = -radius; x <= radius; x += Math.max(7, w * .018)) {
+        const d = Math.hypot(x, y); if (d > radius || d < radius * .45) continue;
+        const shift = Math.sin(y * .035) * radius * .13; c.beginPath(); c.arc(x + shift, y, Math.max(1.3, w * .006), 0, Math.PI * 2); c.fill();
+      }
+    } else if (variant === "tide") {
+      const metal = c.createLinearGradient(-w * .35, -h * .4, w * .32, h * .35);
+      metal.addColorStop(0, "#f8f8f8"); metal.addColorStop(.2, "#74787c"); metal.addColorStop(.43, "#ffffff"); metal.addColorStop(.62, "#85898d"); metal.addColorStop(.83, "#f6f6f5"); metal.addColorStop(1, "#34383c");
+      c.fillStyle = metal; c.beginPath(); c.moveTo(-w * .24, -h * .46); c.bezierCurveTo(w * .35, -h * .44, w * .44, -h * .12, w * .22, h * .10); c.bezierCurveTo(w * .04, h * .28, w * .39, h * .45, 0, h * .48); c.bezierCurveTo(-w * .38, h * .44, -w * .29, h * .10, -w * .40, -h * .08); c.bezierCurveTo(-w * .50, -h * .24, -w * .38, -h * .38, -w * .24, -h * .46); c.fill();
+      c.strokeStyle = alpha("#ffffff", .85); c.lineWidth = Math.max(3, w * .009); c.beginPath(); c.moveTo(-w * .19, -h * .28); c.bezierCurveTo(w * .12, -h * .35, w * .24, -h * .10, w * .10, h * .13); c.stroke();
+    } else if (variant === "coffee") {
+      c.fillStyle = "#050505"; c.beginPath(); c.ellipse(0, 0, w * .47, h * .43, 0, 0, Math.PI * 2); c.fill();
+      c.fillStyle = "#f2ead2"; c.fillRect(-w * .47, -h * .10, w * .94, h * .22);
+      c.strokeStyle = "#918079"; c.lineWidth = Math.max(5, w * .009); c.beginPath(); c.arc(0, 0, Math.min(w, h) * .34, 0, Math.PI * 2); c.stroke();
+    } else if (variant === "poem") {
+      const orb = c.createRadialGradient(0, -h * .05, 0, 0, -h * .05, Math.min(w, h) * .52);
+      orb.addColorStop(0, "#28cdf5"); orb.addColorStop(.30, "#168bea"); orb.addColorStop(.62, "#1c64dc"); orb.addColorStop(.86, alpha("#466ce5", .55)); orb.addColorStop(1, alpha("#ffffff", 0));
+      c.fillStyle = orb; c.fillRect(-w / 2, -h / 2, w, h);
+    } else if (variant === "sunset") {
+      // The sunset template's visual is carried by its full-bleed background.
+    } else if (variant === "chains") {
+      const marble = c.createLinearGradient(-w * .3, 0, w * .3, 0); marble.addColorStop(0, "#bfc1c2"); marble.addColorStop(.38, "#ffffff"); marble.addColorStop(.65, "#d8d9da"); marble.addColorStop(1, "#95989a");
+      c.fillStyle = marble; c.beginPath(); c.arc(0, -h * .33, Math.min(w, h) * .13, 0, Math.PI * 2); c.fill();
+      c.beginPath(); c.moveTo(-w * .16, -h * .23); c.quadraticCurveTo(-w * .26, h * .04, -w * .21, h * .46); c.lineTo(w * .20, h * .46); c.quadraticCurveTo(w * .25, h * .06, w * .16, -h * .23); c.closePath(); c.fill();
+      c.strokeStyle = "#888c90"; c.lineWidth = Math.max(2, w * .006); for (let i = -4; i <= 4; i++) { c.beginPath(); c.moveTo(i * w * .035, -h * .22); c.lineTo(i * w * .025, h * .38); c.stroke(); }
     } else if (variant === "electric") {
       drawFluidObject(c, -w / 2, -h / 2, w, h, theme.accent, seed, true);
-    } else if (variant === "systems") {
-      const unit = Math.min(w, h) / 10;
-      c.fillStyle = theme.accent; c.fillRect(-w * .48, -h * .45, w * .42, h * .42);
-      c.fillStyle = "#161616"; c.fillRect(-w * .01, -h * .45, w * .49, h * .18);
-      c.strokeStyle = theme.accent; c.lineWidth = unit * .18;
-      for (let i = 0; i < 4; i++) c.strokeRect(-w * .48 + i * unit * 1.55, h * .05, unit * 1.08, unit * 1.08);
-      c.fillStyle = "#161616"; c.fillRect(w * .16, -unit * .08, unit * 3, unit * .16); c.fillRect(w * .16 + unit * 1.42, -unit * 1.5, unit * .16, unit * 3);
-    } else if (variant === "portrait") {
+    } else if (variant === "index") {
+      c.fillStyle = "#d9d6cd"; c.fillRect(-w / 2, -h / 2, w, h);
+      c.fillStyle = "#171715"; c.beginPath(); c.arc(w * .34, h * .30, Math.min(w, h) * .34, 0, Math.PI * 2); c.fill();
+      c.fillStyle = theme.accent; c.fillRect(-w / 2, h * .31, w * .46, h * .11);
+      c.strokeStyle = alpha("#171715", .45); c.lineWidth = Math.max(2, w * .004); c.beginPath(); c.moveTo(-w * .42, -h * .30); c.lineTo(w * .22, h * .23); c.stroke();
+    } else if (variant === "caption") {
       const gradient = c.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2);
-      gradient.addColorStop(0, "#e9e9e4"); gradient.addColorStop(1, "#a9aaa6"); c.fillStyle = gradient; c.fillRect(-w / 2, -h / 2, w, h);
-      c.fillStyle = "#2d2d2b"; c.beginPath(); c.arc(0, -h * .18, Math.min(w, h) * .20, 0, Math.PI * 2); c.fill();
-      c.beginPath(); c.moveTo(-w * .34, h * .50); c.quadraticCurveTo(-w * .26, h * .05, 0, h * .02); c.quadraticCurveTo(w * .30, h * .04, w * .38, h * .50); c.closePath(); c.fill();
-      c.fillStyle = theme.accent; c.fillRect(-w * .47, h * .38, w * .38, Math.max(4, w * .018));
-    } else if (variant === "wrapped") {
-      const gradient = c.createLinearGradient(-w * .5, -h * .5, w * .5, h * .5);
-      gradient.addColorStop(0, "#7c3cff"); gradient.addColorStop(.48, theme.accent); gradient.addColorStop(1, "#ff4e88"); c.fillStyle = gradient; c.fillRect(-w / 2, -h / 2, w, h);
-      c.save(); c.translate(w * .05, 0); c.rotate(-.23);
-      c.strokeStyle = "#121212"; c.lineWidth = Math.max(7, w * .025);
-      for (let i = 0; i < 5; i++) { c.beginPath(); c.ellipse(0, 0, w * (.12 + i * .06), h * (.10 + i * .065), 0, 0, Math.PI * 2); c.stroke(); }
-      c.restore();
-      c.fillStyle = "#ffffff"; c.beginPath(); c.arc(-w * .34, -h * .32, Math.min(w, h) * .06, 0, Math.PI * 2); c.fill();
-    } else if (variant === "product") {
-      const shadow = c.createRadialGradient(0, h * .32, 0, 0, h * .32, w * .40);
-      shadow.addColorStop(0, "rgba(0,0,0,.25)"); shadow.addColorStop(1, "rgba(0,0,0,0)"); c.fillStyle = shadow; c.fillRect(-w / 2, h * .10, w, h * .40);
-      const deviceW = w * .52, deviceH = h * .78;
-      const metal = c.createLinearGradient(-deviceW / 2, 0, deviceW / 2, 0); metal.addColorStop(0, "#111214"); metal.addColorStop(.5, "#404248"); metal.addColorStop(1, "#0b0c0e");
-      roundedRectPath(c, -deviceW / 2, -deviceH / 2, deviceW, deviceH, deviceW * .11); c.fillStyle = metal; c.fill();
-      roundedRectPath(c, -deviceW * .45, -deviceH * .45, deviceW * .90, deviceH * .88, deviceW * .08); c.fillStyle = "#050607"; c.fill();
-      const screen = c.createLinearGradient(-deviceW * .3, -deviceH * .4, deviceW * .3, deviceH * .4); screen.addColorStop(0, alpha(theme.accent, .88)); screen.addColorStop(1, "#06070a"); c.fillStyle = screen; c.fillRect(-deviceW * .38, -deviceH * .38, deviceW * .76, deviceH * .76);
-    } else if (variant === "townhall") {
+      gradient.addColorStop(0, "#d8d7d1"); gradient.addColorStop(.52, "#9e9f9b"); gradient.addColorStop(1, "#4d4e4c");
+      c.fillStyle = gradient; c.fillRect(-w / 2, -h / 2, w, h);
+      c.fillStyle = alpha("#f1eee6", .72); c.beginPath(); c.moveTo(-w / 2, h * .18); c.quadraticCurveTo(-w * .05, -h * .09, w / 2, h * .03); c.lineTo(w / 2, h / 2); c.lineTo(-w / 2, h / 2); c.closePath(); c.fill();
+      c.fillStyle = "#1d1d1b"; c.fillRect(w * .26, -h * .37, w * .025, h * .55);
+    } else if (variant === "type-study") {
       c.fillStyle = theme.accent; c.fillRect(-w / 2, -h / 2, w, h);
-      c.strokeStyle = "#ffffff"; c.lineWidth = Math.max(4, w * .014); c.lineCap = "square";
-      c.beginPath(); c.moveTo(-w * .31, 0); c.lineTo(w * .24, 0); c.lineTo(w * .05, -h * .22); c.moveTo(w * .24, 0); c.lineTo(w * .05, h * .22); c.stroke();
-      c.strokeStyle = alpha("#ffffff", .38); c.lineWidth = Math.max(2, w * .004); c.strokeRect(-w * .40, -h * .34, w * .18, h * .68);
+      c.fillStyle = "#171715"; c.beginPath(); c.arc(w * .37, h * .28, Math.min(w, h) * .46, 0, Math.PI * 2); c.fill();
+      c.fillStyle = "#f2ede2"; c.font = `700 ${Math.min(w, h) * .64}px Georgia, serif`; c.textAlign = "left"; c.textBaseline = "middle"; c.fillText("A", -w * .43, h * .07);
+      c.strokeStyle = "#f2ede2"; c.lineWidth = Math.max(3, w * .009); c.beginPath(); c.moveTo(-w * .43, h * .32); c.lineTo(w * .11, h * .32); c.stroke();
+    } else if (variant === "mono-photo") {
+      const gradient = c.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2);
+      gradient.addColorStop(0, "#171715"); gradient.addColorStop(.32, "#6b6b68"); gradient.addColorStop(.66, "#deded9"); gradient.addColorStop(1, "#8b8b87");
+      c.fillStyle = gradient; c.fillRect(-w / 2, -h / 2, w, h);
+      c.fillStyle = alpha("#f3f3f0", .68); c.beginPath(); c.moveTo(-w * .18, -h / 2); c.bezierCurveTo(w * .02, -h * .12, -w * .02, h * .08, w * .25, h / 2); c.lineTo(w / 2, h / 2); c.lineTo(w * .12, -h / 2); c.closePath(); c.fill();
+      c.fillStyle = "#11110f"; c.fillRect(-w * .48, h * .34, w * .22, h * .08);
+    } else if (variant === "ici-public") {
+      c.fillStyle = theme.accent; c.fillRect(-w / 2, -h / 2, w, h);
+      c.strokeStyle = "#151513"; c.lineWidth = Math.max(6, w * .035); c.beginPath(); c.arc(0, -h * .05, Math.min(w, h) * .27, 0, Math.PI * 2); c.stroke();
+      c.fillStyle = "#151513"; c.font = `900 ${Math.min(w, h) * .22}px Arial, sans-serif`; c.textAlign = "center"; c.textBaseline = "middle"; c.fillText("01", 0, h * .34);
+      c.fillStyle = "#f4f4ef"; c.fillRect(-w * .42, -h * .40, w * .14, w * .14);
     }
     c.restore();
   }
@@ -2492,7 +2598,8 @@
       empty.textContent = "还没有补充文本。适合放注释、标签或一句强调语。";
       container.appendChild(empty);
     }
-    state.extraTextBoxes.forEach((box, index) => {
+    const visibleLimit = state.editorMode === "free" ? 8 : 3;
+    state.extraTextBoxes.slice(0, visibleLimit).forEach((box, index) => {
       const item = document.createElement("div");
       item.className = "extra-text-item";
       item.dataset.extraTextId = box.id;
@@ -2962,33 +3069,39 @@
     });
     updateAllCounts();
     renderWorkshopCourses();
+    renderExtraTextList();
+    updateMaterialScaleLabel();
+    updateMaterialRotationLabel();
+    updateElementEditor();
     updateTypographyEditor();
   }
 
   function selectStyle(style, applyPalette = true) {
+    if (!ACTIVE_STYLE_IDS.includes(style)) style = "white-studio";
     const previousStyle = state.style;
+    const styleChanged = previousStyle !== style;
+    if (styleChanged && previousStyle !== "teacher-workshop") saveStyleDraft(previousStyle);
     if (previousStyle === "teacher-workshop" && style !== "teacher-workshop") {
       state.teacherWorkshopDraft = captureWorkspace();
       const returnWorkspace = state.teacherWorkshopReturn;
       if (returnWorkspace) applyWorkspace(returnWorkspace);
       state.teacherWorkshopReturn = null;
     }
-    if (previousStyle === "neon-doodle" && style !== "neon-doodle") {
-      state.neonDoodleDraft = captureWorkspace();
-      const returnWorkspace = state.neonDoodleReturn;
-      if (returnWorkspace) applyWorkspace(returnWorkspace);
-      state.neonDoodleReturn = null;
-    }
     if (previousStyle !== "teacher-workshop" && style === "teacher-workshop") {
       state.teacherWorkshopReturn = captureWorkspace();
       applyWorkspace(state.teacherWorkshopDraft || createTeacherWorkspace());
       state.format = "story";
+      state.accent = STYLE_DEFAULTS[style].accent;
+      state.background = STYLE_DEFAULTS[style].background;
       zoomMultiplier = 1;
     }
-    if (previousStyle !== "neon-doodle" && style === "neon-doodle") {
-      state.neonDoodleReturn = captureWorkspace();
-      applyWorkspace(state.neonDoodleDraft || createNeonDoodleWorkspace());
-      state.format = "poster";
+    if (styleChanged && style !== "teacher-workshop") {
+      const draft = state.styleDrafts?.[style] || null;
+      applyStyleDraft(style, draft);
+      if (!draft && applyPalette) {
+        state.accent = STYLE_DEFAULTS[style].accent;
+        state.background = STYLE_DEFAULTS[style].background;
+      }
       zoomMultiplier = 1;
     }
     state.style = style;
@@ -2999,10 +3112,9 @@
         zoomMultiplier = 1;
       }
     }
-    if (previousStyle !== style) syncWorkspaceFields();
-    if (applyPalette) {
-      state.accent = STYLE_DEFAULTS[style].accent;
-      state.background = STYLE_DEFAULTS[style].background;
+    if (styleChanged) {
+      activeElement = null;
+      syncWorkspaceFields();
       $("#accent-color").value = state.accent;
       $("#background-color").value = state.background;
       updateColorLabels();
@@ -3031,7 +3143,7 @@
   }
 
   function randomizeStyle() {
-    const styles = Object.keys(STYLE_DEFAULTS).filter((style) => style !== state.style);
+    const styles = ACTIVE_STYLE_IDS.filter((style) => style !== state.style);
     selectStyle(styles[Math.floor(Math.random() * styles.length)]);
   }
 
@@ -3048,7 +3160,7 @@
   }
 
   function resetAll() {
-    state = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
+    state = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], styleDrafts: {}, workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
     imageAssets = [];
     qrAsset = null;
     activeElement = null;
