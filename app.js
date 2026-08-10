@@ -22,17 +22,37 @@
     "white-studio": { accent: "#5f55e7", background: "#ffffff" },
     "ici-grid": { accent: "#7d6bff", background: "#f1f0ea" },
     "ici-electric": { accent: "#9d39ff", background: "#425df5" },
-    swiss: { accent: "#ee4838", background: "#f1efe7" },
-    editorial: { accent: "#1f4037", background: "#ffffff" },
-    collage: { accent: "#ec4f78", background: "#ffc928" },
-    quiet: { accent: "#b34535", background: "#ffffff" },
-    "layout-lab": { accent: "#f35aa6", background: "#ffffff" },
+    swiss: { accent: "#0f62fe", background: "#f4f4f4" },
+    editorial: { accent: "#ff3b30", background: "#f5f5f0" },
+    collage: { accent: "#cdff64", background: "#121212" },
+    quiet: { accent: "#0071e3", background: "#f5f5f7" },
+    "layout-lab": { accent: "#0f62fe", background: "#ffffff" },
     "art-blue": { accent: "#1568d4", background: "#e8e9ea" },
     "composition-atlas": { accent: "#9da397", background: "#fbfaf6" },
     workshop: { accent: "#ff6a00", background: "#fff8eb" },
     "teacher-workshop": { accent: "#ed315f", background: "#ffffff" },
     "neon-doodle": { accent: "#2dff00", background: "#ffffff" }
   };
+
+  const TEMPLATE_POLICIES = {
+    "white-studio": { purpose: "通用活动 / 课程发布", scope: "固定 3:4 构图；开放文字内容、主图与补充文本框。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer", "qr"] },
+    "ici-grid": { purpose: "ICI 学院展览 / 设计季", scope: "保留 ICI 工程网格系统；开放全部活动信息与主图。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer", "qr"] },
+    "ici-electric": { purpose: "ICI 高能活动 / 开幕现场", scope: "保留电光流体主视觉；开放活动信息与补充文本框。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer"] },
+    swiss: { purpose: "科技论坛 / 系统发布 / 研究报告", scope: "IBM 系统设计启发；锁定 2× 网格、蓝黑配色与信息层级。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
+    editorial: { purpose: "人物故事 / 嘉宾宣言 / 品牌观点", scope: "Apple 人物传播启发；锁定人物主图、左侧宣言与克制红色签名线。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
+    collage: { purpose: "年度回顾 / 音乐活动 / 数据总结", scope: "Spotify Wrapped 启发；锁定深色底、高能色带与年度主视觉。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "body", "organizer"] },
+    quiet: { purpose: "产品发布 / 单品介绍 / 新品预告", scope: "Apple 产品传播启发；锁定居中单品、大留白与极简信息。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "organizer"] },
+    "layout-lab": { purpose: "学术讲座 / Town Hall / 论坛议程", scope: "IBM Town Hall 海报启发；锁定双栏双行网格与蓝色信息区。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
+    "art-blue": { purpose: "艺术展讯 / 开幕信息", scope: "固定蓝灰信息流与荧光绿时间栏；开放展讯文字和主图。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer"] },
+    "composition-atlas": { purpose: "研究展览 / 构图课程 / 作品集", scope: "固定米白纸张与有机灰形；开放展览信息和主图。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
+    workshop: { purpose: "工坊开放日 / 拼豆活动", scope: "保留拼豆主视觉和二维码区域；开放图案、课程信息与主图。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer", "qr"] },
+    "teacher-workshop": { purpose: "老师工坊课程表", scope: "保留老师原稿 9:16 比例、四组课程与底部署名。", format: "story", blocks: ["title", "date", "courses", "organizer"] },
+    "neon-doodle": { purpose: "创意招募 / 营销支持 / 服务介绍", scope: "固定纯白、空心标题与荧光绿主视觉；开放文案和补充文本框。", format: "poster", blocks: ["kicker", "title", "subtitle", "body", "organizer"] }
+  };
+
+  const REDESIGNED_PRODUCTION_STYLES = new Set(["swiss", "editorial", "collage", "quiet", "layout-lab"]);
+  const GENERATED_VISUAL_STYLES = new Set(["ici-electric", "workshop", ...REDESIGNED_PRODUCTION_STYLES]);
+  const CONTENT_FIELD_IDS = ["kicker", "title", "subtitle", "date", "time", "venue", "body", "organizer"];
 
   const MATERIAL_LABELS = {
     tape: "胶带", "torn-paper": "撕纸", halftone: "网点", scribble: "涂鸦",
@@ -142,12 +162,14 @@
     accent: STYLE_DEFAULTS["white-studio"].accent,
     background: STYLE_DEFAULTS["white-studio"].background,
     density: 1,
+    editorMode: "guided",
     smartGuides: true,
     showGrid: true,
     showGrain: false,
     decorations: [],
     materialTransforms: {},
     emojiStickers: [],
+    extraTextBoxes: [],
     blockTransforms: {},
     textStyles: {},
     hiddenBlocks: [],
@@ -161,6 +183,7 @@
     neonDoodleReturn: null,
     neonDoodleVersion: 4,
     materialSchemaVersion: 2,
+    productionSystemVersion: 1,
     seed: 48271
   };
 
@@ -179,6 +202,7 @@
   let draggingAssetIndex = null;
   let draggingAssetPointer = null;
   let materialSerial = 0;
+  let extraTextSerial = 0;
 
   function materialType(entry) {
     return typeof entry === "string" ? entry : String(entry?.type || "");
@@ -225,8 +249,28 @@
     return (Array.isArray(source) ? source : []).find((entry, index) => materialId(entry, index) === id) || null;
   }
 
+  function normalizeExtraTextBoxes(boxes) {
+    return (Array.isArray(boxes) ? boxes : []).slice(0, 8).map((box, index) => ({
+      id: String(box?.id || `extra-text-${index + 1}`),
+      text: String(box?.text || "补充文字").slice(0, 120),
+      preset: ["caption", "label", "statement"].includes(box?.preset) ? box.preset : "caption",
+      x: Number.isFinite(box?.x) ? box.x : .16 + (index % 3) * .04,
+      y: Number.isFinite(box?.y) ? box.y : .84 - (index % 3) * .055,
+      scale: clamp(Number(box?.scale) || 1, .4, 2.8),
+      rotation: clamp(Number(box?.rotation) || 0, -180, 180)
+    }));
+  }
+
+  function findExtraTextBox(id) {
+    return (state.extraTextBoxes || []).find((box) => box.id === id) || null;
+  }
+
+  function elementCanBeEdited(element) {
+    return Boolean(element) && (state.editorMode === "free" || element.kind === "extra-text");
+  }
+
   function loadState() {
-    const fresh = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
+    const fresh = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
     try {
       const saved = JSON.parse(localStorage.getItem("form01-poster-state") || "null");
       if (!saved) return fresh;
@@ -236,6 +280,8 @@
       if (!Array.isArray(merged.decorations)) merged.decorations = [];
       if (!merged.materialTransforms || typeof merged.materialTransforms !== "object") merged.materialTransforms = {};
       if (!Array.isArray(merged.emojiStickers)) merged.emojiStickers = [];
+      merged.extraTextBoxes = normalizeExtraTextBoxes(merged.extraTextBoxes);
+      if (!['guided', 'free'].includes(merged.editorMode)) merged.editorMode = "guided";
       if (!merged.blockTransforms || typeof merged.blockTransforms !== "object") merged.blockTransforms = {};
       if (!merged.textStyles || typeof merged.textStyles !== "object") merged.textStyles = {};
       if (!Array.isArray(merged.hiddenBlocks)) merged.hiddenBlocks = [];
@@ -248,8 +294,12 @@
       }
       normalizeMaterialWorkspace(merged);
       ["teacherWorkshopDraft", "teacherWorkshopReturn", "neonDoodleDraft", "neonDoodleReturn"].forEach((key) => {
-        if (merged[key]) normalizeMaterialWorkspace(merged[key]);
+        if (merged[key]) {
+          normalizeMaterialWorkspace(merged[key]);
+          merged[key].extraTextBoxes = normalizeExtraTextBoxes(merged[key].extraTextBoxes);
+        }
       });
+      merged.productionSystemVersion = 1;
       return merged;
     } catch {
       return fresh;
@@ -280,11 +330,64 @@
     });
     updateColorLabels();
     updateDensityLabel();
+    syncEditorMode();
     updateMaterialScaleLabel();
     renderMaterials();
+    renderExtraTextList();
     updateAllCounts();
     toggleWorkshopSection();
     renderWorkshopCourses();
+  }
+
+  function syncEditorMode() {
+    const guided = state.editorMode !== "free";
+    document.body.classList.toggle("guided-mode", guided);
+    $$('[data-editor-mode]').forEach((button) => {
+      const selected = button.dataset.editorMode === (guided ? "guided" : "free");
+      button.classList.toggle("selected", selected);
+      button.setAttribute("aria-pressed", String(selected));
+    });
+    $("#mode-status").textContent = guided ? "核心版式已锁定" : "全部编辑能力已开启";
+    $("#mode-description").textContent = guided
+      ? "只替换内容和主图，核心构图保持稳定，适合直接生产活动海报。"
+      : "可移动、旋转、隐藏版面部件并叠加素材，适合学习与视觉实验。";
+
+    const policy = TEMPLATE_POLICIES[state.style] || TEMPLATE_POLICIES["white-studio"];
+    $("#template-purpose").textContent = policy.purpose;
+    $("#template-scope").textContent = guided ? policy.scope : "自由模式已开启：模板规则作为起点，所有部件均可继续调整。";
+    const formatSelect = $("#format");
+    formatSelect.disabled = guided;
+    $("#format-group").classList.toggle("locked-control", guided);
+
+    CONTENT_FIELD_IDS.forEach((id) => {
+      const input = $("#" + id);
+      const enabled = !guided || policy.blocks.includes(id);
+      input.disabled = !enabled;
+      input.closest(".field-group")?.classList.toggle("field-disabled", !enabled);
+    });
+    if (activeElement && !elementCanBeEdited(activeElement)) activeElement = null;
+    const addButton = $("#add-text-box-btn");
+    if (addButton) addButton.disabled = (state.extraTextBoxes || []).length >= (guided ? 3 : 8);
+  }
+
+  function setEditorMode(mode) {
+    const nextMode = mode === "free" ? "free" : "guided";
+    if (state.editorMode === nextMode) return;
+    state.editorMode = nextMode;
+    if (nextMode === "guided") {
+      const policy = TEMPLATE_POLICIES[state.style] || TEMPLATE_POLICIES["white-studio"];
+      if (state.format !== policy.format) {
+        state.format = policy.format;
+        $("#format").value = state.format;
+        zoomMultiplier = 1;
+      }
+    }
+    activeElement = null;
+    syncEditorMode();
+    renderMaterials();
+    renderExtraTextList();
+    scheduleRender();
+    showToast(nextMode === "guided" ? "已进入成品模式：核心构图已锁定" : "已进入自由模式：可以调整全部版面部件");
   }
 
   function updateAllCounts() {
@@ -319,6 +422,9 @@
     } else if (activeElement?.kind === "emoji") {
       const sticker = state.emojiStickers.find((item) => item.id === activeElement.id);
       if (sticker) { scale = Number(sticker.scale) || 1; maxScale = 2.8; caption = `${sticker.emoji} 大小`; }
+    } else if (activeElement?.kind === "extra-text") {
+      const box = findExtraTextBox(activeElement.id);
+      if (box) { scale = Number(box.scale) || 1; maxScale = 2.8; caption = "文本框大小"; }
     }
     slider.disabled = scale == null;
     slider.max = String(Math.round(maxScale * 100));
@@ -347,6 +453,9 @@
     } else if (activeElement?.kind === "block" && !state.hiddenBlocks.includes(activeElement.id)) {
       angle = Number(state.blockTransforms?.[activeElement.id]?.rotation) || 0;
       caption = `${BLOCK_LABELS[activeElement.id] || "版面元素"}角度`;
+    } else if (activeElement?.kind === "extra-text") {
+      const box = findExtraTextBox(activeElement.id);
+      if (box) { angle = Number(box.rotation) || 0; caption = "文本框角度"; }
     }
     slider.disabled = angle == null;
     slider.value = String(Math.round(clamp(angle || 0, -180, 180)));
@@ -673,12 +782,68 @@
     c.imageSmoothingQuality = "high";
 
     drawFlatPoster(c, data, W, H, s, seed);
-    if (Array.isArray(data.decorations) && data.decorations.length) drawCollageMaterials(c, data, W, H, seed);
-    if (Array.isArray(data.emojiStickers) && data.emojiStickers.length) drawEmojiStickers(c, data, W, H);
+    if (Array.isArray(data.extraTextBoxes) && data.extraTextBoxes.length) drawExtraTextBoxes(c, data, W, H);
+    if (data.editorMode === "free" && Array.isArray(data.decorations) && data.decorations.length) {
+      drawCollageMaterials(c, data, W, H, seed);
+    } else if (data.editorMode !== "free" && data.style === "neon-doodle") {
+      const templateDecorations = (data.decorations || []).filter((entry, index) => materialId(entry, index) === "neon-blob-main");
+      if (templateDecorations.length) drawCollageMaterials(c, { ...data, decorations: templateDecorations }, W, H, seed);
+    }
+    if (data.editorMode === "free" && Array.isArray(data.emojiStickers) && data.emojiStickers.length) drawEmojiStickers(c, data, W, H);
     if (data.showGrain) drawGrain(c, W, H, seed, data.style === "collage" ? .075 : .045);
     if (c === ctx && activeElement) drawActiveElementOutline(c);
     if (c === ctx && draggingElement && data.smartGuides) drawSmartGuides(c, W, H);
     c.restore();
+  }
+
+  function drawExtraTextBoxes(c, data, W, H) {
+    const unit = W / 1080;
+    const theme = getFlatTheme(data);
+    data.extraTextBoxes.slice(0, 8).forEach((box) => {
+      const preset = box.preset || "caption";
+      const scale = clamp(Number(box.scale) || 1, .4, 2.8);
+      const rotation = clamp(Number(box.rotation) || 0, -180, 180) * Math.PI / 180;
+      const x = clamp(Number(box.x) || .16, .02, .98) * W;
+      const y = clamp(Number(box.y) || .84, .02, .98) * H;
+      const fontSize = (preset === "statement" ? 39 : preset === "label" ? 18 : 22) * unit;
+      const maxWidth = (preset === "statement" ? .54 : preset === "label" ? .38 : .44) * W;
+      const weight = preset === "caption" ? 650 : 900;
+      const family = preset === "statement" ? theme.titleFont : 'Arial, "Microsoft YaHei", sans-serif';
+      const text = String(box.text || "补充文字");
+
+      c.save();
+      c.translate(x, y); c.rotate(rotation); c.scale(scale, scale);
+      c.font = `${weight} ${fontSize}px ${family}`;
+      c.textAlign = "left"; c.textBaseline = "top";
+      const lines = wrapLines(c, text, maxWidth, preset === "statement" ? 4 : 3);
+      const lineHeight = fontSize * (preset === "caption" ? 1.36 : 1.08);
+      const widths = lines.map((line) => c.measureText(line).width);
+      const textWidth = Math.max(fontSize * 2.2, ...widths);
+      const textHeight = Math.max(lineHeight, lines.length * lineHeight);
+      const padX = preset === "label" ? 15 * unit : 0;
+      const padY = preset === "label" ? 10 * unit : 0;
+      const originX = -textWidth / 2;
+      const originY = -textHeight / 2;
+      if (preset === "label") {
+        c.fillStyle = theme.accent;
+        roundedRectPath(c, originX - padX, originY - padY, textWidth + padX * 2, textHeight + padY * 2, 4 * unit);
+        c.fill();
+        c.fillStyle = luminance(theme.accent) < .58 ? "#ffffff" : "#111111";
+      } else c.fillStyle = theme.ink;
+      lines.forEach((line, index) => c.fillText(line, originX, originY + index * lineHeight, maxWidth));
+      if (preset === "caption") {
+        c.fillStyle = theme.accent;
+        c.fillRect(originX, originY + textHeight + 7 * unit, Math.min(textWidth, 64 * unit), Math.max(2, 3 * unit));
+      }
+      c.restore();
+
+      if (c === ctx) interactiveHitAreas.push({
+        kind: "extra-text", id: box.id, x, y,
+        w: (textWidth + padX * 2) * scale,
+        h: (textHeight + padY * 2 + (preset === "caption" ? 12 * unit : 0)) * scale,
+        radius: Math.hypot(textWidth, textHeight) * scale / 2
+      });
+    });
   }
 
   function getFlatTheme(data) {
@@ -686,11 +851,11 @@
       "white-studio": { bg: "#ffffff", ink: "#11110f", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 88, visual: "plain" },
       "ici-grid": { bg: data.background, ink: "#151515", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 94, visual: "ICI" },
       "ici-electric": { bg: data.background, ink: "#ffffff", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 132, visual: "electric" },
-      swiss: { bg: "#ffffff", ink: "#11110f", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 90, visual: "swiss" },
-      editorial: { bg: "#ffffff", ink: "#171714", titleFont: 'Georgia, "Songti SC", serif', titleWeight: 500, titleSize: 76, visual: "editorial" },
-      collage: { bg: data.background, ink: "#151513", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 91, visual: "collage" },
-      quiet: { bg: "#ffffff", ink: "#181714", titleFont: 'Georgia, "Songti SC", serif', titleWeight: 400, titleSize: 72, visual: "quiet" },
-      "layout-lab": { bg: "#ffffff", ink: "#121211", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 92, visual: "layout" },
+      swiss: { bg: "#f4f4f4", ink: "#161616", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 98, visual: "systems" },
+      editorial: { bg: "#f5f5f0", ink: "#151515", titleFont: 'Georgia, "Songti SC", serif', titleWeight: 500, titleSize: 78, visual: "portrait" },
+      collage: { bg: "#121212", ink: "#ffffff", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 102, visual: "wrapped" },
+      quiet: { bg: "#f5f5f7", ink: "#1d1d1f", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 800, titleSize: 72, visual: "product" },
+      "layout-lab": { bg: "#ffffff", ink: "#161616", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 88, visual: "townhall" },
       "art-blue": { bg: "#f4f4f2", ink: "#125fc6", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 90, visual: "blue" },
       "composition-atlas": { bg: "#fbfaf6", ink: "#171714", titleFont: 'Georgia, "Songti SC", serif', titleWeight: 500, titleSize: 79, visual: "atlas" },
       workshop: { bg: data.background, ink: "#151513", titleFont: 'Arial, "Microsoft YaHei", sans-serif', titleWeight: 900, titleSize: 82, visual: "workshop" },
@@ -717,11 +882,11 @@
       "white-studio": { visual: { x: .62, y: .46, w: .58, h: .42 }, title: { x: .24, y: .16, w: .42, h: .15 }, body: { x: .72, y: .78, w: .41, h: .12, align: "right" } },
       "ici-grid": {},
       "ici-electric": { kicker: { x: .22, y: .07, w: .38, h: .04 }, title: { x: .34, y: .22, w: .62, h: .24 }, subtitle: { x: .76, y: .34, w: .38, h: .05, align: "right" }, visual: { x: .61, y: .49, w: .72, h: .50 }, date: { x: .22, y: .80, w: .36, h: .075 }, time: { x: .18, y: .86, w: .28, h: .035 }, venue: { x: .76, y: .80, w: .38, h: .08, align: "right" }, body: { x: .72, y: .88, w: .43, h: .09, align: "right" } },
-      swiss: { title: { x: .23, y: .15, w: .40, h: .15 }, visual: { x: .68, y: .43, w: .48, h: .45 }, date: { x: .19, y: .56, w: .30, h: .07 }, body: { x: .27, y: .75, w: .44, h: .15 }, venue: { x: .77, y: .76, w: .33, h: .08, align: "right" } },
-      editorial: { kicker: { x: .17, y: .07, w: .27, h: .035 }, title: { x: .22, y: .21, w: .34, h: .22 }, subtitle: { x: .21, y: .35, w: .33, h: .055 }, visual: { x: .70, y: .39, w: .50, h: .50 }, date: { x: .20, y: .53, w: .30, h: .06 }, time: { x: .18, y: .585, w: .25, h: .035 }, venue: { x: .24, y: .67, w: .36, h: .09 }, body: { x: .69, y: .73, w: .48, h: .15, align: "right" }, organizer: { x: .70, y: .93, w: .46, h: .035, align: "right" } },
-      collage: { title: { x: .29, y: .17, w: .54, h: .17 }, visual: { x: .55, y: .48, w: .67, h: .46 }, date: { x: .22, y: .74, w: .34, h: .07 }, venue: { x: .75, y: .72, w: .38, h: .09, align: "right" } },
-      quiet: { kicker: { x: .18, y: .08, w: .28, h: .035 }, title: { x: .72, y: .22, w: .38, h: .22, align: "right" }, subtitle: { x: .72, y: .36, w: .38, h: .05, align: "right" }, visual: { x: .36, y: .48, w: .44, h: .43 }, date: { x: .18, y: .20, w: .26, h: .06 }, time: { x: .16, y: .25, w: .21, h: .035 }, venue: { x: .72, y: .57, w: .38, h: .08, align: "right" }, body: { x: .72, y: .67, w: .38, h: .15, align: "right" }, organizer: { x: .50, y: .935, w: .60, h: .035, align: "center" } },
-      "layout-lab": { title: { x: .18, y: .18, w: .30, h: .22 }, subtitle: { x: .18, y: .32, w: .30, h: .05 }, visual: { x: .67, y: .42, w: .48, h: .54 }, date: { x: .19, y: .57, w: .31, h: .07 }, venue: { x: .26, y: .71, w: .43, h: .09 }, body: { x: .69, y: .77, w: .46, h: .15, align: "right" } },
+      swiss: { kicker: { x: .18, y: .065, w: .28, h: .03 }, title: { x: .31, y: .18, w: .56, h: .19 }, subtitle: { x: .30, y: .315, w: .54, h: .05 }, visual: { x: .70, y: .51, w: .50, h: .42 }, date: { x: .20, y: .62, w: .31, h: .07 }, venue: { x: .24, y: .72, w: .38, h: .08 }, body: { x: .26, y: .82, w: .42, h: .13 }, organizer: { x: .70, y: .94, w: .48, h: .03, align: "right" } },
+      editorial: { kicker: { x: .19, y: .07, w: .31, h: .03 }, title: { x: .25, y: .22, w: .39, h: .24 }, subtitle: { x: .24, y: .38, w: .38, h: .05 }, visual: { x: .73, y: .48, w: .46, h: .72 }, date: { x: .21, y: .51, w: .30, h: .06 }, venue: { x: .24, y: .60, w: .36, h: .075 }, body: { x: .25, y: .73, w: .40, h: .16 }, organizer: { x: .25, y: .94, w: .40, h: .03 } },
+      collage: { kicker: { x: .20, y: .055, w: .32, h: .03 }, title: { x: .34, y: .17, w: .62, h: .18 }, subtitle: { x: .70, y: .28, w: .42, h: .05, align: "right" }, visual: { x: .52, y: .52, w: .86, h: .50 }, date: { x: .20, y: .82, w: .33, h: .07 }, body: { x: .73, y: .83, w: .42, h: .11, align: "right" }, organizer: { x: .24, y: .95, w: .42, h: .03 } },
+      quiet: { kicker: { x: .50, y: .055, w: .40, h: .03, align: "center" }, title: { x: .50, y: .15, w: .70, h: .13, align: "center" }, subtitle: { x: .50, y: .245, w: .62, h: .05, align: "center" }, visual: { x: .50, y: .52, w: .58, h: .52 }, date: { x: .50, y: .82, w: .34, h: .06, align: "center" }, organizer: { x: .50, y: .95, w: .60, h: .03, align: "center" } },
+      "layout-lab": { kicker: { x: .20, y: .065, w: .31, h: .03 }, title: { x: .27, y: .20, w: .44, h: .21 }, subtitle: { x: .26, y: .34, w: .42, h: .05 }, visual: { x: .74, y: .25, w: .42, h: .28 }, date: { x: .22, y: .57, w: .34, h: .07 }, venue: { x: .26, y: .68, w: .42, h: .08 }, body: { x: .73, y: .72, w: .42, h: .17, align: "right" }, organizer: { x: .72, y: .94, w: .46, h: .03, align: "right" } },
       "art-blue": { title: { x: .27, y: .16, w: .50, h: .17 }, subtitle: { x: .25, y: .28, w: .46, h: .05 }, visual: { x: .60, y: .49, w: .65, h: .42 }, date: { x: .18, y: .77, w: .30, h: .07 }, time: { x: .17, y: .83, w: .27, h: .035 }, venue: { x: .74, y: .77, w: .39, h: .08, align: "right" }, body: { x: .70, y: .86, w: .43, h: .10, align: "right" } },
       "composition-atlas": { title: { x: .25, y: .14, w: .46, h: .15 }, visual: { x: .52, y: .48, w: .63, h: .51 }, date: { x: .21, y: .75, w: .33, h: .065 }, venue: { x: .76, y: .74, w: .35, h: .08, align: "right" }, body: { x: .72, y: .83, w: .40, h: .11, align: "right" } },
       workshop: { kicker: { x: .18, y: .045, w: .29, h: .03 }, title: { x: .27, y: .13, w: .49, h: .14 }, subtitle: { x: .25, y: .235, w: .44, h: .04 }, visual: { x: .52, y: .60, w: .91, h: .55 }, date: { x: .80, y: .055, w: .28, h: .045, align: "right" }, time: { x: .78, y: .21, w: .32, h: .03, align: "right" }, venue: { x: .77, y: .255, w: .37, h: .05, align: "right" }, body: { x: .27, y: .30, w: .48, h: .055 }, organizer: { x: .25, y: .965, w: .44, h: .025 }, qr: { x: .91, y: .935, w: .075, h: .06 } },
@@ -756,11 +921,13 @@
       : ["visual", "kicker", "title", "subtitle", "date", "time", "venue", "body", "organizer", "qr"];
     order.forEach((id) => {
       const spec = layout[id];
-      if (!spec || state.hiddenBlocks?.includes(id)) return;
+      const policy = TEMPLATE_POLICIES[data.style] || TEMPLATE_POLICIES["white-studio"];
+      if (!spec || (data.editorMode === "free" && data.hiddenBlocks?.includes(id))) return;
+      if (data.editorMode !== "free" && !policy.blocks.includes(id)) return;
       // Empty image placeholders should be genuine whitespace. The visual block
       // appears only after an image is uploaded, except for styles whose visual
       // is generated by the template itself.
-      if (id === "visual" && !imageAssets.length && data.style !== "ici-electric" && data.style !== "workshop") return;
+      if (id === "visual" && !imageAssets.length && !GENERATED_VISUAL_STYLES.has(data.style)) return;
       drawFlatBlock(c, data, W, H, s, seed, theme, id, spec);
     });
   }
@@ -782,17 +949,34 @@
       drawSpacedText(c, marquee, -W * .10, H - 18 * W / 1080, 2.8 * W / 1080);
       c.strokeStyle = theme.ink; c.lineWidth = 2 * W / 1080; c.beginPath(); c.moveTo(W * .03, H * .075); c.lineTo(W * .97, H * .075); c.stroke();
     } else if (data.style === "swiss") {
-      c.fillStyle = accent; c.fillRect(W * .04, H * .04, W * .045, H * .18); c.fillRect(W * .87, H * .78, W * .09, H * .16);
-      c.strokeStyle = "rgba(20,20,18,.12)"; c.lineWidth = 1; for (let x = W * .04; x < W; x += W / 12) { c.beginPath(); c.moveTo(x, H * .03); c.lineTo(x, H * .97); c.stroke(); }
+      const left = W * .045, right = W * .955, top = H * .042, bottom = H * .958;
+      c.strokeStyle = alpha("#161616", .16); c.lineWidth = Math.max(1, W * .0011);
+      for (let i = 0; i <= 8; i++) { const x = left + (right - left) * i / 8; c.beginPath(); c.moveTo(x, top); c.lineTo(x, bottom); c.stroke(); }
+      for (let i = 0; i <= 12; i++) { const y = top + (bottom - top) * i / 12; c.beginPath(); c.moveTo(left, y); c.lineTo(right, y); c.stroke(); }
+      c.fillStyle = accent; c.fillRect(left, top, W * .055, H * .19); c.fillRect(W * .82, H * .79, W * .135, H * .168);
+      c.fillStyle = "#161616"; c.font = `900 ${17 * W / 1080}px Arial, sans-serif`; c.fillText("SYSTEM / 01", left + W * .072, top + 17 * W / 1080);
     } else if (data.style === "editorial") {
-      c.fillStyle = "#161613"; c.fillRect(W * .47, H * .05, Math.max(2, W * .0025), H * .90); c.fillStyle = alpha(accent, .13); c.fillRect(W * .04, H * .86, W * .41, H * .08);
+      c.fillStyle = "#161613"; c.fillRect(W * .485, H * .05, Math.max(2, W * .0025), H * .90);
+      c.fillStyle = accent; c.fillRect(W * .055, H * .872, W * .34, Math.max(4, W * .005));
+      c.fillStyle = alpha(accent, .10); c.fillRect(W * .055, H * .895, W * .34, H * .045);
     } else if (data.style === "collage") {
-      c.fillStyle = "#fff"; c.fillRect(W * .045, H * .05, W * .50, H * .22); c.fillStyle = accent; c.fillRect(W * .60, H * .07, W * .35, H * .17); c.fillStyle = "#191917"; c.fillRect(W * .04, H * .90, W * .42, H * .045);
+      const glow = c.createRadialGradient(W * .82, H * .24, 0, W * .82, H * .24, W * .55);
+      glow.addColorStop(0, alpha(accent, .38)); glow.addColorStop(1, alpha(accent, 0));
+      c.fillStyle = glow; c.fillRect(0, 0, W, H);
+      c.fillStyle = "#ffffff"; c.fillRect(W * .045, H * .047, W * .47, H * .205);
+      c.fillStyle = accent; c.fillRect(W * .64, H * .047, W * .315, H * .105);
+      c.strokeStyle = accent; c.lineWidth = Math.max(4, W * .012); c.beginPath(); c.arc(W * .88, H * .77, W * .19, 0, Math.PI * 1.55); c.stroke();
     } else if (data.style === "quiet") {
-      c.fillStyle = alpha(accent, .09); c.beginPath(); c.arc(W * .34, H * .48, W * .25, 0, Math.PI * 2); c.fill(); c.fillStyle = "#181714"; c.fillRect(W * .055, H * .05, W * .16, Math.max(2, W * .002));
+      const glow = c.createRadialGradient(W * .50, H * .52, W * .02, W * .50, H * .52, W * .45);
+      glow.addColorStop(0, alpha(accent, .11)); glow.addColorStop(.5, alpha(accent, .035)); glow.addColorStop(1, alpha(accent, 0));
+      c.fillStyle = glow; c.fillRect(0, H * .18, W, H * .62);
+      c.fillStyle = "#181714"; c.fillRect(W * .43, H * .047, W * .14, Math.max(2, W * .002));
     } else if (data.style === "layout-lab") {
-      c.strokeStyle = alpha(accent, .82); c.lineWidth = Math.max(2, W * .003);
-      c.strokeRect(W * .045, H * .055, W * .33, H * .29); c.strokeRect(W * .54, H * .10, W * .41, H * .51); c.fillStyle = alpha(accent, .15); c.fillRect(W * .06, H * .71, W * .48, H * .20);
+      const left = W * .045, top = H * .045, gridW = W * .91, gridH = H * .91;
+      c.fillStyle = accent; c.fillRect(left + gridW * .5, top, gridW * .5, gridH * .5);
+      c.strokeStyle = "#161616"; c.lineWidth = Math.max(2, W * .0022); c.strokeRect(left, top, gridW, gridH);
+      c.beginPath(); c.moveTo(left + gridW * .5, top); c.lineTo(left + gridW * .5, top + gridH); c.moveTo(left, top + gridH * .5); c.lineTo(left + gridW, top + gridH * .5); c.stroke();
+      c.fillStyle = "#161616"; c.fillRect(left, top + gridH * .5, gridW * .055, gridH * .5);
     } else if (data.style === "art-blue") {
       c.fillStyle = theme.ink; c.fillRect(0, H * .88, W, H * .12); c.fillStyle = "#8bdd12"; c.fillRect(W * .04, H * .68, W * .22, H * .045);
     } else if (data.style === "composition-atlas") {
@@ -812,7 +996,7 @@
   }
 
   function drawFlatBlock(c, data, W, H, s, seed, theme, id, spec) {
-    const transform = data.blockTransforms?.[id] || {};
+    const transform = data.editorMode === "free" ? (data.blockTransforms?.[id] || {}) : {};
     const x = (Number.isFinite(transform.x) ? transform.x : spec.x) * W;
     const y = (Number.isFinite(transform.y) ? transform.y : spec.y) * H;
     const scale = clamp(Number(transform.scale) || 1, .38, 2.6);
@@ -841,7 +1025,7 @@
     if (data.style === "neon-doodle") Object.assign(sizes, { kicker: 13, title: 76, subtitle: 76, date: 20, time: 14, venue: 15, body: 17, organizer: 11 });
     const weights = { kicker: 800, subtitle: 750, date: 900, time: 750, venue: 760, body: 500, organizer: 800 };
     if (data.style === "neon-doodle") Object.assign(weights, { kicker: 850, subtitle: 900, date: 800, body: 600, organizer: 800 });
-    const textStyle = data.textStyles?.[id] || {};
+    const textStyle = data.editorMode === "free" ? (data.textStyles?.[id] || {}) : {};
     const automaticFamily = isTitle ? theme.titleFont : 'Arial, "Microsoft YaHei", sans-serif';
     const family = FONT_FAMILIES[textStyle.font] || automaticFamily;
     const baseTarget = (sizes[id] || 18) * s;
@@ -910,6 +1094,40 @@
       } else coverImage(c, image.img, -w / 2, -h / 2, w, h);
     } else if (variant === "electric") {
       drawFluidObject(c, -w / 2, -h / 2, w, h, theme.accent, seed, true);
+    } else if (variant === "systems") {
+      const unit = Math.min(w, h) / 10;
+      c.fillStyle = theme.accent; c.fillRect(-w * .48, -h * .45, w * .42, h * .42);
+      c.fillStyle = "#161616"; c.fillRect(-w * .01, -h * .45, w * .49, h * .18);
+      c.strokeStyle = theme.accent; c.lineWidth = unit * .18;
+      for (let i = 0; i < 4; i++) c.strokeRect(-w * .48 + i * unit * 1.55, h * .05, unit * 1.08, unit * 1.08);
+      c.fillStyle = "#161616"; c.fillRect(w * .16, -unit * .08, unit * 3, unit * .16); c.fillRect(w * .16 + unit * 1.42, -unit * 1.5, unit * .16, unit * 3);
+    } else if (variant === "portrait") {
+      const gradient = c.createLinearGradient(-w / 2, -h / 2, w / 2, h / 2);
+      gradient.addColorStop(0, "#e9e9e4"); gradient.addColorStop(1, "#a9aaa6"); c.fillStyle = gradient; c.fillRect(-w / 2, -h / 2, w, h);
+      c.fillStyle = "#2d2d2b"; c.beginPath(); c.arc(0, -h * .18, Math.min(w, h) * .20, 0, Math.PI * 2); c.fill();
+      c.beginPath(); c.moveTo(-w * .34, h * .50); c.quadraticCurveTo(-w * .26, h * .05, 0, h * .02); c.quadraticCurveTo(w * .30, h * .04, w * .38, h * .50); c.closePath(); c.fill();
+      c.fillStyle = theme.accent; c.fillRect(-w * .47, h * .38, w * .38, Math.max(4, w * .018));
+    } else if (variant === "wrapped") {
+      const gradient = c.createLinearGradient(-w * .5, -h * .5, w * .5, h * .5);
+      gradient.addColorStop(0, "#7c3cff"); gradient.addColorStop(.48, theme.accent); gradient.addColorStop(1, "#ff4e88"); c.fillStyle = gradient; c.fillRect(-w / 2, -h / 2, w, h);
+      c.save(); c.translate(w * .05, 0); c.rotate(-.23);
+      c.strokeStyle = "#121212"; c.lineWidth = Math.max(7, w * .025);
+      for (let i = 0; i < 5; i++) { c.beginPath(); c.ellipse(0, 0, w * (.12 + i * .06), h * (.10 + i * .065), 0, 0, Math.PI * 2); c.stroke(); }
+      c.restore();
+      c.fillStyle = "#ffffff"; c.beginPath(); c.arc(-w * .34, -h * .32, Math.min(w, h) * .06, 0, Math.PI * 2); c.fill();
+    } else if (variant === "product") {
+      const shadow = c.createRadialGradient(0, h * .32, 0, 0, h * .32, w * .40);
+      shadow.addColorStop(0, "rgba(0,0,0,.25)"); shadow.addColorStop(1, "rgba(0,0,0,0)"); c.fillStyle = shadow; c.fillRect(-w / 2, h * .10, w, h * .40);
+      const deviceW = w * .52, deviceH = h * .78;
+      const metal = c.createLinearGradient(-deviceW / 2, 0, deviceW / 2, 0); metal.addColorStop(0, "#111214"); metal.addColorStop(.5, "#404248"); metal.addColorStop(1, "#0b0c0e");
+      roundedRectPath(c, -deviceW / 2, -deviceH / 2, deviceW, deviceH, deviceW * .11); c.fillStyle = metal; c.fill();
+      roundedRectPath(c, -deviceW * .45, -deviceH * .45, deviceW * .90, deviceH * .88, deviceW * .08); c.fillStyle = "#050607"; c.fill();
+      const screen = c.createLinearGradient(-deviceW * .3, -deviceH * .4, deviceW * .3, deviceH * .4); screen.addColorStop(0, alpha(theme.accent, .88)); screen.addColorStop(1, "#06070a"); c.fillStyle = screen; c.fillRect(-deviceW * .38, -deviceH * .38, deviceW * .76, deviceH * .76);
+    } else if (variant === "townhall") {
+      c.fillStyle = theme.accent; c.fillRect(-w / 2, -h / 2, w, h);
+      c.strokeStyle = "#ffffff"; c.lineWidth = Math.max(4, w * .014); c.lineCap = "square";
+      c.beginPath(); c.moveTo(-w * .31, 0); c.lineTo(w * .24, 0); c.lineTo(w * .05, -h * .22); c.moveTo(w * .24, 0); c.lineTo(w * .05, h * .22); c.stroke();
+      c.strokeStyle = alpha("#ffffff", .38); c.lineWidth = Math.max(2, w * .004); c.strokeRect(-w * .40, -h * .34, w * .18, h * .68);
     }
     c.restore();
   }
@@ -2155,6 +2373,7 @@
     updateMaterialRotationLabel();
     updateElementEditor();
     updateTypographyEditor();
+    renderExtraTextList();
   }
 
   function renderBlockControls() {
@@ -2172,6 +2391,10 @@
   }
 
   function selectBlock(id) {
+    if (state.editorMode !== "free") {
+      showToast("成品模式已锁定核心版式；切换到自由模式后可移动这些部件");
+      return;
+    }
     if (state.hiddenBlocks.includes(id)) state.hiddenBlocks = state.hiddenBlocks.filter((item) => item !== id);
     activeElement = { kind: "block", id };
     renderMaterials();
@@ -2182,7 +2405,7 @@
   function updateTypographyEditor() {
     const editor = $("#typography-editor");
     if (!editor) return;
-    const editable = activeElement?.kind === "block" && TEXT_BLOCK_IDS.includes(activeElement.id) && !state.hiddenBlocks.includes(activeElement.id);
+    const editable = state.editorMode === "free" && activeElement?.kind === "block" && TEXT_BLOCK_IDS.includes(activeElement.id) && !state.hiddenBlocks.includes(activeElement.id);
     editor.hidden = !editable;
     if (!editable) return;
     const id = activeElement.id;
@@ -2258,6 +2481,94 @@
     showToast(`已添加 ${emoji}，可在海报上直接拖动`);
   }
 
+  function renderExtraTextList() {
+    const container = $("#extra-text-list");
+    if (!container) return;
+    if (!Array.isArray(state.extraTextBoxes)) state.extraTextBoxes = [];
+    container.innerHTML = "";
+    if (!state.extraTextBoxes.length) {
+      const empty = document.createElement("div");
+      empty.className = "extra-text-empty";
+      empty.textContent = "还没有补充文本。适合放注释、标签或一句强调语。";
+      container.appendChild(empty);
+    }
+    state.extraTextBoxes.forEach((box, index) => {
+      const item = document.createElement("div");
+      item.className = "extra-text-item";
+      item.dataset.extraTextId = box.id;
+      item.classList.toggle("editing", activeElement?.kind === "extra-text" && activeElement.id === box.id);
+      item.innerHTML = `
+        <span class="extra-text-index">T${String(index + 1).padStart(2, "0")}</span>
+        <input class="extra-text-input" value="${escapeHtml(box.text)}" maxlength="120" aria-label="补充文本 ${index + 1}">
+        <select class="extra-text-preset" aria-label="补充文本 ${index + 1} 样式">
+          <option value="caption"${box.preset === "caption" ? " selected" : ""}>注释</option>
+          <option value="label"${box.preset === "label" ? " selected" : ""}>标签</option>
+          <option value="statement"${box.preset === "statement" ? " selected" : ""}>强调</option>
+        </select>
+        <button class="extra-text-remove" type="button" aria-label="删除补充文本 ${index + 1}">×</button>`;
+      const activate = () => {
+        activeElement = { kind: "extra-text", id: box.id };
+        $$(".extra-text-item", container).forEach((entry) => entry.classList.toggle("editing", entry.dataset.extraTextId === box.id));
+        updateMaterialScaleLabel();
+        updateMaterialRotationLabel();
+        updateElementEditor();
+        renderPreview();
+      };
+      $(".extra-text-input", item).addEventListener("focus", activate);
+      $(".extra-text-input", item).addEventListener("input", (event) => {
+        box.text = event.currentTarget.value;
+        activeElement = { kind: "extra-text", id: box.id };
+        scheduleRender();
+      });
+      $(".extra-text-preset", item).addEventListener("change", (event) => {
+        box.preset = event.currentTarget.value;
+        activeElement = { kind: "extra-text", id: box.id };
+        renderMaterials();
+        scheduleRender();
+      });
+      $(".extra-text-remove", item).addEventListener("click", () => {
+        state.extraTextBoxes = state.extraTextBoxes.filter((entry) => entry.id !== box.id);
+        if (activeElement?.kind === "extra-text" && activeElement.id === box.id) activeElement = null;
+        syncEditorMode();
+        renderMaterials();
+        scheduleRender();
+      });
+      item.addEventListener("click", (event) => {
+        if (!event.target.closest("button, input, select")) activate();
+      });
+      container.appendChild(item);
+    });
+    const addButton = $("#add-text-box-btn");
+    if (addButton) addButton.disabled = state.extraTextBoxes.length >= (state.editorMode === "free" ? 8 : 3);
+  }
+
+  function addExtraTextBox() {
+    if (!Array.isArray(state.extraTextBoxes)) state.extraTextBoxes = [];
+    const limit = state.editorMode === "free" ? 8 : 3;
+    if (state.extraTextBoxes.length >= limit) {
+      showToast(state.editorMode === "free" ? "一张海报最多添加 8 个文本框" : "成品模式最多添加 3 个文本框，避免破坏信息层级");
+      return;
+    }
+    extraTextSerial += 1;
+    const index = state.extraTextBoxes.length;
+    const box = {
+      id: `extra-text-${Date.now().toString(36)}-${extraTextSerial.toString(36)}`,
+      text: "补充文字",
+      preset: index === 1 ? "label" : index === 2 ? "statement" : "caption",
+      x: .18 + (index % 3) * .08,
+      y: .84 - (index % 3) * .07,
+      scale: 1,
+      rotation: 0
+    };
+    state.extraTextBoxes = [...state.extraTextBoxes, box];
+    activeElement = { kind: "extra-text", id: box.id };
+    syncEditorMode();
+    renderMaterials();
+    scheduleRender();
+    requestAnimationFrame(() => $(".extra-text-item.editing .extra-text-input")?.select());
+    showToast("已添加文本框，可直接输入并在海报上拖动");
+  }
+
   function updateElementEditor() {
     const editor = $("#element-editor");
     const hint = $("#drag-hint");
@@ -2266,23 +2577,27 @@
       ? Boolean(findMaterialInstance(activeElement.id))
       : activeElement?.kind === "emoji"
         ? state.emojiStickers.some((item) => item.id === activeElement.id)
-        : activeElement?.kind === "block" && !state.hiddenBlocks.includes(activeElement.id);
+        : activeElement?.kind === "extra-text"
+          ? Boolean(findExtraTextBox(activeElement.id))
+          : activeElement?.kind === "block" && !state.hiddenBlocks.includes(activeElement.id);
     if (!exists) activeElement = null;
-    editor.hidden = !activeElement;
-    hint.hidden = !activeElement;
-    canvas.classList.toggle("can-drag", Boolean(activeElement));
+    const editable = elementCanBeEdited(activeElement);
+    editor.hidden = !editable;
+    hint.hidden = !editable;
+    canvas.classList.toggle("can-drag", editable);
     if (!activeElement) return;
     const materialInstance = activeElement.kind === "material" ? findMaterialInstance(activeElement.id) : null;
     const sticker = activeElement.kind === "emoji" ? state.emojiStickers.find((item) => item.id === activeElement.id) : null;
     const name = activeElement.kind === "material" ? MATERIAL_LABELS[materialType(materialInstance)]
       : activeElement.kind === "block" ? BLOCK_LABELS[activeElement.id]
-        : `${sticker?.emoji || "Emoji"} Emoji`;
+        : activeElement.kind === "extra-text" ? "补充文本"
+          : `${sticker?.emoji || "Emoji"} Emoji`;
     $("#active-element-name").textContent = name;
     hint.textContent = `拖动${name}调整位置`;
   }
 
   function updateActiveElementScale(direction) {
-    if (!activeElement) return;
+    if (!elementCanBeEdited(activeElement)) return;
     if (activeElement.kind === "material") {
       const current = state.materialTransforms?.[activeElement.id] || {};
       state.materialTransforms = {
@@ -2293,6 +2608,10 @@
       state.emojiStickers = state.emojiStickers.map((sticker) => sticker.id === activeElement.id
         ? { ...sticker, scale: clamp((Number(sticker.scale) || 1) + direction * .12, .4, 2.8) }
         : sticker);
+    } else if (activeElement.kind === "extra-text") {
+      state.extraTextBoxes = state.extraTextBoxes.map((box) => box.id === activeElement.id
+        ? { ...box, scale: clamp((Number(box.scale) || 1) + direction * .12, .4, 2.8) }
+        : box);
     } else {
       const current = state.blockTransforms?.[activeElement.id] || {};
       state.blockTransforms = {
@@ -2305,20 +2624,22 @@
   }
 
   function setActiveMaterialScale(percent) {
-    if (!activeElement || (activeElement.kind !== "material" && activeElement.kind !== "emoji")) return;
-    const scale = clamp((Number(percent) || 100) / 100, .4, activeElement.kind === "emoji" ? 2.8 : 2.5);
+    if (!elementCanBeEdited(activeElement) || !["material", "emoji", "extra-text"].includes(activeElement.kind)) return;
+    const scale = clamp((Number(percent) || 100) / 100, .4, activeElement.kind === "material" ? 2.5 : 2.8);
     if (activeElement.kind === "material") {
       const current = state.materialTransforms?.[activeElement.id] || {};
       state.materialTransforms = { ...(state.materialTransforms || {}), [activeElement.id]: { ...current, scale } };
-    } else {
+    } else if (activeElement.kind === "emoji") {
       state.emojiStickers = state.emojiStickers.map((sticker) => sticker.id === activeElement.id ? { ...sticker, scale } : sticker);
+    } else {
+      state.extraTextBoxes = state.extraTextBoxes.map((box) => box.id === activeElement.id ? { ...box, scale } : box);
     }
     updateMaterialScaleLabel();
     scheduleRender();
   }
 
   function setActiveElementRotation(degrees) {
-    if (!activeElement) return;
+    if (!elementCanBeEdited(activeElement)) return;
     const angle = clamp(Number(degrees) || 0, -180, 180);
     if (activeElement.kind === "material" && findMaterialInstance(activeElement.id)) {
       const current = state.materialTransforms?.[activeElement.id] || {};
@@ -2330,6 +2651,8 @@
       state.emojiStickers = state.emojiStickers.map((sticker) => sticker.id === activeElement.id
         ? { ...sticker, rotation: angle * Math.PI / 180 }
         : sticker);
+    } else if (activeElement.kind === "extra-text" && findExtraTextBox(activeElement.id)) {
+      state.extraTextBoxes = state.extraTextBoxes.map((box) => box.id === activeElement.id ? { ...box, rotation: angle } : box);
     } else if (activeElement.kind === "block" && !state.hiddenBlocks.includes(activeElement.id)) {
       const current = state.blockTransforms?.[activeElement.id] || {};
       state.blockTransforms = {
@@ -2342,7 +2665,7 @@
   }
 
   function resetActiveElementPosition() {
-    if (!activeElement) return;
+    if (!elementCanBeEdited(activeElement)) return;
     if (activeElement.kind === "material") {
       const transforms = { ...(state.materialTransforms || {}) };
       const current = { ...(transforms[activeElement.id] || {}) };
@@ -2355,6 +2678,11 @@
         if (sticker.id !== activeElement.id) return sticker;
         const reset = { ...sticker }; delete reset.x; delete reset.y; return reset;
       });
+    } else if (activeElement.kind === "extra-text") {
+      const index = state.extraTextBoxes.findIndex((box) => box.id === activeElement.id);
+      state.extraTextBoxes = state.extraTextBoxes.map((box) => box.id === activeElement.id
+        ? { ...box, x: .18 + (Math.max(0, index) % 3) * .08, y: .84 - (Math.max(0, index) % 3) * .07 }
+        : box);
     } else {
       const transforms = { ...(state.blockTransforms || {}) };
       const current = { ...(transforms[activeElement.id] || {}) };
@@ -2368,12 +2696,15 @@
   }
 
   function removeActiveElement() {
-    if (!activeElement) return;
+    if (!elementCanBeEdited(activeElement)) return;
     if (activeElement.kind === "material") {
       state.decorations = state.decorations.filter((entry, index) => materialId(entry, index) !== activeElement.id);
       const transforms = { ...(state.materialTransforms || {}) }; delete transforms[activeElement.id]; state.materialTransforms = transforms;
     } else if (activeElement.kind === "emoji") {
       state.emojiStickers = state.emojiStickers.filter((sticker) => sticker.id !== activeElement.id);
+    } else if (activeElement.kind === "extra-text") {
+      state.extraTextBoxes = state.extraTextBoxes.filter((box) => box.id !== activeElement.id);
+      syncEditorMode();
     } else {
       if (!state.hiddenBlocks.includes(activeElement.id)) state.hiddenBlocks = [...state.hiddenBlocks, activeElement.id];
     }
@@ -2399,6 +2730,8 @@
       state.materialTransforms = { ...(state.materialTransforms || {}), [element.id]: { ...current, x: nx, y: ny } };
     } else if (element.kind === "emoji") {
       state.emojiStickers = state.emojiStickers.map((sticker) => sticker.id === element.id ? { ...sticker, x: nx, y: ny } : sticker);
+    } else if (element.kind === "extra-text") {
+      state.extraTextBoxes = state.extraTextBoxes.map((box) => box.id === element.id ? { ...box, x: nx, y: ny } : box);
     } else {
       const current = state.blockTransforms?.[element.id] || {};
       state.blockTransforms = { ...(state.blockTransforms || {}), [element.id]: { ...current, x: nx, y: ny } };
@@ -2468,8 +2801,13 @@
       ? Math.abs(point.x - area.x) <= area.w * .56 && Math.abs(point.y - area.y) <= area.h * .56
       : Math.hypot(point.x - area.x, point.y - area.y) <= area.radius * 1.08);
     if (!hit) return;
+    const candidate = { kind: hit.kind, id: hit.id };
+    if (!elementCanBeEdited(candidate)) {
+      showToast("成品模式已锁定核心构图；补充文本仍可直接拖动");
+      return;
+    }
     event.preventDefault();
-    activeElement = { kind: hit.kind, id: hit.id };
+    activeElement = candidate;
     draggingElement = {
       pointerId: event.pointerId,
       element: { ...activeElement },
@@ -2517,7 +2855,7 @@
   }
 
   function nudgeActiveElement(dx, dy) {
-    if (!activeElement) return;
+    if (!elementCanBeEdited(activeElement)) return;
     const hit = interactiveHitAreas.find((area) => elementKey(area) === elementKey(activeElement));
     if (!hit) return;
     setElementPosition(activeElement, hit.x + dx * canvas.width, hit.y + dy * canvas.height);
@@ -2549,6 +2887,7 @@
       decorations: JSON.parse(JSON.stringify(state.decorations || [])),
       materialTransforms: JSON.parse(JSON.stringify(state.materialTransforms || {})),
       emojiStickers: JSON.parse(JSON.stringify(state.emojiStickers || [])),
+      extraTextBoxes: JSON.parse(JSON.stringify(state.extraTextBoxes || [])),
       materialScale: Number(state.materialScale) || 100,
       workshopCourses: (state.workshopCourses || []).map((course) => ({ ...course }))
     };
@@ -2567,6 +2906,7 @@
       decorations: [],
       materialTransforms: {},
       emojiStickers: [],
+      extraTextBoxes: [],
       materialScale: 100,
       workshopCourses: TEACHER_WORKSHOP_COURSES.map((course) => ({ ...course }))
     };
@@ -2585,6 +2925,7 @@
         "neon-blob-main": { x: .84, y: .80, scale: 1.68 }
       },
       emojiStickers: [],
+      extraTextBoxes: [],
       materialScale: 100,
       workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course }))
     };
@@ -2607,6 +2948,7 @@
     state.decorations = materialWorkspace.decorations;
     state.materialTransforms = materialWorkspace.materialTransforms;
     state.emojiStickers = JSON.parse(JSON.stringify(snapshot.emojiStickers || []));
+    state.extraTextBoxes = normalizeExtraTextBoxes(snapshot.extraTextBoxes);
     state.materialScale = Number(snapshot.materialScale) || 100;
     state.workshopCourses = (snapshot.workshopCourses || DEFAULT_COURSES).map((course) => ({ ...course }));
   }
@@ -2650,6 +2992,13 @@
       zoomMultiplier = 1;
     }
     state.style = style;
+    if (state.editorMode !== "free") {
+      const policy = TEMPLATE_POLICIES[style] || TEMPLATE_POLICIES["white-studio"];
+      if (state.format !== policy.format) {
+        state.format = policy.format;
+        zoomMultiplier = 1;
+      }
+    }
     if (previousStyle !== style) syncWorkspaceFields();
     if (applyPalette) {
       state.accent = STYLE_DEFAULTS[style].accent;
@@ -2664,6 +3013,7 @@
       card.setAttribute("aria-checked", String(selected));
     });
     toggleWorkshopSection();
+    syncEditorMode();
     if (activeElement?.kind === "block" && activeElement.id === "courses" && style !== "teacher-workshop") activeElement = null;
     renderMaterials();
     state.seed = Math.floor(Math.random() * 99999);
@@ -2671,6 +3021,10 @@
   }
 
   function randomizeLayout() {
+    if (state.editorMode !== "free") {
+      showToast("成品模式使用稳定版式；切换到自由模式后可以生成变体");
+      return;
+    }
     state.seed = Math.floor(Math.random() * 99999);
     scheduleRender();
     showToast("已根据相同内容生成一个新的版式变体");
@@ -2694,7 +3048,7 @@
   }
 
   function resetAll() {
-    state = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
+    state = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
     imageAssets = [];
     qrAsset = null;
     activeElement = null;
@@ -2903,15 +3257,17 @@
     }
     imageAssets[0].placedOnCanvas = true;
     state.hiddenBlocks = (state.hiddenBlocks || []).filter((id) => id !== "visual");
-    const point = canvasPoint({ clientX, clientY });
-    activeElement = { kind: "block", id: "visual" };
-    setElementPosition(activeElement, point.x, point.y);
+    if (state.editorMode === "free") {
+      const point = canvasPoint({ clientX, clientY });
+      activeElement = { kind: "block", id: "visual" };
+      setElementPosition(activeElement, point.x, point.y);
+    } else activeElement = null;
     draggingAssetIndex = null;
     renderAssets();
     renderMaterials();
     renderPreview();
     saveState();
-    showToast("图片已放到海报中，可继续拖动和缩放");
+    showToast(state.editorMode === "free" ? "图片已放到海报中，可继续拖动和缩放" : "图片已替换主图，并按模板规则自动就位");
   }
 
   function placeAssetOnCanvas(event) {
@@ -3047,6 +3403,7 @@
 
   function bindEvents() {
     $$('[data-field]').forEach((el) => el.addEventListener(el.tagName === "SELECT" || el.type === "checkbox" ? "change" : "input", onFieldInput));
+    $$('[data-editor-mode]').forEach((button) => button.addEventListener("click", () => setEditorMode(button.dataset.editorMode)));
     $$(".style-card").forEach((card) => card.addEventListener("click", () => selectStyle(card.dataset.style)));
     $$(".material-card").forEach((card) => card.addEventListener("click", () => toggleMaterial(card.dataset.material)));
     $$('[data-emoji]').forEach((button) => button.addEventListener("click", () => addEmojiSticker(button.dataset.emoji)));
@@ -3064,6 +3421,7 @@
     });
     $("#load-demo-btn").addEventListener("click", fillDemo);
     $("#reset-btn").addEventListener("click", resetAll);
+    $("#add-text-box-btn").addEventListener("click", addExtraTextBox);
     $("#export-btn").addEventListener("click", exportPoster);
     $("#element-smaller-btn").addEventListener("click", () => updateActiveElementScale(-1));
     $("#element-larger-btn").addEventListener("click", () => updateActiveElementScale(1));
@@ -3130,12 +3488,12 @@
 
     $$('[data-close-modal]').forEach((el) => el.addEventListener("click", closeExportModal));
     document.addEventListener("keydown", (event) => {
-      if (!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key) && activeElement) {
+      if (!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown"].includes(event.key) && elementCanBeEdited(activeElement)) {
         event.preventDefault();
         const step = event.shiftKey ? .025 : .006;
         nudgeActiveElement(event.key === "ArrowLeft" ? -step : event.key === "ArrowRight" ? step : 0, event.key === "ArrowUp" ? -step : event.key === "ArrowDown" ? step : 0);
       }
-      if (!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && (event.key === "Delete" || event.key === "Backspace") && activeElement) { event.preventDefault(); removeActiveElement(); }
+      if (!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && (event.key === "Delete" || event.key === "Backspace") && elementCanBeEdited(activeElement)) { event.preventDefault(); removeActiveElement(); }
       if (event.key.toLowerCase() === "r" && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) randomizeLayout();
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") { event.preventDefault(); exportPoster(); }
       if (event.key === "Escape") { closeExportModal(); activeElement = null; renderMaterials(); renderPreview(); }

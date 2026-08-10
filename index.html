@@ -53,7 +53,7 @@
             <div class="style-list" id="style-list" role="radiogroup" aria-label="海报风格">
               <button class="style-card selected" data-style="white-studio" role="radio" aria-checked="true" type="button">
                 <span class="style-preview preview-white-studio"><b>WHITE<br>SPACE</b><em>01</em></span>
-                <span class="style-meta"><b>纯白平面</b><small>自由编辑 / 克制信息 / 纯白底</small></span>
+                <span class="style-meta"><b>纯白平面</b><small>固定骨架 / 克制信息 / 纯白底</small></span>
                 <span class="style-check">✓</span>
               </button>
 
@@ -72,32 +72,32 @@
               </button>
 
               <button class="style-card" data-style="swiss" role="radio" aria-checked="false" type="button">
-                <span class="style-preview preview-swiss"><i></i><b>GRID<br>01</b></span>
-                <span class="style-meta"><b>瑞士秩序</b><small>理性网格 / 经典现代主义</small></span>
+                <span class="style-preview preview-swiss"><i></i><b>SYS<br>01</b></span>
+                <span class="style-meta"><b>科技系统发布</b><small>系统网格 / 科技论坛 / IBM 启发</small></span>
                 <span class="style-check">✓</span>
               </button>
 
               <button class="style-card" data-style="editorial" role="radio" aria-checked="false" type="button">
-                <span class="style-preview preview-editorial"><b>New<br>Ideas</b><i></i></span>
-                <span class="style-meta"><b>编辑部</b><small>图文对话 / 杂志叙事</small></span>
+                <span class="style-preview preview-editorial"><b>THINK<br>DIFFERENT</b><i></i></span>
+                <span class="style-meta"><b>人物宣言</b><small>人物故事 / 品牌观点 / Apple 启发</small></span>
                 <span class="style-check">✓</span>
               </button>
 
               <button class="style-card" data-style="collage" role="radio" aria-checked="false" type="button">
-                <span class="style-preview preview-collage"><i></i><em></em><b>MAKE<br>NOISE</b></span>
-                <span class="style-meta"><b>新拼贴</b><small>层叠照片 / 粗粝青年感</small></span>
+                <span class="style-preview preview-collage"><i></i><em></em><b>YOUR<br>YEAR</b></span>
+                <span class="style-meta"><b>年度声音回顾</b><small>年度数据 / 音乐活动 / Wrapped 启发</small></span>
                 <span class="style-check">✓</span>
               </button>
 
               <button class="style-card" data-style="quiet" role="radio" aria-checked="false" type="button">
-                <span class="style-preview preview-quiet"><i></i><b>留<br>白</b></span>
-                <span class="style-meta"><b>静默留白</b><small>克制东方 / 艺术展览</small></span>
+                <span class="style-preview preview-quiet"><i></i><b>PRODUCT<br>01</b></span>
+                <span class="style-meta"><b>产品极简发布</b><small>单品主视觉 / 发布会 / Apple 启发</small></span>
                 <span class="style-check">✓</span>
               </button>
 
               <button class="style-card" data-style="layout-lab" role="radio" aria-checked="false" type="button">
-                <span class="style-preview preview-layout-lab"><i></i><em></em><b>构<br>图</b></span>
-                <span class="style-meta"><b>经典构图实验</b><small>四角 / 对角 / 包围 / 复合</small></span>
+                <span class="style-preview preview-layout-lab"><i></i><em></em><b>TOWN<br>HALL</b></span>
+                <span class="style-meta"><b>系统讲座</b><small>双栏议程 / 学术论坛 / IBM 启发</small></span>
                 <span class="style-check">✓</span>
               </button>
 
@@ -130,6 +130,21 @@
                 <span class="style-meta"><b>荧光炭笔海报</b><small>第 13 款 / 手绘营销 / 经典 3:4</small></span>
                 <span class="style-check">✓</span>
               </button>
+            </div>
+
+            <div class="editor-mode-panel" aria-label="编辑模式">
+              <div class="editor-mode-head"><b>使用方式</b><span id="mode-status">核心版式已锁定</span></div>
+              <div class="mode-segment" role="group" aria-label="选择编辑自由度">
+                <button type="button" data-editor-mode="guided" class="selected" aria-pressed="true">成品模式</button>
+                <button type="button" data-editor-mode="free" aria-pressed="false">自由模式</button>
+              </div>
+              <p id="mode-description">只替换内容和主图，核心构图保持稳定，适合直接生产活动海报。</p>
+            </div>
+
+            <div class="template-policy" id="template-policy">
+              <span>当前模板</span>
+              <b id="template-purpose">通用活动 / 课程发布</b>
+              <p id="template-scope">固定 3:4 构图；开放文字内容、主图与补充文本框。</p>
             </div>
           </section>
 
@@ -193,7 +208,16 @@
               <input id="organizer" data-field="organizer" maxlength="72" value="INSTITUTE OF CREATIVITY AND INNOVATION" placeholder="组织、品牌或作者" />
             </div>
 
-            <div class="part-picker">
+            <div class="extra-text-panel">
+              <div class="extra-text-head">
+                <div><b>补充文本框</b><small>为嘉宾、备注或口号增加额外文字</small></div>
+                <button class="text-button" id="add-text-box-btn" type="button">＋ 添加文本</button>
+              </div>
+              <div class="extra-text-list" id="extra-text-list" aria-live="polite"></div>
+              <p class="field-hint">成品模式最多 3 个；新增后可在右侧海报上拖动、缩放和旋转。</p>
+            </div>
+
+            <div class="part-picker free-only">
               <div><b>版面部件</b><small>点击选中；在右侧画布中直接拖动</small></div>
               <div class="part-grid" role="group" aria-label="可调整的版面部件">
                 <button type="button" data-block="kicker">眉题</button><button type="button" data-block="title">主标题</button>
@@ -205,7 +229,7 @@
               </div>
             </div>
 
-            <div class="typography-editor" id="typography-editor" hidden>
+            <div class="typography-editor free-only" id="typography-editor" hidden>
               <div class="typography-editor-head">
                 <div><b>文字样式</b><small id="typography-target">请先选择一个文字部件</small></div>
                 <button class="text-button muted" id="typography-reset-btn" type="button">恢复模板</button>
@@ -249,7 +273,7 @@
             <p class="field-hint">按住图片缩略图，可直接拖到右侧海报的任意位置；松开后还能继续移动和缩放。也可点“抠图”提取主体并下载透明 PNG。首次抠图需联网加载模型，图片本身只在浏览器内处理。</p>
 
             <div class="material-library">
-              <div class="material-library-head">
+              <div class="material-library-head free-only">
                 <div>
                   <b>内置拼贴素材</b>
                   <small>点击添加或选中，然后在海报上直接拖动</small>
@@ -259,7 +283,7 @@
                   <button class="text-button muted" id="clear-materials-btn" type="button">清空</button>
                 </div>
               </div>
-              <div class="material-grid" id="material-grid" role="group" aria-label="内置拼贴素材">
+              <div class="material-grid free-only" id="material-grid" role="group" aria-label="内置拼贴素材">
                 <button class="material-card" type="button" data-material="tape" aria-pressed="false"><i class="material-preview preview-tape"></i><span>胶带</span></button>
                 <button class="material-card" type="button" data-material="torn-paper" aria-pressed="false"><i class="material-preview preview-paper"></i><span>撕纸</span></button>
                 <button class="material-card" type="button" data-material="halftone" aria-pressed="false"><i class="material-preview preview-dots"></i><span>网点</span></button>
@@ -290,7 +314,7 @@
                 <output id="material-rotation-value">选择元素</output>
               </div>
 
-              <div class="emoji-library">
+              <div class="emoji-library free-only">
                 <div class="emoji-group">
                   <b>工具 / 创作</b>
                   <div class="emoji-grid" role="group" aria-label="工具类型 Emoji">
@@ -368,7 +392,7 @@
               <div><span class="step-no">04</span><h2>画布与细节</h2></div>
             </div>
 
-            <div class="field-group">
+            <div class="field-group" id="format-group">
               <label for="format">海报尺寸</label>
               <select id="format" data-field="format">
                 <option value="social">社交媒体竖版 · 4:5</option>
@@ -379,7 +403,7 @@
               </select>
             </div>
 
-            <div class="field-row color-row">
+            <div class="field-row color-row free-only">
               <div class="field-group">
                 <label for="accent-color">强调色</label>
                 <div class="color-input"><input id="accent-color" data-field="accent" type="color" value="#7667ff" /><span id="accent-value">#7667FF</span></div>
@@ -390,13 +414,13 @@
               </div>
             </div>
 
-            <div class="range-field">
+            <div class="range-field free-only">
               <div><label for="density">信息密度</label><output id="density-value">平衡</output></div>
               <input id="density" data-field="density" type="range" min="0" max="2" value="1" step="1" />
               <div class="range-labels"><span>呼吸</span><span>平衡</span><span>紧凑</span></div>
             </div>
 
-            <div class="toggle-row">
+            <div class="toggle-row free-only">
               <label class="toggle-label" for="smart-guides"><span><b>智能参考线与吸附</b><small>拖动时显示中心、边距及元素对齐线</small></span><span class="switch"><input id="smart-guides" data-field="smartGuides" type="checkbox" checked /><i></i></span></label>
               <label class="toggle-label" for="show-grid"><span><b>显示辅助网格</b><small>仅部分风格可见</small></span><span class="switch"><input id="show-grid" data-field="showGrid" type="checkbox" checked /><i></i></span></label>
               <label class="toggle-label" for="show-grain"><span><b>纸张颗粒</b><small>需要时再增加印刷质感</small></span><span class="switch"><input id="show-grain" data-field="showGrain" type="checkbox" /><i></i></span></label>
