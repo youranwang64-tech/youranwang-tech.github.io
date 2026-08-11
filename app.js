@@ -15,7 +15,8 @@
     poster: { label: "经典海报 · 3:4", preview: [1080, 1440], export: [1080, 1440] },
     story: { label: "手机故事 · 9:16", preview: [1080, 1920], export: [1080, 1920] },
     square: { label: "正方形 · 1:1", preview: [1080, 1080], export: [1080, 1080] },
-    a4: { label: "印刷 A4 · 210 × 297 mm", preview: [1080, 1528], export: [2480, 3508] }
+    a4: { label: "印刷 A4 · 210 × 297 mm", preview: [1080, 1528], export: [2480, 3508] },
+    psd: { label: "原版 PSD · 3000:4290", preview: [1080, 1544], export: [1080, 1544] }
   };
 
   const STYLE_DEFAULTS = {
@@ -33,21 +34,22 @@
   };
 
   const TEMPLATE_POLICIES = {
-    "white-studio": { purpose: "01 · 当代艺术群展 / 参展名单", scope: "参考《作为意志与表象的世界》；固定散点文字、彩色坐标和右侧大标题。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
-    "ici-grid": { purpose: "02 · 摄影展 / 科技艺术展", scope: "参考《宇宙与荒原》；固定黑底网格、超大标题和球形主视觉。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer"] },
-    "ici-electric": { purpose: "03 · 音乐节 / 青年文化活动", scope: "参考《城市旷野》；固定蓝色雾化场、细衬线标题和四周竖排文字。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "organizer"] },
-    swiss: { purpose: "04 · 生活方式展 / 亲子活动", scope: "参考《过家家》；固定室内拼贴、棋盘地面和红粉色块。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "organizer"] },
-    editorial: { purpose: "05 · 电影展 / 影像放映", scope: "参考《苏联电影展》；固定新闻纸底、像素文字、椭圆圈注和片单信息。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "time", "venue", "body", "organizer"] },
-    collage: { purpose: "06 · 装置展 / 材料实验", scope: "参考《感觉的潮汐》；固定银灰底、黑色巨圆和液态主视觉。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "organizer"] },
-    quiet: { purpose: "07 · 市集 / 咖啡文化活动", scope: "参考《咖啡咖》；固定灰棕圆环、黑色杯形圆和纵横文字。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "venue", "body", "organizer"] },
-    "layout-lab": { purpose: "08 · 诗歌展 / 文学活动", scope: "参考《诗转场》；固定蓝色渐变球、超细标题与紧凑参展信息。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "body", "organizer"] },
-    "art-blue": { purpose: "09 · 夜间活动 / 快闪展", scope: "参考《落日贩卖机》；固定红蓝光带、中央标题与极简底部信息。", format: "poster", blocks: ["kicker", "title", "subtitle", "date", "venue", "organizer"] },
-    "composition-atlas": { purpose: "10 · 女性主题展 / 雕塑展", scope: "参考《枷锁女性》；固定冷灰柱廊、中央雕塑和蓝色粗粝标题。", format: "poster", blocks: ["kicker", "title", "subtitle", "visual", "date", "body", "organizer"] },
+    "white-studio": { purpose: "01 · 作为意志与表象的世界", scope: "由原始 PSD 分层转换；成品模式可改文字，自由模式可调整独立图层。", format: "psd", blocks: [] },
+    "ici-grid": { purpose: "02 · 宇宙与荒原", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    "ici-electric": { purpose: "03 · 城市旷野", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    swiss: { purpose: "04 · 过家家", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    editorial: { purpose: "05 · 苏联电影展", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    collage: { purpose: "06 · 感觉的潮汐", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    quiet: { purpose: "07 · 咖啡咖", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    "layout-lab": { purpose: "08 · 诗转场", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    "art-blue": { purpose: "09 · 落日贩卖机", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    "composition-atlas": { purpose: "10 · 枷锁女性", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
     "teacher-workshop": { purpose: "老师工坊课程表", scope: "保留老师原稿 9:16 比例、四组课程与底部署名。", format: "story", blocks: ["title", "date", "courses", "organizer"] },
   };
 
   const ACTIVE_STYLE_IDS = ["white-studio", "ici-grid", "ici-electric", "swiss", "editorial", "collage", "quiet", "layout-lab", "art-blue", "composition-atlas", "teacher-workshop"];
   const REDESIGNED_PRODUCTION_STYLES = new Set(ACTIVE_STYLE_IDS.filter((style) => style !== "teacher-workshop"));
+  const PSD_TEMPLATE_STYLES = new Set(Object.keys(window.PSD_TEMPLATES || {}));
   const GENERATED_VISUAL_STYLES = new Set(REDESIGNED_PRODUCTION_STYLES);
   const CONTENT_FIELD_IDS = ["kicker", "title", "subtitle", "date", "time", "venue", "body", "organizer"];
 
@@ -170,6 +172,7 @@
     blockTransforms: {},
     textStyles: {},
     hiddenBlocks: [],
+    psdLayerOverrides: {},
     styleDrafts: {},
     materialScale: 100,
     motifPreset: "01",
@@ -186,6 +189,7 @@
   };
 
   let state = loadState();
+  if (currentPsdTemplate(state.style)) state.format = "psd";
   let imageAssets = [];
   let qrAsset = null;
   let zoomMultiplier = 1;
@@ -201,6 +205,8 @@
   let draggingAssetPointer = null;
   let materialSerial = 0;
   let extraTextSerial = 0;
+  const psdImageCache = new Map();
+  let psdLoadingStyle = "";
 
   function materialType(entry) {
     return typeof entry === "string" ? entry : String(entry?.type || "");
@@ -263,6 +269,35 @@
     return (state.extraTextBoxes || []).find((box) => box.id === id) || null;
   }
 
+  function currentPsdTemplate(style = state.style) {
+    return window.PSD_TEMPLATES?.[style] || null;
+  }
+
+  function findPsdLayer(id, style = state.style) {
+    return currentPsdTemplate(style)?.layers?.find((layer) => layer.id === id) || null;
+  }
+
+  function psdLayerOverride(id) {
+    return state.psdLayerOverrides?.[id] || {};
+  }
+
+  function normalizePsdLayerOverrides(overrides) {
+    if (!overrides || typeof overrides !== "object") return {};
+    const normalized = {};
+    Object.entries(overrides).forEach(([id, value]) => {
+      if (!value || typeof value !== "object") return;
+      normalized[id] = {
+        ...(typeof value.text === "string" ? { text: value.text.slice(0, 500) } : {}),
+        ...(Number.isFinite(value.x) ? { x: clamp(value.x, -.5, 1.5) } : {}),
+        ...(Number.isFinite(value.y) ? { y: clamp(value.y, -.5, 1.5) } : {}),
+        ...(Number.isFinite(value.scale) ? { scale: clamp(value.scale, .15, 4) } : {}),
+        ...(Number.isFinite(value.rotation) ? { rotation: clamp(value.rotation, -180, 180) } : {}),
+        ...(value.hidden === true ? { hidden: true } : {})
+      };
+    });
+    return normalized;
+  }
+
   function createStyleDraft(source, style) {
     const policy = TEMPLATE_POLICIES[style] || TEMPLATE_POLICIES["white-studio"];
     const defaults = STYLE_DEFAULTS[style] || STYLE_DEFAULTS["white-studio"];
@@ -271,7 +306,7 @@
       materialTransforms: JSON.parse(JSON.stringify(source?.materialTransforms || {}))
     });
     return {
-      format: source?.format || policy.format,
+      format: PSD_TEMPLATE_STYLES.has(style) ? policy.format : (source?.format || policy.format),
       accent: typeof source?.accent === "string" ? source.accent : defaults.accent,
       background: typeof source?.background === "string" ? source.background : defaults.background,
       showGrain: Boolean(source?.showGrain),
@@ -282,6 +317,7 @@
       materialTransforms: materialWorkspace.materialTransforms,
       emojiStickers: JSON.parse(JSON.stringify(Array.isArray(source?.emojiStickers) ? source.emojiStickers : [])),
       extraTextBoxes: normalizeExtraTextBoxes(source?.extraTextBoxes),
+      psdLayerOverrides: normalizePsdLayerOverrides(source?.psdLayerOverrides),
       materialScale: clamp(Number(source?.materialScale) || 100, 40, 280),
       motifPreset: String(source?.motifPreset || "01"),
       motifEmoji: String(source?.motifEmoji || "👀")
@@ -306,17 +342,20 @@
     state.materialTransforms = normalized.materialTransforms;
     state.emojiStickers = normalized.emojiStickers;
     state.extraTextBoxes = normalized.extraTextBoxes;
+    state.psdLayerOverrides = normalized.psdLayerOverrides;
     state.materialScale = normalized.materialScale;
     state.motifPreset = normalized.motifPreset;
     state.motifEmoji = normalized.motifEmoji;
   }
 
   function elementCanBeEdited(element) {
-    return Boolean(element) && (state.editorMode === "free" || element.kind === "extra-text");
+    if (!element) return false;
+    if (element.kind === "psd-layer") return state.editorMode === "free";
+    return state.editorMode === "free" || element.kind === "extra-text";
   }
 
   function loadState() {
-    const fresh = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], styleDrafts: {}, workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
+    const fresh = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], psdLayerOverrides: {}, styleDrafts: {}, workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
     try {
       const saved = JSON.parse(localStorage.getItem("form01-poster-state") || "null");
       if (!saved) return fresh;
@@ -332,6 +371,7 @@
       if (!merged.blockTransforms || typeof merged.blockTransforms !== "object") merged.blockTransforms = {};
       if (!merged.textStyles || typeof merged.textStyles !== "object") merged.textStyles = {};
       if (!Array.isArray(merged.hiddenBlocks)) merged.hiddenBlocks = [];
+      merged.psdLayerOverrides = normalizePsdLayerOverrides(merged.psdLayerOverrides);
       normalizeMaterialWorkspace(merged);
       ["teacherWorkshopDraft", "teacherWorkshopReturn", "neonDoodleDraft", "neonDoodleReturn"].forEach((key) => {
         if (merged[key]) {
@@ -385,11 +425,14 @@
     updateAllCounts();
     toggleWorkshopSection();
     renderWorkshopCourses();
+    renderPsdLayerPanel();
+    ensurePsdTemplateLoaded(state.style);
   }
 
   function syncEditorMode() {
     const guided = state.editorMode !== "free";
     document.body.classList.toggle("guided-mode", guided);
+    document.body.classList.toggle("psd-template-active", Boolean(currentPsdTemplate()));
     $$('[data-editor-mode]').forEach((button) => {
       const selected = button.dataset.editorMode === (guided ? "guided" : "free");
       button.classList.toggle("selected", selected);
@@ -404,8 +447,8 @@
     $("#template-purpose").textContent = policy.purpose;
     $("#template-scope").textContent = guided ? policy.scope : "自由模式已开启：模板规则作为起点，所有部件均可继续调整。";
     const formatSelect = $("#format");
-    formatSelect.disabled = guided;
-    $("#format-group").classList.toggle("locked-control", guided);
+    formatSelect.disabled = guided || Boolean(currentPsdTemplate());
+    $("#format-group").classList.toggle("locked-control", guided || Boolean(currentPsdTemplate()));
 
     CONTENT_FIELD_IDS.forEach((id) => {
       const input = $("#" + id);
@@ -473,10 +516,17 @@
     } else if (activeElement?.kind === "extra-text") {
       const box = findExtraTextBox(activeElement.id);
       if (box) { scale = Number(box.scale) || 1; maxScale = 2.8; caption = "文本框大小"; }
+    } else if (activeElement?.kind === "psd-layer" && findPsdLayer(activeElement.id)) {
+      const layer = findPsdLayer(activeElement.id);
+      scale = Number(psdLayerOverride(activeElement.id).scale) || 1;
+      maxScale = 4;
+      caption = `${layer.name || "PSD 图层"}大小`;
     }
+    if (!elementCanBeEdited(activeElement)) scale = null;
     slider.disabled = scale == null;
+    slider.min = activeElement?.kind === "psd-layer" ? "15" : "40";
     slider.max = String(Math.round(maxScale * 100));
-    slider.value = String(Math.round(clamp(scale || 1, .4, maxScale) * 100));
+    slider.value = String(Math.round(clamp(scale || 1, activeElement?.kind === "psd-layer" ? .15 : .4, maxScale) * 100));
     output.textContent = scale == null ? "选择素材" : `${Math.round(scale * 100)}%`;
     if (label) label.textContent = caption;
   }
@@ -504,7 +554,12 @@
     } else if (activeElement?.kind === "extra-text") {
       const box = findExtraTextBox(activeElement.id);
       if (box) { angle = Number(box.rotation) || 0; caption = "文本框角度"; }
+    } else if (activeElement?.kind === "psd-layer" && findPsdLayer(activeElement.id)) {
+      const layer = findPsdLayer(activeElement.id);
+      angle = Number(psdLayerOverride(activeElement.id).rotation) || 0;
+      caption = `${layer.name || "PSD 图层"}角度`;
     }
+    if (!elementCanBeEdited(activeElement)) angle = null;
     slider.disabled = angle == null;
     slider.value = String(Math.round(clamp(angle || 0, -180, 180)));
     output.textContent = angle == null ? "选择元素" : `${Math.round(angle)}°`;
@@ -818,6 +873,97 @@
     c.restore();
   }
 
+  function getPsdImage(src) {
+    const cached = psdImageCache.get(src);
+    if (cached?.complete) return cached;
+    if (!cached) {
+      const image = new Image();
+      image.decoding = "async";
+      image.onload = () => { psdImageCache.set(src, image); scheduleRender(false); };
+      image.onerror = () => { psdImageCache.set(src, { complete: false, failed: true }); };
+      image.src = src;
+      psdImageCache.set(src, image);
+    }
+    return null;
+  }
+
+  function ensurePsdTemplateLoaded(style) {
+    const template = currentPsdTemplate(style);
+    if (!template) return;
+    psdLoadingStyle = style;
+    [template.preview, template.base, ...template.layers.map((layer) => layer.src)].forEach(getPsdImage);
+  }
+
+  function drawChangedPsdText(c, layer, override, width, height) {
+    const text = String(override.text ?? layer.text ?? "");
+    const sourceRotation = Number(layer.textRotation) || 0;
+    const quarterTurn = Math.abs(Math.abs(sourceRotation) - 90) < 8;
+    const boxWidth = Math.max(4, quarterTurn ? height : width);
+    const boxHeight = Math.max(4, quarterTurn ? width : height);
+    const lines = text.split(/\n/);
+    const lineHeightRatio = Number(layer.lineHeight) || 1.15;
+    let fontSize = Math.max(4, Number(layer.fontSize) || boxHeight * .55);
+    const familyName = String(layer.fontFamily || layer.fontPostScript || "Arial").replaceAll('"', '');
+    const family = `"${familyName}", "Microsoft YaHei", Arial, sans-serif`;
+    const maxLineWidth = () => Math.max(...lines.map((line) => c.measureText(line || " ").width), 1);
+    c.font = `500 ${fontSize}px ${family}`;
+    while ((maxLineWidth() > boxWidth * .98 || lines.length * fontSize * lineHeightRatio > boxHeight * 1.08) && fontSize > 4) {
+      fontSize *= .94;
+      c.font = `500 ${fontSize}px ${family}`;
+    }
+    c.fillStyle = layer.color || "#111111";
+    c.textBaseline = "middle";
+    c.textAlign = layer.align === "right" ? "right" : layer.align === "center" ? "center" : "left";
+    const anchorX = c.textAlign === "right" ? boxWidth / 2 : c.textAlign === "center" ? 0 : -boxWidth / 2;
+    const lineHeight = fontSize * lineHeightRatio;
+    const startY = -(lines.length - 1) * lineHeight / 2;
+    c.save();
+    c.rotate(sourceRotation * Math.PI / 180);
+    lines.forEach((line, index) => c.fillText(line, anchorX, startY + index * lineHeight, boxWidth));
+    c.restore();
+  }
+
+  function drawPsdTemplate(c, data, W, H) {
+    const template = currentPsdTemplate(data.style);
+    if (!template) return false;
+    const scaleX = W / template.width;
+    const scaleY = H / template.height;
+    const hasOverrides = Object.values(data.psdLayerOverrides || {}).some((value) => value && Object.keys(value).length);
+    const base = getPsdImage(hasOverrides ? template.base : template.preview);
+    if (base?.complete) c.drawImage(base, 0, 0, W, H);
+    else {
+      c.fillStyle = "#f5f5f3";
+      c.fillRect(0, 0, W, H);
+      c.fillStyle = "#111";
+      c.font = `700 ${Math.max(18, W * .024)}px Arial, sans-serif`;
+      c.textAlign = "center";
+      c.fillText("正在读取原始 PSD 图层…", W / 2, H / 2);
+    }
+    template.layers.forEach((layer) => {
+      const override = data.psdLayerOverrides?.[layer.id] || {};
+      if (override.hidden) return;
+      const x = Number.isFinite(override.x) ? override.x * W : layer.x * scaleX;
+      const y = Number.isFinite(override.y) ? override.y * H : layer.y * scaleY;
+      const layerScale = clamp(Number(override.scale) || 1, .15, 4);
+      const rotation = clamp(Number(override.rotation) || 0, -180, 180) * Math.PI / 180;
+      const width = layer.w * scaleX;
+      const height = layer.h * scaleY;
+      if (hasOverrides) {
+        const image = getPsdImage(layer.src);
+        c.save();
+        c.translate(x, y);
+        c.rotate(rotation);
+        c.scale(layerScale, layerScale);
+        const textChanged = layer.type === "type" && typeof override.text === "string" && override.text !== layer.text;
+        if (textChanged) drawChangedPsdText(c, layer, override, width, height);
+        else if (image?.complete) c.drawImage(image, -width / 2, -height / 2, width, height);
+        c.restore();
+      }
+      if (c === ctx) interactiveHitAreas.push({ kind: "psd-layer", id: layer.id, x, y, w: width * layerScale, h: height * layerScale, radius: Math.hypot(width, height) * layerScale / 2 });
+    });
+    return true;
+  }
+
   function drawPoster(c, data, W, H) {
     const s = W / 1080;
     const seed = hashString(`${data.style}-${data.seed}-${data.title}`);
@@ -829,8 +975,8 @@
     c.imageSmoothingEnabled = true;
     c.imageSmoothingQuality = "high";
 
-    drawFlatPoster(c, data, W, H, s, seed);
-    if (Array.isArray(data.extraTextBoxes) && data.extraTextBoxes.length) drawExtraTextBoxes(c, data, W, H);
+    if (!drawPsdTemplate(c, data, W, H)) drawFlatPoster(c, data, W, H, s, seed);
+    if (!currentPsdTemplate(data.style) && Array.isArray(data.extraTextBoxes) && data.extraTextBoxes.length) drawExtraTextBoxes(c, data, W, H);
     if (data.editorMode === "free" && Array.isArray(data.decorations) && data.decorations.length) {
       drawCollageMaterials(c, data, W, H, seed);
     } else if (data.editorMode !== "free" && data.style === "neon-doodle") {
@@ -2480,6 +2626,7 @@
     updateElementEditor();
     updateTypographyEditor();
     renderExtraTextList();
+    renderPsdLayerPanel();
   }
 
   function renderBlockControls() {
@@ -2587,6 +2734,60 @@
     showToast(`已添加 ${emoji}，可在海报上直接拖动`);
   }
 
+  function renderPsdLayerPanel() {
+    const panel = $("#psd-layer-panel");
+    const container = $("#psd-layer-list");
+    const template = currentPsdTemplate();
+    const isPsd = Boolean(template);
+    document.body.classList.toggle("psd-template-active", isPsd);
+    if (!panel || !container) return;
+    panel.hidden = !isPsd;
+    if (!isPsd) { container.innerHTML = ""; return; }
+    if (!state.psdLayerOverrides || typeof state.psdLayerOverrides !== "object") state.psdLayerOverrides = {};
+    container.innerHTML = "";
+    [...template.layers].reverse().forEach((layer) => {
+      const override = psdLayerOverride(layer.id);
+      const item = document.createElement("div");
+      item.className = "psd-layer-item";
+      item.classList.toggle("editing", activeElement?.kind === "psd-layer" && activeElement.id === layer.id);
+      item.classList.toggle("is-hidden", override.hidden === true);
+      item.dataset.layerId = layer.id;
+      const typeLabel = layer.type === "type" ? "文字" : layer.type === "smartobject" ? "图像" : "图形";
+      item.innerHTML = `
+        <button class="psd-layer-visibility" type="button" title="显示或隐藏图层" aria-label="显示或隐藏 ${escapeHtml(layer.name)}">${override.hidden ? "○" : "●"}</button>
+        <div class="psd-layer-main">
+          <div class="psd-layer-label" role="button" tabindex="0"><b>${escapeHtml(layer.name)}</b><small>${typeLabel}</small></div>
+          ${layer.type === "type" ? `<textarea class="psd-layer-text" maxlength="500" aria-label="编辑 ${escapeHtml(layer.name)}">${escapeHtml(override.text ?? layer.text ?? "")}</textarea>` : ""}
+        </div>`;
+      const activate = () => {
+        activeElement = { kind: "psd-layer", id: layer.id };
+        $$(".psd-layer-item", container).forEach((entry) => entry.classList.toggle("editing", entry.dataset.layerId === layer.id));
+        updateMaterialScaleLabel();
+        updateMaterialRotationLabel();
+        updateElementEditor();
+        renderPreview();
+      };
+      $(".psd-layer-label", item).addEventListener("click", activate);
+      $(".psd-layer-label", item).addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") activate(); });
+      $(".psd-layer-visibility", item).addEventListener("click", () => {
+        const next = { ...psdLayerOverride(layer.id), hidden: !psdLayerOverride(layer.id).hidden };
+        if (!next.hidden) delete next.hidden;
+        state.psdLayerOverrides = { ...state.psdLayerOverrides, [layer.id]: next };
+        renderPsdLayerPanel();
+        scheduleRender();
+      });
+      $(".psd-layer-text", item)?.addEventListener("focus", activate);
+      $(".psd-layer-text", item)?.addEventListener("input", (event) => {
+        const next = { ...psdLayerOverride(layer.id), text: event.currentTarget.value };
+        if (next.text === layer.text) delete next.text;
+        state.psdLayerOverrides = { ...state.psdLayerOverrides, [layer.id]: next };
+        activeElement = { kind: "psd-layer", id: layer.id };
+        scheduleRender();
+      });
+      container.appendChild(item);
+    });
+  }
+
   function renderExtraTextList() {
     const container = $("#extra-text-list");
     if (!container) return;
@@ -2686,7 +2887,9 @@
         ? state.emojiStickers.some((item) => item.id === activeElement.id)
         : activeElement?.kind === "extra-text"
           ? Boolean(findExtraTextBox(activeElement.id))
-          : activeElement?.kind === "block" && !state.hiddenBlocks.includes(activeElement.id);
+          : activeElement?.kind === "psd-layer"
+            ? Boolean(findPsdLayer(activeElement.id) && !psdLayerOverride(activeElement.id).hidden)
+            : activeElement?.kind === "block" && !state.hiddenBlocks.includes(activeElement.id);
     if (!exists) activeElement = null;
     const editable = elementCanBeEdited(activeElement);
     editor.hidden = !editable;
@@ -2698,7 +2901,8 @@
     const name = activeElement.kind === "material" ? MATERIAL_LABELS[materialType(materialInstance)]
       : activeElement.kind === "block" ? BLOCK_LABELS[activeElement.id]
         : activeElement.kind === "extra-text" ? "补充文本"
-          : `${sticker?.emoji || "Emoji"} Emoji`;
+          : activeElement.kind === "psd-layer" ? (findPsdLayer(activeElement.id)?.name || "PSD 图层")
+            : `${sticker?.emoji || "Emoji"} Emoji`;
     $("#active-element-name").textContent = name;
     hint.textContent = `拖动${name}调整位置`;
   }
@@ -2719,6 +2923,9 @@
       state.extraTextBoxes = state.extraTextBoxes.map((box) => box.id === activeElement.id
         ? { ...box, scale: clamp((Number(box.scale) || 1) + direction * .12, .4, 2.8) }
         : box);
+    } else if (activeElement.kind === "psd-layer") {
+      const current = psdLayerOverride(activeElement.id);
+      state.psdLayerOverrides = { ...state.psdLayerOverrides, [activeElement.id]: { ...current, scale: clamp((Number(current.scale) || 1) + direction * .12, .15, 4) } };
     } else {
       const current = state.blockTransforms?.[activeElement.id] || {};
       state.blockTransforms = {
@@ -2731,15 +2938,20 @@
   }
 
   function setActiveMaterialScale(percent) {
-    if (!elementCanBeEdited(activeElement) || !["material", "emoji", "extra-text"].includes(activeElement.kind)) return;
-    const scale = clamp((Number(percent) || 100) / 100, .4, activeElement.kind === "material" ? 2.5 : 2.8);
+    if (!elementCanBeEdited(activeElement) || !["material", "emoji", "extra-text", "psd-layer"].includes(activeElement.kind)) return;
+    const minScale = activeElement.kind === "psd-layer" ? .15 : .4;
+    const maxScale = activeElement.kind === "psd-layer" ? 4 : activeElement.kind === "material" ? 2.5 : 2.8;
+    const scale = clamp((Number(percent) || 100) / 100, minScale, maxScale);
     if (activeElement.kind === "material") {
       const current = state.materialTransforms?.[activeElement.id] || {};
       state.materialTransforms = { ...(state.materialTransforms || {}), [activeElement.id]: { ...current, scale } };
     } else if (activeElement.kind === "emoji") {
       state.emojiStickers = state.emojiStickers.map((sticker) => sticker.id === activeElement.id ? { ...sticker, scale } : sticker);
-    } else {
+    } else if (activeElement.kind === "extra-text") {
       state.extraTextBoxes = state.extraTextBoxes.map((box) => box.id === activeElement.id ? { ...box, scale } : box);
+    } else {
+      const current = psdLayerOverride(activeElement.id);
+      state.psdLayerOverrides = { ...state.psdLayerOverrides, [activeElement.id]: { ...current, scale } };
     }
     updateMaterialScaleLabel();
     scheduleRender();
@@ -2766,6 +2978,9 @@
         ...(state.blockTransforms || {}),
         [activeElement.id]: { ...current, rotation: angle }
       };
+    } else if (activeElement.kind === "psd-layer" && findPsdLayer(activeElement.id)) {
+      const current = psdLayerOverride(activeElement.id);
+      state.psdLayerOverrides = { ...state.psdLayerOverrides, [activeElement.id]: { ...current, rotation: angle } };
     } else return;
     updateMaterialRotationLabel();
     scheduleRender();
@@ -2790,6 +3005,10 @@
       state.extraTextBoxes = state.extraTextBoxes.map((box) => box.id === activeElement.id
         ? { ...box, x: .18 + (Math.max(0, index) % 3) * .08, y: .84 - (Math.max(0, index) % 3) * .07 }
         : box);
+    } else if (activeElement.kind === "psd-layer") {
+      const current = { ...psdLayerOverride(activeElement.id) };
+      delete current.x; delete current.y;
+      state.psdLayerOverrides = { ...state.psdLayerOverrides, [activeElement.id]: current };
     } else {
       const transforms = { ...(state.blockTransforms || {}) };
       const current = { ...(transforms[activeElement.id] || {}) };
@@ -2812,6 +3031,9 @@
     } else if (activeElement.kind === "extra-text") {
       state.extraTextBoxes = state.extraTextBoxes.filter((box) => box.id !== activeElement.id);
       syncEditorMode();
+    } else if (activeElement.kind === "psd-layer") {
+      const current = psdLayerOverride(activeElement.id);
+      state.psdLayerOverrides = { ...state.psdLayerOverrides, [activeElement.id]: { ...current, hidden: true } };
     } else {
       if (!state.hiddenBlocks.includes(activeElement.id)) state.hiddenBlocks = [...state.hiddenBlocks, activeElement.id];
     }
@@ -2839,6 +3061,9 @@
       state.emojiStickers = state.emojiStickers.map((sticker) => sticker.id === element.id ? { ...sticker, x: nx, y: ny } : sticker);
     } else if (element.kind === "extra-text") {
       state.extraTextBoxes = state.extraTextBoxes.map((box) => box.id === element.id ? { ...box, x: nx, y: ny } : box);
+    } else if (element.kind === "psd-layer") {
+      const current = psdLayerOverride(element.id);
+      state.psdLayerOverrides = { ...state.psdLayerOverrides, [element.id]: { ...current, x: nx, y: ny } };
     } else {
       const current = state.blockTransforms?.[element.id] || {};
       state.blockTransforms = { ...(state.blockTransforms || {}), [element.id]: { ...current, x: nx, y: ny } };
@@ -2995,6 +3220,7 @@
       materialTransforms: JSON.parse(JSON.stringify(state.materialTransforms || {})),
       emojiStickers: JSON.parse(JSON.stringify(state.emojiStickers || [])),
       extraTextBoxes: JSON.parse(JSON.stringify(state.extraTextBoxes || [])),
+      psdLayerOverrides: JSON.parse(JSON.stringify(state.psdLayerOverrides || {})),
       materialScale: Number(state.materialScale) || 100,
       workshopCourses: (state.workshopCourses || []).map((course) => ({ ...course }))
     };
@@ -3014,6 +3240,7 @@
       materialTransforms: {},
       emojiStickers: [],
       extraTextBoxes: [],
+      psdLayerOverrides: {},
       materialScale: 100,
       workshopCourses: TEACHER_WORKSHOP_COURSES.map((course) => ({ ...course }))
     };
@@ -3033,6 +3260,7 @@
       },
       emojiStickers: [],
       extraTextBoxes: [],
+      psdLayerOverrides: {},
       materialScale: 100,
       workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course }))
     };
@@ -3056,6 +3284,7 @@
     state.materialTransforms = materialWorkspace.materialTransforms;
     state.emojiStickers = JSON.parse(JSON.stringify(snapshot.emojiStickers || []));
     state.extraTextBoxes = normalizeExtraTextBoxes(snapshot.extraTextBoxes);
+    state.psdLayerOverrides = normalizePsdLayerOverrides(snapshot.psdLayerOverrides);
     state.materialScale = Number(snapshot.materialScale) || 100;
     state.workshopCourses = (snapshot.workshopCourses || DEFAULT_COURSES).map((course) => ({ ...course }));
   }
@@ -3105,6 +3334,7 @@
       zoomMultiplier = 1;
     }
     state.style = style;
+    ensurePsdTemplateLoaded(style);
     if (state.editorMode !== "free") {
       const policy = TEMPLATE_POLICIES[style] || TEMPLATE_POLICIES["white-studio"];
       if (state.format !== policy.format) {
@@ -3125,6 +3355,7 @@
       card.setAttribute("aria-checked", String(selected));
     });
     toggleWorkshopSection();
+    renderPsdLayerPanel();
     syncEditorMode();
     if (activeElement?.kind === "block" && activeElement.id === "courses" && style !== "teacher-workshop") activeElement = null;
     renderMaterials();
@@ -3160,7 +3391,8 @@
   }
 
   function resetAll() {
-    state = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], styleDrafts: {}, workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
+    state = { ...defaultState, decorations: [], materialTransforms: {}, emojiStickers: [], extraTextBoxes: [], blockTransforms: {}, textStyles: {}, hiddenBlocks: [], psdLayerOverrides: {}, styleDrafts: {}, workshopCourses: DEFAULT_COURSES.map((course) => ({ ...course })) };
+    state.format = currentPsdTemplate(state.style) ? "psd" : state.format;
     imageAssets = [];
     qrAsset = null;
     activeElement = null;
@@ -3479,6 +3711,16 @@
   }
 
   async function exportPoster() {
+    const psdTemplate = currentPsdTemplate();
+    if (psdTemplate) {
+      ensurePsdTemplateLoaded(state.style);
+      const pending = [psdTemplate.preview, psdTemplate.base, ...psdTemplate.layers.map((layer) => layer.src)]
+        .some((src) => !psdImageCache.get(src)?.complete);
+      if (pending) {
+        showToast("原始 PSD 图层仍在读取，请稍候再导出");
+        return;
+      }
+    }
     const [W, H] = FORMATS[state.format].export;
     const exportCanvas = document.createElement("canvas");
     exportCanvas.width = W;
@@ -3533,6 +3775,14 @@
     });
     $("#load-demo-btn").addEventListener("click", fillDemo);
     $("#reset-btn").addEventListener("click", resetAll);
+    $("#reset-psd-layers-btn").addEventListener("click", () => {
+      state.psdLayerOverrides = {};
+      activeElement = null;
+      renderPsdLayerPanel();
+      renderMaterials();
+      scheduleRender();
+      showToast("已恢复这款 PSD 的原始图层与文字");
+    });
     $("#add-text-box-btn").addEventListener("click", addExtraTextBox);
     $("#export-btn").addEventListener("click", exportPoster);
     $("#element-smaller-btn").addEventListener("click", () => updateActiveElementScale(-1));

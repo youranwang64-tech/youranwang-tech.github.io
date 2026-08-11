@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="FORM/01 - 可自动排版的浏览器海报工作室" />
   <title>FORM / 01 · 海报排版工作室</title>
-  <link rel="stylesheet" href="styles.css?v=20260811" />
+  <link rel="stylesheet" href="styles.css?v=20260811-psd2" />
+  <link rel="stylesheet" href="psd-fonts.css?v=20260811-psd2" />
 </head>
 <body>
   <div class="app-shell">
@@ -134,10 +135,18 @@
             </div>
           </section>
 
-          <section class="panel-section">
+          <section class="panel-section content-editor-section">
             <div class="section-heading">
               <div><span class="step-no">02</span><h2>填写海报内容</h2></div>
               <button class="text-button" id="load-demo-btn" type="button">填入示例</button>
+            </div>
+
+            <div class="psd-layer-panel" id="psd-layer-panel" hidden>
+              <div class="psd-layer-head">
+                <div><b>原始 PSD 图层</b><small>文字保持可改；自由模式可移动、缩放和旋转全部独立图层</small></div>
+                <button class="text-button muted" id="reset-psd-layers-btn" type="button">恢复原稿</button>
+              </div>
+              <div class="psd-layer-list" id="psd-layer-list" aria-live="polite"></div>
             </div>
 
             <div class="field-group">
@@ -386,6 +395,7 @@
                 <option value="story">手机故事 · 9:16</option>
                 <option value="square">正方形 · 1:1</option>
                 <option value="a4">印刷 A4 · 210 × 297 mm</option>
+                <option value="psd">原版 PSD · 3000:4290</option>
               </select>
             </div>
 
@@ -467,6 +477,7 @@
     </div>
   </div>
 
-  <script src="app.js?v=20260811"></script>
+  <script src="psd-templates.js?v=20260811-psd2"></script>
+  <script src="app.js?v=20260811-psd2"></script>
 </body>
 </html>

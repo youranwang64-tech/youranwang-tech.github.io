@@ -743,3 +743,72 @@ kbd { border: 1px solid #ceccc4; background: #f9f8f4; border-radius: 4px; paddin
   .topbar-center { display: none; }
   .topbar { grid-template-columns: 1fr 1fr; }
 }
+.psd-layer-panel {
+  display: grid;
+  gap: 12px;
+}
+
+.psd-layer-panel[hidden] { display: none !important; }
+
+.psd-layer-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.psd-layer-head div { display: grid; gap: 3px; }
+.psd-layer-head small { color: var(--muted, #6f6f6f); line-height: 1.45; }
+
+.psd-layer-list {
+  display: grid;
+  gap: 7px;
+  max-height: 420px;
+  overflow: auto;
+  padding-right: 3px;
+}
+
+.psd-layer-item {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 8px;
+  padding: 9px;
+  border: 1px solid #deded8;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.psd-layer-item.editing { border-color: #111; box-shadow: 0 0 0 1px #111; }
+.psd-layer-item.is-hidden { opacity: .52; }
+.psd-layer-visibility {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 7px;
+  background: #efefe9;
+  cursor: pointer;
+}
+
+.psd-layer-main { min-width: 0; display: grid; gap: 5px; }
+.psd-layer-label { display: flex; align-items: center; gap: 7px; min-width: 0; cursor: pointer; }
+.psd-layer-label b { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+.psd-layer-label small { flex: none; color: #777; font-size: 10px; text-transform: uppercase; }
+.psd-layer-text {
+  width: 100%;
+  min-height: 54px;
+  resize: vertical;
+  padding: 8px;
+  border: 1px solid #d5d5ce;
+  border-radius: 7px;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.psd-template-active .content-editor-section > .field-group,
+.psd-template-active .content-editor-section > .field-row,
+.psd-template-active .content-editor-section > .extra-text-panel,
+.psd-template-active .content-editor-section > .part-picker,
+.psd-template-active .content-editor-section > .typography-editor { display: none !important; }
+
+.psd-template-active #load-demo-btn { display: none; }
