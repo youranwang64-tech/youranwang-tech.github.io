@@ -50,6 +50,18 @@
   const ACTIVE_STYLE_IDS = ["white-studio", "ici-grid", "ici-electric", "swiss", "editorial", "collage", "quiet", "layout-lab", "art-blue", "composition-atlas", "teacher-workshop"];
   const REDESIGNED_PRODUCTION_STYLES = new Set(ACTIVE_STYLE_IDS.filter((style) => style !== "teacher-workshop"));
   const PSD_TEMPLATE_STYLES = new Set(Object.keys(window.PSD_TEMPLATES || {}));
+  const PSD_TITLE_TEXTS = {
+    "white-studio": { "layer-011": "让想象力\n发生", "layer-012": "让想象力\n发生" },
+    "ici-grid": { "layer-021": "让想象力\n发生", "layer-017": "IMAGINATION", "layer-023": "TAKE FORM" },
+    "ici-electric": { "layer-001": "让想象力\n发生", "layer-009": "IMAGINATION", "layer-010": "CREATIVITY", "layer-011": "TAKE FORM", "layer-012": "ICI RP" },
+    swiss: { "layer-008": "让想象力\n发生", "layer-001": "IMAGINATION\nTAKES FORM" },
+    editorial: { "layer-024": "让想象力发生", "layer-001": "LET IMAGINATION TAKE FORM" },
+    collage: { "layer-005": "让想象力发生", "layer-004": "LET IMAGINATION TAKE FORM · XIAMEN UNIVERSITY" },
+    quiet: { "layer-050": "让想象力发生", "layer-053": "让想象力发生", "layer-056": "让想象力发生" },
+    "layout-lab": { "layer-009": "让想象力发生", "layer-008": "IMAGINATION", "layer-007": "TAKE FORM" },
+    "art-blue": { "layer-004": "让想象力发生", "layer-013": "LET IMAGINATION", "layer-012": "TAKE FORM", "layer-011": "XIAMEN UNIVERSITY" },
+    "composition-atlas": { "layer-012": "IMAGINATION", "layer-018": "FORM", "layer-011": "TAKES", "layer-016": "让想", "layer-014": "象力", "layer-017": "发生", "layer-015": "厦大" }
+  };
   const GENERATED_VISUAL_STYLES = new Set(REDESIGNED_PRODUCTION_STYLES);
   const CONTENT_FIELD_IDS = ["kicker", "title", "subtitle", "date", "time", "venue", "body", "organizer"];
 
@@ -275,6 +287,26 @@
 
   function findPsdLayer(id, style = state.style) {
     return currentPsdTemplate(style)?.layers?.find((layer) => layer.id === id) || null;
+  }
+
+  function defaultPsdText(style, layer) {
+    const titleText = PSD_TITLE_TEXTS[style]?.[layer.id];
+    if (typeof titleText === "string") return titleText;
+    const original = String(layer.text || "").trim();
+    if (!original) return "";
+    if (/^[&/·—–+×∞!?.,:：\-\s]+$/.test(original)) return original;
+    if (/\d{1,2}:\d{2}/.test(original)) return "10:00—18:00";
+    if (/20\d{2}/.test(original) && /[.\-/年月]/.test(original)) return "2026.08.24—09.07";
+    if (/^20\d{2}$/.test(original)) return "2026";
+    const hasChinese = /[\u3400-\u9fff]/.test(original);
+    const small = Number(layer.fontSize) < 38 || Math.min(layer.w, layer.h) < 42;
+    if (hasChinese) return small ? "厦门大学创意与创新学院" : "厦门大学";
+    return small ? "INSTITUTE OF CREATIVITY AND INNOVATION, XMU" : "XIAMEN UNIVERSITY";
+  }
+
+  function effectivePsdText(style, layer, overrides = state.psdLayerOverrides) {
+    const override = overrides?.[layer.id] || {};
+    return typeof override.text === "string" ? override.text : defaultPsdText(style, layer);
   }
 
   function psdLayerOverride(id) {
@@ -928,7 +960,7 @@
     if (!template) return false;
     const scaleX = W / template.width;
     const scaleY = H / template.height;
-    const hasOverrides = Object.values(data.psdLayerOverrides || {}).some((value) => value && Object.keys(value).length);
+    const hasOverrides = template.layers.some((layer) => layer.type === "type") || Object.values(data.psdLayerOverrides || {}).some((value) => value && Object.keys(value).length);
     const base = getPsdImage(hasOverrides ? template.base : template.preview);
     if (base?.complete) c.drawImage(base, 0, 0, W, H);
     else {
@@ -954,8 +986,9 @@
         c.translate(x, y);
         c.rotate(rotation);
         c.scale(layerScale, layerScale);
-        const textChanged = layer.type === "type" && typeof override.text === "string" && override.text !== layer.text;
-        if (textChanged) drawChangedPsdText(c, layer, override, width, height);
+        const textValue = layer.type === "type" ? effectivePsdText(data.style, layer, data.psdLayerOverrides) : "";
+        const textChanged = layer.type === "type" && textValue !== layer.text;
+        if (textChanged) drawChangedPsdText(c, layer, { ...override, text: textValue }, width, height);
         else if (image?.complete) c.drawImage(image, -width / 2, -height / 2, width, height);
         c.restore();
       }
@@ -2757,7 +2790,7 @@
         <button class="psd-layer-visibility" type="button" title="显示或隐藏图层" aria-label="显示或隐藏 ${escapeHtml(layer.name)}">${override.hidden ? "○" : "●"}</button>
         <div class="psd-layer-main">
           <div class="psd-layer-label" role="button" tabindex="0"><b>${escapeHtml(layer.name)}</b><small>${typeLabel}</small></div>
-          ${layer.type === "type" ? `<textarea class="psd-layer-text" maxlength="500" aria-label="编辑 ${escapeHtml(layer.name)}">${escapeHtml(override.text ?? layer.text ?? "")}</textarea>` : ""}
+          ${layer.type === "type" ? `<textarea class="psd-layer-text" maxlength="500" aria-label="编辑 ${escapeHtml(layer.name)}">${escapeHtml(effectivePsdText(state.style, layer))}</textarea>` : ""}
         </div>`;
       const activate = () => {
         activeElement = { kind: "psd-layer", id: layer.id };
@@ -2779,7 +2812,7 @@
       $(".psd-layer-text", item)?.addEventListener("focus", activate);
       $(".psd-layer-text", item)?.addEventListener("input", (event) => {
         const next = { ...psdLayerOverride(layer.id), text: event.currentTarget.value };
-        if (next.text === layer.text) delete next.text;
+        if (next.text === defaultPsdText(state.style, layer)) delete next.text;
         state.psdLayerOverrides = { ...state.psdLayerOverrides, [layer.id]: next };
         activeElement = { kind: "psd-layer", id: layer.id };
         scheduleRender();
@@ -3781,7 +3814,7 @@
       renderPsdLayerPanel();
       renderMaterials();
       scheduleRender();
-      showToast("已恢复这款 PSD 的原始图层与文字");
+      showToast("已恢复这款模板的厦大默认文案与原始图层位置");
     });
     $("#add-text-box-btn").addEventListener("click", addExtraTextBox);
     $("#export-btn").addEventListener("click", exportPoster);
