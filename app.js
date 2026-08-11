@@ -38,16 +38,16 @@
     "ici-grid": { purpose: "02 · 宇宙与荒原", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
     "ici-electric": { purpose: "03 · 城市旷野", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
     swiss: { purpose: "04 · 过家家", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
-    editorial: { purpose: "05 · 苏联电影展", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
-    collage: { purpose: "06 · 感觉的潮汐", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
-    quiet: { purpose: "07 · 咖啡咖", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
-    "layout-lab": { purpose: "08 · 诗转场", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
-    "art-blue": { purpose: "09 · 落日贩卖机", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
-    "composition-atlas": { purpose: "10 · 枷锁女性", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    editorial: { purpose: "苏联电影展", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    collage: { purpose: "05 · 感觉的潮汐", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    quiet: { purpose: "咖啡咖", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    "layout-lab": { purpose: "06 · 诗转场", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    "art-blue": { purpose: "07 · 落日贩卖机", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
+    "composition-atlas": { purpose: "08 · 枷锁女性", scope: "由原始 PSD 分层转换；保留原稿图像、字体位置和构图比例。", format: "psd", blocks: [] },
     "teacher-workshop": { purpose: "老师工坊课程表", scope: "保留老师原稿 9:16 比例、四组课程与底部署名。", format: "story", blocks: ["title", "date", "courses", "organizer"] },
   };
 
-  const ACTIVE_STYLE_IDS = ["white-studio", "ici-grid", "ici-electric", "swiss", "editorial", "collage", "quiet", "layout-lab", "art-blue", "composition-atlas", "teacher-workshop"];
+  const ACTIVE_STYLE_IDS = ["white-studio", "ici-grid", "ici-electric", "swiss", "collage", "layout-lab", "art-blue", "composition-atlas", "teacher-workshop"];
   const REDESIGNED_PRODUCTION_STYLES = new Set(ACTIVE_STYLE_IDS.filter((style) => style !== "teacher-workshop"));
   const PSD_TEMPLATE_STYLES = new Set(Object.keys(window.PSD_TEMPLATES || {}));
   const PSD_TITLE_TEXTS = {
