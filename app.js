@@ -51,7 +51,22 @@
   const REDESIGNED_PRODUCTION_STYLES = new Set(ACTIVE_STYLE_IDS.filter((style) => style !== "teacher-workshop"));
   const PSD_TEMPLATE_STYLES = new Set(Object.keys(window.PSD_TEMPLATES || {}));
   const PSD_TITLE_TEXTS = {
-    "white-studio": { "layer-011": "让想象力\n发生", "layer-012": "让想象力\n发生" },
+    "white-studio": {
+      "layer-001": "设计\n创新\n未来",
+      "layer-002": "在厦门大学\n创意与创新\n学院之中\n想象力发生",
+      "layer-003": "跨越学科\n连接创意\n面向未来",
+      "layer-004": "设计研究\n实验教学\n协作创造\n开放共享",
+      "layer-005": "厦门大学\n漳州校区\n创意与创新\n学院",
+      "layer-006": "创意与创新\n学院",
+      "layer-007": "XIAMEN UNIVERSITY\nCREATIVITY AND\nINNOVATION",
+      "layer-008": "DESIGN\nTECHNOLOGY\nCULTURE\nRESEARCH\nMAKING\nLEARNING\nIMAGINATION\nFUTURE",
+      "layer-009": "CREATIVITY\nINNOVATION\nRESEARCH\nPRACTICE\nMATERIAL\nDIGITAL\nFUTURE",
+      "layer-010": "08.24 ——\n09.07.2026",
+      "layer-011": "让想象力\n发生\nICI RP",
+      "layer-012": "让想象力\n发生\nICI RP",
+      "layer-013": "ICI\nXMU",
+      "layer-014": "XIAMEN\nUNIVERSITY"
+    },
     "ici-grid": { "layer-021": "让想象力\n发生", "layer-017": "IMAGINATION", "layer-023": "TAKE FORM" },
     "ici-electric": { "layer-001": "让想象力\n发生", "layer-009": "IMAGINATION", "layer-010": "CREATIVITY", "layer-011": "TAKE FORM", "layer-012": "ICI RP" },
     swiss: { "layer-008": "让想象力\n发生", "layer-001": "IMAGINATION\nTAKES FORM" },
@@ -62,6 +77,7 @@
     "art-blue": { "layer-004": "让想象力发生", "layer-013": "LET IMAGINATION", "layer-012": "TAKE FORM", "layer-011": "XIAMEN UNIVERSITY" },
     "composition-atlas": { "layer-012": "IMAGINATION", "layer-018": "FORM", "layer-011": "TAKES", "layer-016": "让想", "layer-014": "象力", "layer-017": "发生", "layer-015": "厦大" }
   };
+  const PSD_REVERSE_PAINT_ORDER = new Set(["white-studio", "ici-grid", "ici-electric", "swiss", "editorial", "collage", "quiet", "layout-lab", "art-blue", "composition-atlas"]);
   const GENERATED_VISUAL_STYLES = new Set(REDESIGNED_PRODUCTION_STYLES);
   const CONTENT_FIELD_IDS = ["kicker", "title", "subtitle", "date", "time", "venue", "body", "organizer"];
 
@@ -218,6 +234,7 @@
   let materialSerial = 0;
   let extraTextSerial = 0;
   const psdImageCache = new Map();
+  const psdFontLoadCache = new Map();
   let psdLoadingStyle = "";
 
   function materialType(entry) {
@@ -307,6 +324,11 @@
   function effectivePsdText(style, layer, overrides = state.psdLayerOverrides) {
     const override = overrides?.[layer.id] || {};
     return typeof override.text === "string" ? override.text : defaultPsdText(style, layer);
+  }
+
+  function psdPaintLayers(style, template = currentPsdTemplate(style)) {
+    if (!template) return [];
+    return PSD_REVERSE_PAINT_ORDER.has(style) ? [...template.layers].reverse() : template.layers;
   }
 
   function psdLayerOverride(id) {
@@ -924,6 +946,13 @@
     if (!template) return;
     psdLoadingStyle = style;
     [template.preview, template.base, ...template.layers.map((layer) => layer.src)].forEach(getPsdImage);
+    (template.fontNames || []).forEach((fontName) => {
+      if (psdFontLoadCache.has(fontName)) return;
+      const loading = document.fonts.load(`48px "${String(fontName).replaceAll('"', '')}"`)
+        .catch(() => [])
+        .finally(() => scheduleRender(false));
+      psdFontLoadCache.set(fontName, loading);
+    });
   }
 
   function drawChangedPsdText(c, layer, override, width, height) {
@@ -935,13 +964,13 @@
     const lines = text.split(/\n/);
     const lineHeightRatio = Number(layer.lineHeight) || 1.15;
     let fontSize = Math.max(4, Number(layer.fontSize) || boxHeight * .55);
-    const familyName = String(layer.fontFamily || layer.fontPostScript || "Arial").replaceAll('"', '');
+    const familyName = String(layer.fontPostScript || layer.fontFamily || "Arial").replaceAll('"', '');
     const family = `"${familyName}", "Microsoft YaHei", Arial, sans-serif`;
     const maxLineWidth = () => Math.max(...lines.map((line) => c.measureText(line || " ").width), 1);
-    c.font = `500 ${fontSize}px ${family}`;
+    c.font = `${fontSize}px ${family}`;
     while ((maxLineWidth() > boxWidth * .98 || lines.length * fontSize * lineHeightRatio > boxHeight * 1.08) && fontSize > 4) {
       fontSize *= .94;
-      c.font = `500 ${fontSize}px ${family}`;
+      c.font = `${fontSize}px ${family}`;
     }
     c.fillStyle = layer.color || "#111111";
     c.textBaseline = "middle";
@@ -971,7 +1000,7 @@
       c.textAlign = "center";
       c.fillText("正在读取原始 PSD 图层…", W / 2, H / 2);
     }
-    template.layers.forEach((layer) => {
+    psdPaintLayers(data.style, template).forEach((layer) => {
       const override = data.psdLayerOverrides?.[layer.id] || {};
       if (override.hidden) return;
       const x = Number.isFinite(override.x) ? override.x * W : layer.x * scaleX;
@@ -2778,7 +2807,7 @@
     if (!isPsd) { container.innerHTML = ""; return; }
     if (!state.psdLayerOverrides || typeof state.psdLayerOverrides !== "object") state.psdLayerOverrides = {};
     container.innerHTML = "";
-    [...template.layers].reverse().forEach((layer) => {
+    [...psdPaintLayers(state.style, template)].reverse().forEach((layer) => {
       const override = psdLayerOverride(layer.id);
       const item = document.createElement("div");
       item.className = "psd-layer-item";
