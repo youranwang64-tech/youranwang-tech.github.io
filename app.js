@@ -71,11 +71,11 @@
     "ici-electric": { "layer-001": "让想象力\n发生", "layer-009": "IMAGINATION", "layer-010": "CREATIVITY", "layer-011": "TAKE FORM", "layer-012": "ICI RP" },
     swiss: { "layer-008": "让想象力\n发生", "layer-001": "IMAGINATION\nTAKES FORM" },
     editorial: { "layer-024": "让想象力发生", "layer-001": "LET IMAGINATION TAKE FORM" },
-    collage: { "layer-005": "让想象力发生", "layer-004": "LET IMAGINATION TAKE FORM · XIAMEN UNIVERSITY" },
+    collage: { "layer-005": "讓想象力發生", "layer-004": "LET IMAGINATION TAKE FORM · XIAMEN UNIVERSITY" },
     quiet: { "layer-050": "让想象力发生", "layer-053": "让想象力发生", "layer-056": "让想象力发生" },
     "layout-lab": { "layer-009": "让想象力发生", "layer-008": "IMAGINATION", "layer-007": "TAKE FORM" },
     "art-blue": { "layer-004": "让想象力发生", "layer-013": "LET IMAGINATION", "layer-012": "TAKE FORM", "layer-011": "XIAMEN UNIVERSITY" },
-    "composition-atlas": { "layer-012": "IMAGINATION", "layer-018": "FORM", "layer-011": "TAKES", "layer-016": "让想", "layer-014": "象力", "layer-017": "发生", "layer-015": "厦大" }
+    "composition-atlas": { "layer-012": "IMAGINATION", "layer-018": "FORM", "layer-011": "TAKES", "layer-016": "讓想", "layer-014": "象力", "layer-017": "發生", "layer-015": "厦大" }
   };
   const PSD_REVERSE_PAINT_ORDER = new Set(["white-studio", "ici-grid", "ici-electric", "swiss", "editorial", "collage", "quiet", "layout-lab", "art-blue", "composition-atlas"]);
   const GENERATED_VISUAL_STYLES = new Set(REDESIGNED_PRODUCTION_STYLES);
@@ -236,6 +236,9 @@
   const psdImageCache = new Map();
   const psdFontLoadCache = new Map();
   let psdLoadingStyle = "";
+  const undoStack = [];
+  const UNDO_LIMIT = 80;
+  let restoringUndo = false;
 
   function materialType(entry) {
     return typeof entry === "string" ? entry : String(entry?.type || "");
@@ -455,6 +458,68 @@
       localStorage.setItem("form01-poster-state", JSON.stringify(state));
       $("#save-status").textContent = "所有更改已保存";
     }, 320);
+  }
+
+  function serializeUndoState() {
+    return JSON.stringify(state);
+  }
+
+  function recordUndoSnapshot() {
+    if (restoringUndo) return;
+    const snapshot = serializeUndoState();
+    if (undoStack[undoStack.length - 1] === snapshot) return;
+    undoStack.push(snapshot);
+    if (undoStack.length > UNDO_LIMIT) undoStack.shift();
+  }
+
+  function undoLastChange() {
+    if (restoringUndo) return;
+    const current = serializeUndoState();
+    let previous = "";
+    while (undoStack.length) {
+      const candidate = undoStack.pop();
+      if (candidate !== current) {
+        previous = candidate;
+        break;
+      }
+    }
+    if (!previous) {
+      showToast("没有可以撤回的操作");
+      return;
+    }
+    try {
+      restoringUndo = true;
+      state = { ...defaultState, ...JSON.parse(previous) };
+      if (!ACTIVE_STYLE_IDS.includes(state.style)) state.style = "white-studio";
+      activeElement = null;
+      draggingElement = null;
+      activeSmartGuides = { vertical: [], horizontal: [] };
+      syncUIFromState();
+      renderPreview();
+      saveState();
+      showToast("已撤回上一步");
+    } finally {
+      restoringUndo = false;
+    }
+  }
+
+  function captureUndoBeforeInteraction(event) {
+    if (restoringUndo) return;
+    if (event.type === "pointerdown" && event.button !== 0) return;
+    recordUndoSnapshot();
+  }
+
+  function handleUndoShortcut(event) {
+    const command = event.ctrlKey || event.metaKey;
+    if (command && !event.shiftKey && event.key.toLowerCase() === "z") {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      undoLastChange();
+      return;
+    }
+    if (!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)
+      && ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Delete", "Backspace"].includes(event.key)
+      && elementCanBeEdited(activeElement)) recordUndoSnapshot();
   }
 
   function syncUIFromState() {
@@ -948,7 +1013,12 @@
     [template.preview, template.base, ...template.layers.map((layer) => layer.src)].forEach(getPsdImage);
     (template.fontNames || []).forEach((fontName) => {
       if (psdFontLoadCache.has(fontName)) return;
-      const loading = document.fonts.load(`48px "${String(fontName).replaceAll('"', '')}"`)
+      const probeText = template.layers
+        .filter((layer) => layer.type === "type" && (layer.fontPostScript === fontName || layer.fontFamily === fontName))
+        .map((layer) => effectivePsdText(style, layer))
+        .join(" ")
+        .slice(0, 160) || "海报 POSTER";
+      const loading = document.fonts.load(`48px "${String(fontName).replaceAll('"', '')}"`, probeText)
         .catch(() => [])
         .finally(() => scheduleRender(false));
       psdFontLoadCache.set(fontName, loading);
@@ -3818,6 +3888,11 @@
   }
 
   function bindEvents() {
+    document.addEventListener("keydown", handleUndoShortcut, true);
+    document.addEventListener("input", captureUndoBeforeInteraction, true);
+    document.addEventListener("change", captureUndoBeforeInteraction, true);
+    document.addEventListener("pointerdown", captureUndoBeforeInteraction, true);
+    document.addEventListener("drop", captureUndoBeforeInteraction, true);
     $$('[data-field]').forEach((el) => el.addEventListener(el.tagName === "SELECT" || el.type === "checkbox" ? "change" : "input", onFieldInput));
     $$('[data-editor-mode]').forEach((button) => button.addEventListener("click", () => setEditorMode(button.dataset.editorMode)));
     $$(".style-card").forEach((card) => card.addEventListener("click", () => selectStyle(card.dataset.style)));

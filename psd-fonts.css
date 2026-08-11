@@ -7,11 +7,11 @@
 @font-face{font-family:"GlowSansSC-Wide-Thin";src:url("assets/psd-editable/fonts/GlowSansSC-Wide-Thin.woff2") format("woff2");font-display:swap;}
 @font-face{font-family:"LXGW975HazyGoSC-400W";src:url("assets/psd-editable/fonts/LXGW975HazyGoSC-400W.woff2") format("woff2");font-display:swap;}
 @font-face{font-family:"LXGW975HazyGoSC-500W";src:url("assets/psd-editable/fonts/LXGW975HazyGoSC-500W.woff2") format("woff2");font-display:swap;}
-@font-face{font-family:"MatatakinoMincho";src:url("assets/psd-editable/fonts/MatatakinoMincho.otf") format("opentype");font-display:swap;}
+@font-face{font-family:"MatatakinoMincho";src:url("assets/psd-editable/fonts/MatatakinoMincho.woff2") format("woff2"),url("assets/psd-editable/fonts/MatatakinoMincho.otf") format("opentype");font-display:swap;}
 @font-face{font-family:"Mondwest-Bold";src:url("assets/psd-editable/fonts/Mondwest-Bold.woff2") format("woff2");font-display:swap;}
 @font-face{font-family:"NotoSansSCLight";src:url("assets/psd-editable/fonts/NotoSansSCLight.woff2") format("woff2");font-display:swap;}
 @font-face{font-family:"NotoSansSCThin-Thin";src:url("assets/psd-editable/fonts/NotoSansSCThin-Thin.woff2") format("woff2");font-display:swap;}
-@font-face{font-family:"TW-Sung-98_1";src:url("assets/psd-editable/fonts/TW-Sung-98_1.ttf") format("truetype");font-display:swap;}
+@font-face{font-family:"TW-Sung-98_1";src:url("assets/psd-editable/fonts/TW-Sung-98_1.woff2") format("woff2"),url("assets/psd-editable/fonts/TW-Sung-98_1.ttf") format("truetype");font-display:swap;}
 @font-face{font-family:"Taipei16";src:url("assets/psd-editable/fonts/Taipei16.woff2") format("woff2");font-display:swap;}
 @font-face{font-family:"Taipei24";src:url("assets/psd-editable/fonts/Taipei24.woff2") format("woff2");font-display:swap;}
 @font-face{font-family:"TangoSans";src:url("assets/psd-editable/fonts/TangoSans.woff2") format("woff2");font-display:swap;}
